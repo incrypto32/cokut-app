@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -29,14 +30,14 @@ class AuthService {
     return token;
   }
 
-  // Manual OTP SignIn
+  // Manual OTP Sign In
   manualOtpVerification(smsCode, verId) {
     AuthCredential authCreds =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     _auth.signInWithCredential(authCreds);
   }
 
-  //Google SignIn
+  // Google SignIn
   Future<bool> signInWithGoogle() async {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn();
@@ -81,20 +82,45 @@ class AuthService {
 
   // Phone Verification Logic
   Future<void> verifyPhone({
-    String phoneNo,
-    PhoneVerificationFailed verificationFailed,
-    Function(String) autoTimeout,
-    PhoneCodeSent codeSent,
-    Function onVerfied,
+    @required String phoneNo,
+    @required PhoneVerificationFailed verificationFailed,
+    @required Function(String) autoTimeout,
+    @required PhoneCodeSent codeSent,
+    @required int forceResendToken,
+    @required Function onVerfied,
+    @required Function onError,
+    Function register,
   }) async {
+    print("Register is :");
+    print(register);
     final PhoneVerificationCompleted verified = (AuthCredential authCreds) {
-      onVerfied();
-      _auth.signInWithCredential(authCreds).then((uc) {
-        uc.user.uid;
-      });
+      print("Inside VERIFIFIED");
+      Function f = () async {
+        print("Inside F");
+        onVerfied();
+        try {
+          print("Inside F TRY");
+          bool val;
+          if (register != null) {
+            print("Inside F TRY Register mod");
+            val = await register();
+            print(val);
+            if (val) {
+              _auth.signInWithCredential(authCreds).then((uc) {
+                uc.user.uid;
+              });
+            }
+          }
+        } catch (e) {
+          print(e);
+          onError();
+        }
+      };
+      f();
     };
 
     await _auth.verifyPhoneNumber(
+      forceResendingToken: forceResendToken ?? null,
       phoneNumber: phoneNo,
       timeout: const Duration(seconds: 60),
       verificationCompleted: verified,

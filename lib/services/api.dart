@@ -70,6 +70,18 @@ class Api {
     };
     return postFormData(map, "/register");
   }
+
+// Registers a user with server
+  Future<Response> checkUser({
+    @required String email,
+    @required String phone,
+  }) async {
+    var map = {
+      "phone": phone,
+      "email": email,
+    };
+    return postFormData(map, "/checkuser");
+  }
 }
 
 Api api = Api();

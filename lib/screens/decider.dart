@@ -14,7 +14,11 @@ class Decider extends StatelessWidget {
             body: Container(
               color: Colors.white,
               child: Center(
-                child: Text("Logged In"),
+                child: FlatButton(
+                    onPressed: () {
+                      authService.signOut();
+                    },
+                    child: Text("Log Out")),
               ),
             ),
           );

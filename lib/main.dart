@@ -1,5 +1,6 @@
 import 'package:cokut/screens/homepage.dart';
 import 'package:cokut/screens/init_screen.dart';
+import 'package:cokut/screens/otp_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
 
       routes: {
         '/home': (ctx) => HomePage(),
+        '/otp': (ctx) => Otp(),
       },
       home: InitScreen(),
       // home: HomePage(),

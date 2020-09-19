@@ -1,6 +1,8 @@
 import 'package:cokut/services/api.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:cokut/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key key, this.toggle}) : super(key: key);
@@ -15,6 +17,21 @@ class _RegistrationFormState extends State<RegistrationForm> {
   String phone;
   String name;
   String email;
+  int forceResentToken;
+  bool isLoading = false;
+
+  void setLoading(bool val) {
+    print("Setting loading  $val");
+    setState(() {
+      isLoading = val;
+    });
+  }
+
+  void setResetToken(int val) {
+    print("Setting reset toke $val");
+    forceResentToken = val;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -73,29 +90,29 @@ class _RegistrationFormState extends State<RegistrationForm> {
           ),
           RaisedButton(
             onPressed: () {
-              Function({String content}) showWarning = ({String content}) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      content ?? "Please Check Your Internet Connectivity",
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              };
-              print("Register Pressed");
-              if (_formKey.currentState.validate()) {
-                api
-                    .registerUser(name: name, email: email, phone: phone)
-                    .then((value) {
-                  print(value.data);
-                  if (!value.data["success"]) {
-                    showWarning(content: value.data["msg"] as String);
-                  } else {
-                    showWarning(content: "Successful");
+              Utils.register(
+                context,
+                setLoading: setLoading,
+                formKey: _formKey,
+                phone: phone ?? "7034320440",
+                name: name ?? "Kichu",
+                email: email ?? "krish@gmail.com",
+                setResetToken: setResetToken,
+                onError: () {
+                  Utils.showError(context);
+                },
+                register: () async {
+                  print("Inside Register");
+                  var resp = await api.registerUser(
+                    name: name,
+                    email: email,
+                    phone: phone,
+                  );
+                  if (resp.data != null) {
+                    return resp.data["success"] ?? false;
                   }
-                });
-              }
+                },
+              );
             },
             color: Colors.green,
             padding: EdgeInsets.symmetric(horizontal: 30),
@@ -105,6 +122,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
             textColor: Colors.white,
             child: Text("Register"),
           ),
+          isLoading
+              ? SpinKitRing(
+                  color: Colors.blue,
+                  size: 25,
+                  lineWidth: 5,
+                )
+              : Container(),
           Spacer(),
           FlatButton(
             onPressed: widget.toggle,
