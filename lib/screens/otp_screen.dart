@@ -1,5 +1,4 @@
 import 'package:cokut/services/auth.dart';
-import 'package:cokut/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -44,16 +43,6 @@ class _OtpState extends State<Otp> {
   @override
   Widget build(BuildContext context) {
     final Map args = ModalRoute.of(context).settings.arguments;
-
-    String phone;
-    int forceResentToken;
-    String vid;
-
-    if (args != null) {
-      phone = args["phone"] ?? "blah";
-      forceResentToken = args["ftoken"] ?? "blah";
-      vid = args["vid"];
-    }
 
     return Scaffold(
       body: Center(
@@ -114,16 +103,9 @@ class _OtpState extends State<Otp> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  print(vid);
                   authService.manualOtpVerificationRegister(
                     smsCode: smscode,
-                    verId: vid,
-                    signIn: false,
-                    onError: () {
-                      Utils.showError(context);
-                      Navigator.of(context).pop();
-                    },
-                    register: args["reg"] ?? null,
+                    verId: args != null ? args["vid"] : "",
                   );
                 },
               ),

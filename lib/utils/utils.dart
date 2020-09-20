@@ -1,7 +1,4 @@
-import 'package:cokut/services/api.dart';
-import 'package:cokut/services/auth.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

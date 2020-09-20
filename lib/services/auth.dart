@@ -1,3 +1,4 @@
+import 'package:cokut/services/api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,12 +14,17 @@ class AuthService {
 
   // Current user
   currentUser() async {
+    print("inside current user");
     String token;
     try {
+      print("test1");
       if (_auth.currentUser != null) {
+        print("test 2");
         token = await _auth.currentUser.getIdToken().catchError((e) {
           token = null;
         });
+        print("test 3");
+        return token;
       }
       token = null;
     } catch (e) {
@@ -28,6 +34,10 @@ class AuthService {
     print(token);
 
     return token;
+  }
+
+  User user() {
+    return _auth.currentUser;
   }
 
   // Manual OTP Sign In
@@ -41,34 +51,13 @@ class AuthService {
   manualOtpVerificationRegister({
     smsCode,
     verId,
-    Function register,
-    Function onError,
-    bool signIn,
   }) async {
     AuthCredential authCreds = PhoneAuthProvider.credential(
       verificationId: verId,
       smsCode: smsCode,
     );
-    if (signIn ?? true) {
-      return _auth.signInWithCredential(authCreds);
-    }
-    bool val;
-    print("______BLAH______");
-    print(register);
-    print(val);
 
-    if (register != null) {
-      try {
-        print("______BLAH2______");
-        val = await register();
-        print(val);
-      } catch (e) {
-        print(e);
-      }
-    }
-    if (val ?? true) {
-      _auth.signInWithCredential(authCreds);
-    }
+    return _auth.signInWithCredential(authCreds);
   }
 
   // Google SignIn
@@ -76,9 +65,27 @@ class AuthService {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn();
       GoogleSignInAccount account = await googleSignIn.signIn();
+      String gid = account.id;
 
       if (account == null) {
         return false;
+      }
+
+      bool val = (await api.checkUserByGID(gid: gid)) ?? false;
+
+      if (!val) {
+        var resp = await api.registerUser(
+          name: account.displayName,
+          email: account.email,
+          phone: null,
+        );
+        if (resp != null) {
+          if (resp["success"]) {
+            print("Registration success");
+          } else {
+            return false;
+          }
+        }
       }
 
       UserCredential result = await _auth.signInWithCredential(
@@ -86,12 +93,11 @@ class AuthService {
             accessToken: (await account.authentication).accessToken,
             idToken: (await account.authentication).idToken),
       );
-      User user = result.user;
-      print(user);
 
-      if (user == null) {
+      if (result.user == null) {
         return false;
       }
+
       return true;
     } catch (e) {
       print(e.toString());

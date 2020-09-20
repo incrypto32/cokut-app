@@ -9,6 +9,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.centerText = false,
+    this.borderRadius = 30,
     this.textInputType = TextInputType.text,
   }) : super(key: key);
 
@@ -19,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function validator;
   final Function onChanged;
   final TextInputType textInputType;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class CustomTextFormField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(fontSize: 14),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           // filled: true,
         ),

@@ -11,6 +11,16 @@ class User {
   final String phone;
   final String email;
   final List<Address> address;
+
+  static User fromJson(Map<String, dynamic> map) {
+    return User(
+      uid: map["uid"],
+      address: map["address"],
+      email: map["email"],
+      name: map["name"],
+      phone: map["phone"],
+    );
+  }
 }
 
 class Address {
