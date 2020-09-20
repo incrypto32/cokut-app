@@ -10,6 +10,9 @@ class Decider extends StatelessWidget {
       stream: authService.authStream(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          snapshot.data.getIdToken().then((value) {
+            print(value);
+          });
           return Scaffold(
             body: Container(
               color: Colors.white,

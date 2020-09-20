@@ -37,6 +37,40 @@ class AuthService {
     _auth.signInWithCredential(authCreds);
   }
 
+  // Manual OTP Sign In
+  manualOtpVerificationRegister({
+    smsCode,
+    verId,
+    Function register,
+    Function onError,
+    bool signIn,
+  }) async {
+    AuthCredential authCreds = PhoneAuthProvider.credential(
+      verificationId: verId,
+      smsCode: smsCode,
+    );
+    if (signIn ?? true) {
+      return _auth.signInWithCredential(authCreds);
+    }
+    bool val;
+    print("______BLAH______");
+    print(register);
+    print(val);
+
+    if (register != null) {
+      try {
+        print("______BLAH2______");
+        val = await register();
+        print(val);
+      } catch (e) {
+        print(e);
+      }
+    }
+    if (val ?? true) {
+      _auth.signInWithCredential(authCreds);
+    }
+  }
+
   // Google SignIn
   Future<bool> signInWithGoogle() async {
     try {
@@ -91,37 +125,31 @@ class AuthService {
     @required Function onError,
     Function register,
   }) async {
-    print("Register is :");
-    print(register);
-    final PhoneVerificationCompleted verified = (AuthCredential authCreds) {
-      print("Inside VERIFIFIED");
-      Function f = () async {
-        print("Inside F");
-        onVerfied();
+    final PhoneVerificationCompleted verified =
+        (AuthCredential authCreds) async {
+      bool val;
+      print("REGISTER IS");
+      print(register);
+      if (register != null) {
         try {
-          print("Inside F TRY");
-          bool val;
-          if (register != null) {
-            print("Inside F TRY Register mod");
-            val = await register();
-            print(val);
-            if (val) {
-              _auth.signInWithCredential(authCreds).then((uc) {
-                uc.user.uid;
-              });
-            }
-          }
+          val = await register();
         } catch (e) {
           print(e);
           onError();
         }
-      };
-      f();
-    };
+      }
 
+      if (val ?? true) {
+        _auth.signInWithCredential(authCreds).then((uc) {
+          uc.user.uid;
+        });
+      }
+    };
+    print("__________________________________");
+    print(phoneNo);
     await _auth.verifyPhoneNumber(
       forceResendingToken: forceResendToken ?? null,
-      phoneNumber: phoneNo,
+      phoneNumber: "+91" + phoneNo,
       timeout: const Duration(seconds: 60),
       verificationCompleted: verified,
       verificationFailed: verificationFailed,

@@ -54,33 +54,61 @@ class Api {
 // Check if a phone number is already associated with another number
   Future<Response> checkPhoneExistence(phone) async {
     var map = {"phone": phone};
-    return postFormData(map, "/checkphone");
+    return postFormData(map, "/utils/checkphone");
   }
 
 // Registers a user with server
-  Future<Response> registerUser({
+  Future<bool> registerUser({
     @required String name,
     @required String email,
     @required String phone,
   }) async {
+    Response resp;
+    bool success = false;
     var map = {
       "phone": phone,
       "email": email,
       "name": name,
     };
-    return postFormData(map, "/register");
+    print(map);
+    try {
+      print("Inside Register DIO");
+
+      resp = await postFormData(map, "/register");
+      print(resp);
+      if (resp != null && resp.data != null) {
+        if (resp.data["success"]) {
+          return true;
+        }
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+    return success;
   }
 
 // Registers a user with server
-  Future<Response> checkUser({
+  Future<bool> checkUser({
     @required String email,
     @required String phone,
   }) async {
+    bool go = false;
     var map = {
       "phone": phone,
       "email": email,
     };
-    return postFormData(map, "/checkuser");
+    print("INSIDE CHECKUSER");
+    print(map);
+    var resp = await postFormData(map, "/utils/checkuser");
+    if (resp != null) {
+      print(map);
+      print(resp.data);
+      if (resp.data["success"]) {
+        return ((!resp.data["exist"]) ?? false);
+      }
+    }
+    return go;
   }
 }
 

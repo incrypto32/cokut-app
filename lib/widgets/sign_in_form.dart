@@ -35,12 +35,12 @@ class _SignInFormState extends State<SignInForm> {
     forceResentToken = val;
   }
 
-  void verifyPhone(Function showWarning) {
+  void verifyPhone() {
     authService.verifyPhone(
-        phoneNo: "+91" + phone ?? '+917034320441',
+        phoneNo: phone ?? '7034320440',
         verificationFailed: (error) {
           print(error);
-          showWarning("An Error Occured Please Try Again");
+          Utils.showError(context);
           setState(() {
             isLoading = false;
           });
@@ -57,7 +57,7 @@ class _SignInFormState extends State<SignInForm> {
           });
           if (forceResentToken != null) {
             Navigator.of(context).pushNamed('/otp', arguments: {
-              "phone": phone ?? "7034320441",
+              "phone": phone ?? "7034320440",
               "vid": vid,
             });
           }
@@ -70,31 +70,36 @@ class _SignInFormState extends State<SignInForm> {
         });
   }
 
-  void signIn(Function showWarning) async {
+  void signIn() async {
     setState(() {
       isLoading = true;
     });
-    var connectivity = await (Connectivity().checkConnectivity());
-    if (connectivity == ConnectivityResult.none) {
-      showWarning();
-    }
-    if (_formKey.currentState.validate()) {
+    var connectivity = await Utils.checkConnectivity();
+    connectivity
+        ? Utils.showWarning(
+            context: context, content: "Please check your network connection")
+        : print("Connection good");
+//  && _formKey.currentState.validate()
+    if (connectivity) {
       if (true) {
         print("pressed signin");
-        Response r = await api.checkPhoneExistence(phone ?? "7034320441");
+        return verifyPhone();
+        Response r = await api.checkPhoneExistence(phone ?? "7034320440");
         print(r);
         if (r == null) {
-          showWarning(content: "An error occured please try again");
+          Utils.showWarning(
+              context: context, content: "An error occured please try again");
           setState(() {
             isLoading = false;
           });
         } else if (!r.data["exist"]) {
-          showWarning(content: "Phone number is not registered");
+          Utils.showWarning(
+              context: context, content: "Phone number is not registered");
           setState(() {
             isLoading = false;
           });
         } else {
-          verifyPhone(showWarning);
+          verifyPhone();
         }
       }
     }
@@ -102,17 +107,6 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    Function({String content}) showWarning = ({String content}) {
-      Scaffold.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            content ?? "Please Check Your Internet Connectivity",
-            textAlign: TextAlign.center,
-          ),
-        ),
-      );
-    };
-
     return Form(
       key: _formKey,
       child: Column(
@@ -150,18 +144,7 @@ class _SignInFormState extends State<SignInForm> {
             },
           ),
           RaisedButton(
-            onPressed: () {
-              Utils.signIn(
-                context,
-                setLoading: setLoading,
-                formKey: _formKey,
-                phone: phone,
-                setResetToken: setResetToken,
-                onError: () {
-                  print("Error");
-                },
-              );
-            },
+            onPressed: signIn,
             color: Colors.green,
             padding: EdgeInsets.symmetric(horizontal: 30),
             shape:
@@ -182,7 +165,6 @@ class _SignInFormState extends State<SignInForm> {
             child: Text("Don't have an account ? Sign Up"),
           ),
           SignInButton(Buttons.Google, onPressed: () {
-            // _formKey.currentState.validate();
             Navigator.of(context).pushNamed('/otp');
           }),
           Spacer(),

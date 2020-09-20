@@ -1,4 +1,5 @@
 import 'package:cokut/services/api.dart';
+import 'package:cokut/services/auth.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:cokut/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,69 @@ class _RegistrationFormState extends State<RegistrationForm> {
   void setResetToken(int val) {
     print("Setting reset toke $val");
     forceResentToken = val;
+  }
+
+  registerServer() async {
+    var val = false;
+    val = await api.registerUser(
+      name: name,
+      email: email,
+      phone: phone,
+    );
+    return val;
+  }
+
+  void register() async {
+    name = name;
+    phone = phone;
+    email = email;
+
+    print("________Register_______");
+    if (_formKey.currentState.validate()) {
+      setLoading(true);
+      var go = await api.checkUser(
+        email: email,
+        phone: phone,
+      );
+      if (go) {
+        print("Go!!!");
+        authService.verifyPhone(
+          phoneNo: phone ?? "7034320440",
+          verificationFailed: (val) {},
+          autoTimeout: (val) {
+            Utils.showError(context);
+          },
+          codeSent: (val, i) {
+            print("Code sent 2");
+            setLoading(false);
+            Navigator.of(context).pushNamed(
+              '/otp',
+              arguments: {
+                "vid": val,
+                "ftoken": i,
+                "phone": phone,
+                "email": email,
+                "reg": registerServer,
+              },
+            );
+          },
+          forceResendToken: null,
+          onVerfied: () {},
+          onError: () {
+            Utils.showError(context);
+            setLoading(false);
+          },
+          register: registerServer,
+        );
+      } else {
+        setLoading(false);
+        Utils.showWarning(
+          context: context,
+          content:
+              "Details you entered already associated with another account",
+        );
+      }
+    }
   }
 
   @override
@@ -89,31 +153,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             },
           ),
           RaisedButton(
-            onPressed: () {
-              Utils.register(
-                context,
-                setLoading: setLoading,
-                formKey: _formKey,
-                phone: phone ?? "7034320440",
-                name: name ?? "Kichu",
-                email: email ?? "krish@gmail.com",
-                setResetToken: setResetToken,
-                onError: () {
-                  Utils.showError(context);
-                },
-                register: () async {
-                  print("Inside Register");
-                  var resp = await api.registerUser(
-                    name: name,
-                    email: email,
-                    phone: phone,
-                  );
-                  if (resp.data != null) {
-                    return resp.data["success"] ?? false;
-                  }
-                },
-              );
-            },
+            onPressed: register,
             color: Colors.green,
             padding: EdgeInsets.symmetric(horizontal: 30),
             shape: RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import 'package:cokut/services/auth.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -27,7 +28,7 @@ class _OtpState extends State<Otp> {
 
     user.then((value) {
       if (value != null) {
-        Navigator.of(ctx).popUntil(ModalRoute.withName('/'));
+        Navigator.of(ctx).pop();
       }
     });
   }
@@ -114,7 +115,16 @@ class _OtpState extends State<Otp> {
                 ),
                 onPressed: () {
                   print(vid);
-                  authService.manualOtpVerification(smscode, vid);
+                  authService.manualOtpVerificationRegister(
+                    smsCode: smscode,
+                    verId: vid,
+                    signIn: false,
+                    onError: () {
+                      Utils.showError(context);
+                      Navigator.of(context).pop();
+                    },
+                    register: args["reg"] ?? null,
+                  );
                 },
               ),
             ),
