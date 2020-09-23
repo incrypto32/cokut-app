@@ -1,4 +1,5 @@
 import 'package:cokut/screens/decider.dart';
+import 'package:cokut/screens/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +13,7 @@ class InitScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return Decider();
         }
-        return Center(
-          child: Text("loading"),
-        );
+        return LoadingScreen();
       },
     );
   }

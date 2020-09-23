@@ -28,7 +28,7 @@ class _RegisterFormState extends State<RegisterForm> {
         child: Column(
           children: [
             Spacer(),
-            Image.asset("assets/images/whitesid.png"),
+            Image.asset("assets/images/blaksid.png"),
             Text(
               "Complete your signup proccess",
               style: TextStyle(fontSize: 16),
@@ -70,16 +70,14 @@ class _RegisterFormState extends State<RegisterForm> {
   void register() async {
     //
     if (_formKey.currentState.validate()) {
-      // if (true) {
       setState(() {
         isLoading = true;
       });
-      var resp = await api.registerUser(
-          name: name ?? "Krish", email: email ?? "gai@gmaipl.com", phone: null);
+      var resp = await api.registerUser(name: name, email: email, phone: null);
       if (resp == null) {
         Utils.showError(context);
       } else if (resp["success"]) {
-        Navigator.of(context).pushReplacementNamed('/home');
+        Navigator.of(context).pushReplacementNamed('/');
       } else if (resp["msg"] != null) {
         Utils.showWarning(context: context, content: resp["msg"]);
       }

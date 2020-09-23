@@ -6,56 +6,58 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.all(10),
-          // color: Colors.amber,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            // clipBehavior: Clip.hardEdge,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                height: 150,
-                viewportFraction: 1.0,
-                disableCenter: true,
-                autoPlay: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.all(10),
+            // color: Colors.amber,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              // clipBehavior: Clip.hardEdge,
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  height: 150,
+                  viewportFraction: 1.0,
+                  disableCenter: true,
+                  autoPlay: true,
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                ),
+                items: [
+                  "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                  // "https://www.freeimages.com/download/file/0fc7d286c105be7d48f047f9fc339fe9/639x426",
+                  // "https://www.freeimages.com/download/file/4b57ff4bf3e0c2b64dee4edd551ea718/639x426"
+                ].map((e) {
+                  return Image.network(
+                    e,
+                    fit: BoxFit.cover,
+                  );
+                }).toList(),
               ),
-              items: [
-                "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                "https://www.freeimages.com/download/file/0fc7d286c105be7d48f047f9fc339fe9/639x426",
-                "https://www.freeimages.com/download/file/4b57ff4bf3e0c2b64dee4edd551ea718/639x426"
-              ].map((e) {
-                return Image.network(
-                  e,
-                  fit: BoxFit.cover,
-                );
-              }).toList(),
             ),
           ),
-        ),
-        ...[
-          buildCategoryStack(
-            asset: 'assets/images/specials.png',
-            category: "Specials",
-          ),
-          buildCategoryStack(
-            asset: 'assets/images/restaurants.png',
-            category: "Restaurants",
-            opposite: true,
-          ),
-          buildCategoryStack(
-            asset: 'assets/images/homemade.png',
-            category: "Homemade",
-          ),
-          buildCategoryStack(
-            asset: 'assets/images/spicey.png',
-            category: "Spicey",
-            opposite: true,
-          ),
+          ...[
+            buildCategoryStack(
+              asset: 'assets/images/specials.png',
+              category: "Specials",
+            ),
+            buildCategoryStack(
+              asset: 'assets/images/restaurants.png',
+              category: "Restaurants",
+              opposite: true,
+            ),
+            buildCategoryStack(
+              asset: 'assets/images/homemade.png',
+              category: "Homemade",
+            ),
+            buildCategoryStack(
+              asset: 'assets/images/spicey.png',
+              category: "Spicey",
+              opposite: true,
+            ),
+          ],
         ],
-      ],
+      ),
     );
   }
 

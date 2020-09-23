@@ -21,7 +21,7 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(
-                flex: 2,
+                flex: 5,
                 child: AnimatedContainer(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -47,16 +47,18 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
               Expanded(
-                flex: 6,
+                flex: 3,
                 child: AnimatedContainer(
-                    duration: Duration(milliseconds: duration),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(60),
-                        )),
-                    child: SignInForm()),
+                  duration: Duration(milliseconds: duration),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30),
+                    ),
+                  ),
+                  child: SignInForm(),
+                ),
               )
             ],
           ),

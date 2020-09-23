@@ -15,9 +15,7 @@ class _RegScreenState extends State<RegScreen> {
         title: Text("Enter profile details"),
         centerTitle: true,
       ),
-      body: Builder(builder: (context) {
-        return RegisterForm();
-      }),
+      body: RegisterForm(),
     );
   }
 }

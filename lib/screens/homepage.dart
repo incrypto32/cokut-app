@@ -1,5 +1,6 @@
 import 'package:cokut/screens/home.dart';
 import 'package:cokut/screens/search.dart';
+import 'package:cokut/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -22,10 +23,7 @@ class _HomePageState extends State<HomePage> {
       'Index 2: School',
       style: optionStyle,
     ),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
+    Settings(),
   ];
 
   void _onItemTapped(int index) {
@@ -43,8 +41,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: hexToColor("#F0F3FA"),
       body: SafeArea(
-        child: SingleChildScrollView(
-            child: _widgetOptions.elementAt(_selectedIndex)),
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,

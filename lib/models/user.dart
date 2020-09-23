@@ -5,11 +5,13 @@ class User {
     this.email,
     this.phone,
     this.address,
+    this.registered,
   });
   final String name;
   final String uid;
   final String phone;
   final String email;
+  bool registered = true;
   final List<Address> address;
 
   static User fromJson(Map<String, dynamic> map) {

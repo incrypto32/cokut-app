@@ -14,16 +14,13 @@ class AuthService {
 
   // Current user
   currentUser() async {
-    print("inside current user");
     String token;
     try {
-      print("test1");
       if (_auth.currentUser != null) {
-        print("test 2");
         token = await _auth.currentUser.getIdToken().catchError((e) {
           token = null;
         });
-        print("test 3");
+
         return token;
       }
       token = null;
@@ -32,7 +29,6 @@ class AuthService {
       token = null;
     }
     print(token);
-
     return token;
   }
 
@@ -48,16 +44,25 @@ class AuthService {
   }
 
   // Manual OTP Sign In
-  manualOtpVerificationRegister({
+  Future<bool> manualOtpVerificationRegister({
     smsCode,
     verId,
   }) async {
-    AuthCredential authCreds = PhoneAuthProvider.credential(
-      verificationId: verId,
-      smsCode: smsCode,
-    );
-
-    return _auth.signInWithCredential(authCreds);
+    try {
+      AuthCredential authCreds = PhoneAuthProvider.credential(
+        verificationId: verId,
+        smsCode: smsCode,
+      );
+      var creds = await _auth.signInWithCredential(authCreds);
+      if (creds != null && creds.user != null) {
+        return true;
+      }
+    } catch (e) {
+      print("Error occured in manualOTP Verfication");
+      print(e);
+      return false;
+    }
+    return false;
   }
 
   // Google SignIn
@@ -71,21 +76,17 @@ class AuthService {
         return false;
       }
 
-      bool val = (await api.checkUserByGID(gid: gid)) ?? false;
+      var resp = await api.registerUser(
+        name: account.displayName,
+        email: account.email,
+        phone: null,
+        gid: gid,
+      );
 
-      if (!val) {
-        var resp = await api.registerUser(
-          name: account.displayName,
-          email: account.email,
-          phone: null,
-        );
-        if (resp != null) {
-          if (resp["success"]) {
-            print("Registration success");
-          } else {
-            return false;
-          }
-        }
+      if (resp["success"]) {
+        print("Registration success");
+      } else {
+        return false;
       }
 
       UserCredential result = await _auth.signInWithCredential(

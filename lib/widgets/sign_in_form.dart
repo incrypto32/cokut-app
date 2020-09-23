@@ -39,9 +39,10 @@ class _SignInFormState extends State<SignInForm> {
       key: _formKey,
       child: Column(
         children: [
+          Spacer(),
           Container(
             alignment: Alignment.center,
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.all(20),
             child: Text(
               "Sign In",
               style: TextStyle(
@@ -50,13 +51,10 @@ class _SignInFormState extends State<SignInForm> {
               ),
             ),
           ),
-          Image.asset(
-            'assets/images/login.png',
-            width: 100,
-          ),
           CustomTextFormField(
             hintText: "Phone",
-            prefixText: "+91 ",
+            // prefixText: "+91 ",
+            borderRadius: 10,
             validator: (val) {
               if (val == null) {
                 return null;
@@ -79,15 +77,16 @@ class _SignInFormState extends State<SignInForm> {
               borderRadius: BorderRadius.circular(20),
             ),
             textColor: Colors.white,
-            child: Text("Sign In"),
+            child: isLoading
+                ? Container(
+                    width: 20,
+                    child: SpinKitRing(
+                      color: Colors.blue,
+                      size: 25,
+                    ),
+                  )
+                : Text("Sign In"),
           ),
-          isLoading
-              ? SpinKitRing(
-                  color: Colors.blue,
-                  size: 25,
-                  lineWidth: 5,
-                )
-              : Container(),
           Spacer(),
           SignInButton(Buttons.Google, onPressed: () {
             Navigator.of(context).pushNamed('/otp');
@@ -98,53 +97,46 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 
-  void verifyPhone() {
-    authService.verifyPhone(
-        phoneNo: phone,
-        verificationFailed: (error) {
-          print(error);
-          Utils.showError(context);
-          setState(() {
-            isLoading = false;
-          });
-        },
-        forceResendToken: forceResentToken,
-        onError: () {},
-        codeSent: (vid, i) {
-          setState(() {
-            forceResentToken = i;
-          });
-          print("Code Sent");
-          setState(() {
-            isLoading = false;
-          });
-          if (forceResentToken != null) {
-            Navigator.of(context).pushNamed('/otp', arguments: {
-              "phone": phone,
-              "vid": vid,
-            });
-          }
-        },
-        autoTimeout: (s) {
-          print("Time Out");
-        },
-        onVerfied: () {
-          print("Verified");
-        });
-  }
-
   void signIn() async {
-    setState(() {
-      isLoading = true;
-    });
     var connectivity = await Utils.checkConnectivity();
     !connectivity
         ? Utils.showWarning(
-            context: context, content: "Please check your network connection")
+            context: context,
+            content: "Please check your network connection",
+          )
         : print("Connection good");
 
     if (connectivity && _formKey.currentState.validate()) {
+      setLoading(true);
       verifyPhone();
     }
+  }
+
+  void verifyPhone() {
+    authService.verifyPhone(
+      phoneNo: phone,
+      verificationFailed: (error) {
+        print(error);
+        Utils.showError(context);
+        setLoading(false);
+      },
+      forceResendToken: forceResentToken,
+      onError: () {},
+      codeSent: (vid, i) {
+        setState(() {
+          forceResentToken = i;
+        });
+        print("Code Sent");
+        setLoading(false);
+        if (forceResentToken != null) {
+          Navigator.of(context).pushNamed('/otp', arguments: {
+            "phone": phone,
+            "vid": vid,
+          });
+        }
+      },
+      autoTimeout: (s) {},
+      onVerfied: () {},
+    );
   }
 }

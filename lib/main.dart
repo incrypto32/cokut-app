@@ -1,6 +1,7 @@
 import 'package:cokut/screens/homepage.dart';
 import 'package:cokut/screens/init_screen.dart';
 import 'package:cokut/screens/otp_screen.dart';
+import 'package:cokut/screens/reg_decider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,13 +18,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-
       routes: {
         '/home': (ctx) => HomePage(),
         '/otp': (ctx) => Otp(),
+        '/regdecider': (ctx) => RegDecider(),
       },
       home: InitScreen(),
-      // home: HomePage(),
     );
   }
 }

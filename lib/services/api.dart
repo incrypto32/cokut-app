@@ -1,17 +1,17 @@
-import 'dart:io';
-
 import 'package:cokut/models/user.dart';
 import 'package:cokut/services/auth.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 class Api {
   static final String v1 = "http://192.168.43.65:4000/api/v1";
   static final String utils = "http://192.168.43.65:4000/utils";
-  Dio mainDio = Dio(BaseOptions(
-    baseUrl: v1,
-    headers: {"Content-Type": "application/json"},
-  ));
+
+  Dio mainDio = Dio(
+    BaseOptions(
+      baseUrl: v1,
+      headers: {"Content-Type": "application/json"},
+    ),
+  );
 
 // Get firebase TOken
   Future<String> getFirebaseToken() async {
@@ -64,7 +64,11 @@ class Api {
         data: map,
       );
     } on DioError catch (e) {
-      return e.response;
+      print(e);
+      if (e.response != null && e.response.runtimeType != String) {
+        return e.response;
+      }
+      return null;
     } catch (e) {
       print(e);
       return null;
@@ -99,73 +103,77 @@ class Api {
     return response;
   }
 
-// Checks User By GID
-  Future<bool> checkUserByGID({
-    @required String gid,
-  }) async {
-    var map = {
-      "gid": gid,
-    };
-    var resp = await postData(map, "/checkgid", util: true);
-    if (resp != null && (resp.statusCode == 200 || resp.statusCode == 417)) {
-      print(resp.data);
-      if (resp.data["success"]) {
-        return ((resp.data["exist"]) ?? null);
-      }
-    }
-    return null;
-  }
-
   // Register User
-  Future<Map<String, dynamic>> registerUser({
+  Future<dynamic> registerUser({
     String name,
     String email,
     String phone,
+    String gid,
   }) async {
     Map<String, dynamic> map = {
       "name": name,
       "email": email,
       "phone": phone,
     };
-    print("Inside RegisterUser");
-    print(map);
 
     Response resp = await postData(map, "/register");
-    print(resp);
-    if (resp != null && (resp.statusCode == 200 || resp.statusCode == 417)) {
-      print("T 1");
-      if (resp.data != null) {
-        print("T 2");
-        var data = resp.data;
-        print(data);
-        return data;
-      }
+
+    if (resp == null) {
+      return null;
     }
-    print("T 3");
+
+    if (resp.data != null) {
+      return resp.data;
+    }
+
     return null;
   }
 
   // Get User
-  Future<User> getUser() async {
-    print("Inside get user");
+  Future<User> getUser({int i = 0}) async {
     try {
-      print("Inside get user 1");
       var dio = await superDio();
       var resp = await dio.get('/getuser');
-      print("Inside get user 2");
-      print(resp);
-      if (resp != null) {
-        print("Inside get user 3");
-        if (resp.data != null && resp.statusCode != 404) {
+
+      if (resp == null) {
+        return null;
+      }
+
+      print(resp.data);
+
+      if (resp.data != null && resp.data.runtimeType != String) {
+        if (resp.data["success"] && resp.data["exist"]) {
           Map<String, dynamic> u = resp.data["user"];
-          return User.fromJson(u);
+          var user = User.fromJson(u);
+          user.registered = true;
+          return user;
         }
       }
     } on DioError catch (e) {
-      print(e.response);
-    } catch (e) {
       print(e);
-      return null;
+      var resp = e.response;
+
+      if (resp != null) {
+        print(resp.data);
+        if (resp.data != null &&
+            resp.data.runtimeType != String &&
+            resp.statusCode != 500) {
+          if (resp.data["success"] && !resp.data["exist"]) {
+            return User(registered: false);
+          }
+        }
+      }
+    } catch (e) {
+      print(i);
+      await Future.delayed(Duration(seconds: 10));
+      if (i < 150) {
+        return getUser(i: i++);
+      }
+    }
+    if (i < 150) {
+      print(i);
+      await Future.delayed(Duration(seconds: 10));
+      return getUser(i: ++i);
     }
     return null;
   }
