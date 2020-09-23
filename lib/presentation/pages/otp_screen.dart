@@ -1,6 +1,3 @@
-import 'package:cokut/services/auth.dart';
-import 'package:cokut/utils/utils.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
@@ -18,33 +15,10 @@ class _OtpState extends State<Otp> {
   bool isLoading = false;
   String phone;
 
-  //When the user is logged in pop the otp entering screen
-  void popIfUserLoggedIn(BuildContext ctx) {
-    print("Inside POP");
-
-    Future<User> user = authService.authStream().firstWhere((user) {
-      return (user != null);
-    });
-
-    user.then((value) {
-      if (value != null) {
-        Navigator.of(ctx).pop();
-      }
-    });
-  }
-
   void setLoading(bool val) {
     print("Setting loading  $val");
     setState(() {
       isLoading = val;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      popIfUserLoggedIn(context);
     });
   }
 
@@ -142,17 +116,5 @@ class _OtpState extends State<Otp> {
     );
   }
 
-  verify(Map<String, dynamic> args) async {
-    setLoading(true);
-    var val = await authService.manualOtpVerificationRegister(
-      smsCode: smscode,
-      verId: args != null ? args["vid"] : "",
-    );
-    if (!val) {
-      Utils.showWarning(
-        context: context,
-        content: "Could'nt verify your number please try again",
-      );
-    }
-  }
+  verify(Map<String, dynamic> args) async {}
 }

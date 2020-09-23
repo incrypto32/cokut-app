@@ -1,4 +1,3 @@
-import 'package:cokut/services/auth.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:cokut/widgets/custom_text_form_field.dart';
 
@@ -112,31 +111,5 @@ class _SignInFormState extends State<SignInForm> {
     }
   }
 
-  void verifyPhone() {
-    authService.verifyPhone(
-      phoneNo: phone,
-      verificationFailed: (error) {
-        print(error);
-        Utils.showError(context);
-        setLoading(false);
-      },
-      forceResendToken: forceResentToken,
-      onError: () {},
-      codeSent: (vid, i) {
-        setState(() {
-          forceResentToken = i;
-        });
-        print("Code Sent");
-        setLoading(false);
-        if (forceResentToken != null) {
-          Navigator.of(context).pushNamed('/otp', arguments: {
-            "phone": phone,
-            "vid": vid,
-          });
-        }
-      },
-      autoTimeout: (s) {},
-      onVerfied: () {},
-    );
-  }
+  void verifyPhone() {}
 }

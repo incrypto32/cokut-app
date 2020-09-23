@@ -1,6 +1,6 @@
-import 'package:cokut/screens/home.dart';
-import 'package:cokut/screens/search.dart';
-import 'package:cokut/screens/settings_page.dart';
+import 'package:cokut/presentation/widgets/main/home_page.dart';
+import 'package:cokut/presentation/pages/search_screen.dart';
+import 'package:cokut/presentation/widgets/main/settings_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

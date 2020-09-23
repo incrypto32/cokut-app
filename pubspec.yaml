@@ -36,10 +36,20 @@ dependencies:
   connectivity: ^0.4.9+2
   flutter_spinkit: ^4.1.2+1
   lottie: ^0.6.0
+  flutter_bloc: ^6.0.5
+  bloc: ^6.0.3
+  equatable: ^1.2.5
+  json_annotation: ^3.1.0
+
+  
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_resolvers:
+  build_runner: null
+  freezed: ^0.12.1
+  json_serializable: ^3.2.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

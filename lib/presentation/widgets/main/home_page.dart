@@ -25,8 +25,6 @@ class HomeWidget extends StatelessWidget {
                 ),
                 items: [
                   "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-                  // "https://www.freeimages.com/download/file/0fc7d286c105be7d48f047f9fc339fe9/639x426",
-                  // "https://www.freeimages.com/download/file/4b57ff4bf3e0c2b64dee4edd551ea718/639x426"
                 ].map((e) {
                   return Image.network(
                     e,

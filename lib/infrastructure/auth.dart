@@ -1,4 +1,3 @@
-import 'package:cokut/services/api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -7,7 +6,6 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
-  // Returns a User Stream
   Stream<User> authStream() {
     return _auth.authStateChanges();
   }
@@ -70,24 +68,23 @@ class AuthService {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn();
       GoogleSignInAccount account = await googleSignIn.signIn();
-      String gid = account.id;
 
       if (account == null) {
         return false;
       }
 
-      var resp = await api.registerUser(
-        name: account.displayName,
-        email: account.email,
-        phone: null,
-        gid: gid,
-      );
+      // var resp = await api.registerUser(
+      //   name: account.displayName,
+      //   email: account.email,
+      //   phone: null,
+      //   gid: gid,
+      // );
 
-      if (resp["success"]) {
-        print("Registration success");
-      } else {
-        return false;
-      }
+      // if (resp["success"]) {
+      //   print("Registration success");
+      // } else {
+      //   return false;
+      // }
 
       UserCredential result = await _auth.signInWithCredential(
         GoogleAuthProvider.credential(

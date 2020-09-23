@@ -9,13 +9,13 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/whitesid.png'),
+          Image.asset('assets/images/blaksid.png'),
           SpinKitThreeBounce(
-            color: Colors.white,
+            color: Colors.black,
             size: 45,
           ),
         ],

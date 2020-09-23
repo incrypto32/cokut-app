@@ -1,4 +1,3 @@
-import 'package:cokut/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
@@ -12,9 +11,7 @@ class Settings extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           FlatButton(
-            onPressed: () {
-              authService.signOut();
-            },
+            onPressed: () {},
             child: Text(
               "Log Out",
               style: TextStyle(color: Colors.black),
