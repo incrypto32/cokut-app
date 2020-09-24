@@ -1,3 +1,5 @@
+import 'package:cokut/infrastructure/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatelessWidget {
@@ -11,7 +13,9 @@ class Settings extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           FlatButton(
-            onPressed: () {},
+            onPressed: () {
+              authService.signOut();
+            },
             child: Text(
               "Log Out",
               style: TextStyle(color: Colors.black),

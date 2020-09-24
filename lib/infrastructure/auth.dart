@@ -72,20 +72,6 @@ class AuthService {
       if (account == null) {
         return false;
       }
-
-      // var resp = await api.registerUser(
-      //   name: account.displayName,
-      //   email: account.email,
-      //   phone: null,
-      //   gid: gid,
-      // );
-
-      // if (resp["success"]) {
-      //   print("Registration success");
-      // } else {
-      //   return false;
-      // }
-
       UserCredential result = await _auth.signInWithCredential(
         GoogleAuthProvider.credential(
             accessToken: (await account.authentication).accessToken,

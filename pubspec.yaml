@@ -40,13 +40,13 @@ dependencies:
   bloc: ^6.0.3
   equatable: ^1.2.5
   json_annotation: ^3.1.0
-
-  
+  logger: null
+  logger_flutter: ^0.7.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_resolvers:
+  build_resolvers: null
   build_runner: null
   freezed: ^0.12.1
   json_serializable: ^3.2.5

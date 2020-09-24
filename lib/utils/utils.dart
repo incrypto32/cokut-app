@@ -3,7 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
-  static showWarning({String content, @required BuildContext context}) {
+  static showWarning(
+    BuildContext context, {
+    @required String content,
+  }) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -16,7 +19,7 @@ class Utils {
 
   static showError(BuildContext context) {
     showWarning(
-      context: context,
+      context,
       content: "An error occured please try again",
     );
   }
