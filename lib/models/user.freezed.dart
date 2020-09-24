@@ -17,12 +17,14 @@ class _$UserTearOff {
   const _$UserTearOff();
 
 // ignore: unused_element
-  _User call({String name, String email, String uid, String phone}) {
+  _User call(
+      {String name, String email, String uid, String phone, bool registered}) {
     return _User(
       name: name,
       email: email,
       uid: uid,
       phone: phone,
+      registered: registered,
     );
   }
 
@@ -42,6 +44,7 @@ mixin _$User {
   String get email;
   String get uid;
   String get phone;
+  bool get registered;
 
   Map<String, dynamic> toJson();
   $UserCopyWith<User> get copyWith;
@@ -51,7 +54,8 @@ mixin _$User {
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
-  $Res call({String name, String email, String uid, String phone});
+  $Res call(
+      {String name, String email, String uid, String phone, bool registered});
 }
 
 /// @nodoc
@@ -68,12 +72,15 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
     Object email = freezed,
     Object uid = freezed,
     Object phone = freezed,
+    Object registered = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed ? _value.name : name as String,
       email: email == freezed ? _value.email : email as String,
       uid: uid == freezed ? _value.uid : uid as String,
       phone: phone == freezed ? _value.phone : phone as String,
+      registered:
+          registered == freezed ? _value.registered : registered as bool,
     ));
   }
 }
@@ -83,7 +90,8 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$UserCopyWith(_User value, $Res Function(_User) then) =
       __$UserCopyWithImpl<$Res>;
   @override
-  $Res call({String name, String email, String uid, String phone});
+  $Res call(
+      {String name, String email, String uid, String phone, bool registered});
 }
 
 /// @nodoc
@@ -101,12 +109,15 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
     Object email = freezed,
     Object uid = freezed,
     Object phone = freezed,
+    Object registered = freezed,
   }) {
     return _then(_User(
       name: name == freezed ? _value.name : name as String,
       email: email == freezed ? _value.email : email as String,
       uid: uid == freezed ? _value.uid : uid as String,
       phone: phone == freezed ? _value.phone : phone as String,
+      registered:
+          registered == freezed ? _value.registered : registered as bool,
     ));
   }
 }
@@ -115,7 +126,7 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_User with DiagnosticableTreeMixin implements _User {
-  const _$_User({this.name, this.email, this.uid, this.phone});
+  const _$_User({this.name, this.email, this.uid, this.phone, this.registered});
 
   factory _$_User.fromJson(Map<String, dynamic> json) =>
       _$_$_UserFromJson(json);
@@ -128,10 +139,12 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   final String uid;
   @override
   final String phone;
+  @override
+  final bool registered;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(name: $name, email: $email, uid: $uid, phone: $phone)';
+    return 'User(name: $name, email: $email, uid: $uid, phone: $phone, registered: $registered)';
   }
 
   @override
@@ -142,7 +155,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('uid', uid))
-      ..add(DiagnosticsProperty('phone', phone));
+      ..add(DiagnosticsProperty('phone', phone))
+      ..add(DiagnosticsProperty('registered', registered));
   }
 
   @override
@@ -156,7 +170,10 @@ class _$_User with DiagnosticableTreeMixin implements _User {
             (identical(other.uid, uid) ||
                 const DeepCollectionEquality().equals(other.uid, uid)) &&
             (identical(other.phone, phone) ||
-                const DeepCollectionEquality().equals(other.phone, phone)));
+                const DeepCollectionEquality().equals(other.phone, phone)) &&
+            (identical(other.registered, registered) ||
+                const DeepCollectionEquality()
+                    .equals(other.registered, registered)));
   }
 
   @override
@@ -165,7 +182,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(email) ^
       const DeepCollectionEquality().hash(uid) ^
-      const DeepCollectionEquality().hash(phone);
+      const DeepCollectionEquality().hash(phone) ^
+      const DeepCollectionEquality().hash(registered);
 
   @override
   _$UserCopyWith<_User> get copyWith =>
@@ -178,8 +196,12 @@ class _$_User with DiagnosticableTreeMixin implements _User {
 }
 
 abstract class _User implements User {
-  const factory _User({String name, String email, String uid, String phone}) =
-      _$_User;
+  const factory _User(
+      {String name,
+      String email,
+      String uid,
+      String phone,
+      bool registered}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
@@ -191,6 +213,8 @@ abstract class _User implements User {
   String get uid;
   @override
   String get phone;
+  @override
+  bool get registered;
   @override
   _$UserCopyWith<_User> get copyWith;
 }

@@ -1,5 +1,4 @@
 import 'package:cokut/cubit/login_form/login_cubit.dart';
-import 'package:cokut/utils/logger.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:cokut/presentation/widgets/components/custom_text_form_field.dart';
 
@@ -82,7 +81,7 @@ class _SignInFormState extends State<SignInForm> {
                 },
               ),
               RaisedButton(
-                onPressed: signIn,
+                onPressed: signInWithPhone,
                 color: Colors.green,
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 shape: RoundedRectangleBorder(
@@ -101,13 +100,7 @@ class _SignInFormState extends State<SignInForm> {
                     : Text("Sign In"),
               ),
               Spacer(),
-              SignInButton(Buttons.Google, onPressed: () {
-                logger.d("HI");
-                logger.e("AYYO");
-                logger.w("SHIT");
-                logger.wtf("AYYYYYOOO");
-                logger.i("HMM");
-              }),
+              SignInButton(Buttons.Google, onPressed: signInWithGoogle),
               Spacer(),
             ],
           ),
@@ -116,7 +109,7 @@ class _SignInFormState extends State<SignInForm> {
     );
   }
 
-  void signIn() async {
+  void signInWithPhone() async {
     var connectivity = await Utils.checkConnectivity();
     !connectivity
         ? Utils.showWarning(
@@ -128,5 +121,14 @@ class _SignInFormState extends State<SignInForm> {
     if (connectivity && _formKey.currentState.validate()) {
       context.bloc<LoginCubit>().verifyPhone(phone);
     }
+  }
+
+  void signInWithGoogle() {
+    // logger.d("HI");
+    // logger.e("AYYO");
+    // logger.w("SHIT");
+    // logger.wtf("AYYYYYOOO");
+    // logger.i("HMM");
+    context.bloc<LoginCubit>().signInWithGoogle();
   }
 }

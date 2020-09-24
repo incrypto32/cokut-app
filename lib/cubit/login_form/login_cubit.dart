@@ -9,8 +9,20 @@ Map<String, dynamic> values = {"vid": "", "codeSent": true};
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authRepo;
+
   LoginCubit(this._authRepo) : super(LoginInitial()) {
-    logger.wtf("NJAN VEENDUM");
+    logger.wtf("DHE PINNEM NJAN");
+  }
+
+  Future<void> signInWithGoogle() async {
+    logger.d("SignInWithGoogle Called");
+    emit(LoginLoading());
+    try {
+      await _authRepo.logInWithGoogle();
+    } catch (e) {
+      logger.e(e);
+      emit(LoginFailed("An error occured please try again"));
+    }
   }
 
   Future<void> verifyPhone(String phoneNumber) async {
@@ -35,7 +47,7 @@ class LoginCubit extends Cubit<LoginState> {
     logger.d("Manual Verify Phone Called OTP : $smsCode");
     logger.d(values);
     logger.d("Manual Verify Phone Called VID : ${values["vid"]}");
-
+    logger.i("LOADING VITTITUND");
     emit(LoginLoading());
     try {
       await _authRepo.manualOtpVerificationRegister(

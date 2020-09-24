@@ -1,4 +1,6 @@
+import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/login_form/login_cubit.dart';
+import 'package:cokut/utils/logger.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,11 +14,8 @@ class Otp extends StatefulWidget {
 }
 
 class _OtpState extends State<Otp> {
-  bool popped = false;
   String smsCode = '';
-  int forceResentToken;
   bool isLoading = false;
-  String phone;
 
   void setLoading(bool val) {
     print("Setting loading  $val");
@@ -29,13 +28,29 @@ class _OtpState extends State<Otp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(builder: (context) {
-        return BlocListener<LoginCubit, LoginState>(
-          cubit: context.bloc<LoginCubit>(),
-          listener: (ctx, state) {
-            if (state is PhoneVerifcationFailed) {
-              Utils.showWarning(context, content: state.message);
-            }
-          },
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<LoginCubit, LoginState>(
+              listener: (context, state) {
+                setLoading(false);
+                if (state is PhoneVerifcationFailed) {
+                  Utils.showWarning(context, content: state.message);
+                } else if (state is LoggedIn) {
+                  Navigator.of(context).pop();
+                } else if (state is LoginLoading) {
+                  logger.i("LOADINGEEY");
+                  setLoading(true);
+                }
+              },
+            ),
+            BlocListener<AuthenticationCubit, AuthenticationState>(
+              listener: (context, state) {
+                if (state is Authenticated) {
+                  Navigator.of(context).pop();
+                }
+              },
+            )
+          ],
           child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -50,7 +65,7 @@ class _OtpState extends State<Otp> {
                 ),
                 Spacer(),
                 Text(
-                  'PLEASE ENTER',
+                  'RETREIVING OTP',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
@@ -58,7 +73,7 @@ class _OtpState extends State<Otp> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  'THE VERIFICATION CODE\nSENT TO YOUR PHONE NO',
+                  'FEEL FREE TO ENTER VERIFICATION CODE\nSENT TO YOUR PHONE NO\nIF AUTOVERIFICATION FAILS',
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),

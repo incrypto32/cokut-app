@@ -3,12 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-/// Thrown if during the sign up process if a failure occurs.
-class SignUpFailure implements Exception {}
-
-/// Thrown during the login process if a failure occurs.
-class LogInWithEmailAndPasswordFailure implements Exception {}
-
 /// Thrown during the sign in with google process if a failure occurs.
 class LogInWithGoogleFailure implements Exception {}
 
@@ -34,6 +28,10 @@ class AuthenticationRepository {
 
   Stream<User> get user {
     return _firebaseAuth.authStateChanges();
+  }
+
+  Future<String> getToken() {
+    return _firebaseAuth.currentUser.getIdToken();
   }
 
   /// Starts the Sign In with Google Flow.
