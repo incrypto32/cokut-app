@@ -1,15 +1,15 @@
 import 'package:cokut/presentation/widgets/main/home_page.dart';
-import 'package:cokut/presentation/pages/search_screen.dart';
+import 'package:cokut/presentation/screens/search_screen.dart';
 import 'package:cokut/presentation/widgets/main/settings_page.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(
     fontSize: 30,

@@ -1,7 +1,7 @@
-import 'package:cokut/infrastructure/api.dart';
+import 'package:cokut/infrastructure/services/api.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/utils/logger.dart';
-import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class GetUserFailure implements Exception {}
 
@@ -11,15 +11,7 @@ class UserRepository {
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
-      Map userData = {};
-      var dio = _api.superDio("");
-      Response resp = await dio.get('/getuser');
-      if (resp.data["exist"]) {
-        userData = resp.data["user"];
-        userData["registered"] = true;
-      } else if (!resp.data["exist"]) {
-        userData["registered"] = false;
-      }
+      var userData = await _api.getUser(token);
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);
@@ -27,5 +19,24 @@ class UserRepository {
     }
   }
 
-  // Register Users
+  // Register User
+  Future<User> registerUser({
+    @required String name,
+    String email,
+    String phone,
+    String gid,
+  }) async {
+    try {
+      var userData = await _api.registerUser(
+        name: name,
+        phone: phone,
+        email: email,
+        gid: gid,
+      );
+      return User.fromJson(userData);
+    } catch (e) {
+      logger.e(e);
+      throw GetUserFailure;
+    }
+  }
 }

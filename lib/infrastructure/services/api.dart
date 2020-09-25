@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 
 class Api {
-  static final String v1 = "http://192.168.43.65:4000/api/v1";
-  static final String utils = "http://192.168.43.65:4000/utils";
+//   static final String v1 = "http://192.168.43.65:4000/api/v1";
+//   static final String utils = "http://192.168.43.65:4000/utils";
+  static final String v1 = "http://cokut.herokuapp.com/api/v1";
+  static final String utils = "http://cokut.herokuapp.com/utils";
 
+// Main Dio
   Dio mainDio = Dio(
     BaseOptions(
       baseUrl: v1,
@@ -11,8 +15,8 @@ class Api {
     ),
   );
 
-// NewDio
-  Future<Dio> utilDio() async {
+// Util Dio
+  Dio utilDio() {
     return Dio(
       BaseOptions(
         baseUrl: utils,
@@ -23,8 +27,8 @@ class Api {
     );
   }
 
-  // SuperDio
-  superDio(String token) async {
+// Super Dio
+  Dio superDio(String token) {
     return Dio(
       BaseOptions(
         baseUrl: v1,
@@ -42,24 +46,16 @@ class Api {
     String endpoint, {
     bool util = false,
   }) async {
-    Response response;
     Dio dio = util ? await utilDio() : await superDio("");
     try {
-      response = await dio.post(
+      Response response = await dio.post(
         endpoint,
         data: map,
       );
+      return response;
     } on DioError catch (e) {
-      print(e);
-      if (e.response != null && e.response.runtimeType != String) {
-        return e.response;
-      }
-      return null;
-    } catch (e) {
-      print(e);
-      return null;
+      return e.response;
     }
-    return response;
   }
 
   // Form data post wrapper
@@ -82,16 +78,13 @@ class Api {
       );
     } on DioError catch (e) {
       return e.response;
-    } catch (e) {
-      print(e);
-      return null;
     }
     return response;
   }
 
   // Register User
   Future<dynamic> registerUser({
-    String name,
+    @required String name,
     String email,
     String phone,
     String gid,
@@ -101,17 +94,21 @@ class Api {
       "email": email,
       "phone": phone,
     };
-
     Response resp = await postData(map, "/register");
+    return resp.data;
+  }
 
-    if (resp == null) {
-      return null;
+  // Get User
+  Future<Map<String, dynamic>> getUser(String token, {int i = 0}) async {
+    Map userData = {};
+    var dio = superDio(token);
+    Response resp = await dio.get('/getuser');
+    if (resp.data["exist"]) {
+      userData = resp.data["user"];
+      userData["registered"] = true;
+    } else if (!resp.data["exist"]) {
+      userData["registered"] = false;
     }
-
-    if (resp.data != null) {
-      return resp.data;
-    }
-
-    return null;
+    return userData;
   }
 }

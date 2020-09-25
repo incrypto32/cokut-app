@@ -14,3 +14,7 @@ class UserRegistered extends UserDataState {}
 class UserNotRegistered extends UserDataState {}
 
 class UserDataError extends UserDataState {}
+
+class UserRegisterLoading extends UserDataState {}
+
+class UserRegistrationError extends UserDataState {}

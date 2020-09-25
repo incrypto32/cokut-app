@@ -1,6 +1,7 @@
 import 'package:cokut/cubit/firebase_app/firebase_app_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/presentation/core/app_view.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
+import 'package:cokut/presentation/switchers/app_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,8 +14,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (ctx) => FirebaseAppCubit(),
-      child: RepositoryProvider(
-        create: (context) => AuthenticationRepository(),
+      child: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider(
+            create: (context) => AuthenticationRepository(),
+          ),
+          RepositoryProvider(create: (context) => UserRepository()),
+        ],
         child: AppView(),
       ),
     );
