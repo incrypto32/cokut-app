@@ -36,19 +36,23 @@ class HomeWidget extends StatelessWidget {
           ),
           ...[
             buildCategoryStack(
-              asset: 'assets/images/specials.png',
+              context,
+              asset: 'assets/images/special.png',
               category: "Specials",
             ),
             buildCategoryStack(
+              context,
               asset: 'assets/images/restaurants.png',
               category: "Restaurants",
               opposite: true,
             ),
             buildCategoryStack(
+              context,
               asset: 'assets/images/homemade.png',
               category: "Homemade",
             ),
             buildCategoryStack(
+              context,
               asset: 'assets/images/spicey.png',
               category: "Spicey",
               opposite: true,
@@ -59,28 +63,33 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  Container buildCategoryStack(
+  Widget buildCategoryStack(BuildContext context,
       {String asset, bool opposite = false, String category}) {
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.asset(asset),
-          ),
-          Positioned.fill(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 45),
-              alignment:
-                  opposite ? Alignment.centerLeft : Alignment.centerRight,
-              child: Text(
-                category,
-                style: TextStyle(color: Colors.white, fontSize: 25),
-              ),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pushNamed("/" + category.toLowerCase());
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(asset),
             ),
-          )
-        ],
+            Positioned.fill(
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 45),
+                alignment:
+                    opposite ? Alignment.centerLeft : Alignment.centerRight,
+                child: Text(
+                  category,
+                  style: TextStyle(color: Colors.white, fontSize: 25),
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cokut/common/constants.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cokut/presentation/widgets/main/home_page.dart';
@@ -33,14 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Color hexToColor(String code) {
-    return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: hexToColor("#F0F3FA"),
+      backgroundColor: ColorIt.hexToColor(ColorIt.mainBody),
       body: SafeArea(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

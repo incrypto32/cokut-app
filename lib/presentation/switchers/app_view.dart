@@ -1,3 +1,4 @@
+import 'package:cokut/presentation/screens/restaurant_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,6 +46,7 @@ class _AppViewState extends State<AppView> {
           '/auth': (ctx) => AuthScreen(),
           '/otp': (ctx) => Otp(),
           '/loading': (ctx) => LoadingScreen(),
+          '/restaurants': (ctx) => RestaurantScreen(),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {
