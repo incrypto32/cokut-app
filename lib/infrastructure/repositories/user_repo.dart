@@ -12,6 +12,7 @@ class UserRepository {
   Future<User> getUser(String token, {int i = 0}) async {
     try {
       var userData = await _api.getUser(token);
+      logger.i(userData);
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);
@@ -21,22 +22,22 @@ class UserRepository {
 
   // Register User
   Future<User> registerUser({
+    @required String token,
     @required String name,
     String email,
     String phone,
     String gid,
   }) async {
-    try {
-      var userData = await _api.registerUser(
-        name: name,
-        phone: phone,
-        email: email,
-        gid: gid,
-      );
-      return User.fromJson(userData);
-    } catch (e) {
-      logger.e(e);
-      throw GetUserFailure;
-    }
+    var userData = await _api.registerUser(
+      token: token,
+      name: name,
+      phone: phone,
+      email: email,
+      gid: gid,
+    );
+
+    logger.d(userData);
+
+    return User.fromJson(userData);
   }
 }

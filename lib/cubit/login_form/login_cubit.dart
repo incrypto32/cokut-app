@@ -44,10 +44,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> verifyOtpManually(String smsCode) async {
-    logger.d("Manual Verify Phone Called OTP : $smsCode");
-    logger.d(values);
-    logger.d("Manual Verify Phone Called VID : ${values["vid"]}");
-    logger.i("LOADING VITTITUND");
     emit(LoginLoading());
     try {
       await _authRepo.manualOtpVerificationRegister(
@@ -55,7 +51,6 @@ class LoginCubit extends Cubit<LoginState> {
         vid: values["vid"],
       );
     } catch (e) {
-      logger.e("verifyOtpManually Failed: $e");
       emit(PhoneVerifcationFailed("Couldnt verify OTP"));
     }
   }
@@ -76,7 +71,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void phoneCodeAutoRetrievalTimeout(String vid) {
-    logger.d("Autoretrieval timeout vid :$vid");
     emit(LoginOtpAutoRetrievalTimeOut(values["codeSent"]));
   }
 

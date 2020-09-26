@@ -96,9 +96,6 @@ class AuthenticationRepository {
     String vid,
   }) async {
     try {
-      logger.d("smscode is $smsCode");
-      logger.d("VID is $vid");
-
       AuthCredential authCreds = PhoneAuthProvider.credential(
         verificationId: vid,
         smsCode: smsCode,

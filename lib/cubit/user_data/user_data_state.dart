@@ -17,4 +17,7 @@ class UserDataError extends UserDataState {}
 
 class UserRegisterLoading extends UserDataState {}
 
-class UserRegistrationError extends UserDataState {}
+class UserRegistrationError extends UserDataState {
+  final String message;
+  UserRegistrationError({this.message});
+}

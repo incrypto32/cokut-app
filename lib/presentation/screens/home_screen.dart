@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HomeWidget(),
     SearchPage(),
     Text(
-      'Index 2: School',
+      'Index 2: Cart',
       style: optionStyle,
     ),
     Settings(),

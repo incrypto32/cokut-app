@@ -1,14 +1,15 @@
 import 'dart:io';
 
+import 'package:cokut/common/exceptions.dart';
 import 'package:cokut/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class Api {
-  static final String v1 = "http://192.168.43.65:4000/api/v1";
-  static final String utils = "http://192.168.43.65:4000/utils";
-  // static final String v1 = "http://cokut.herokuapp.com/api/v1";
-  // static final String utils = "http://cokut.herokuapp.com/utils";
+  // static final String v1 = "http://192.168.43.65:4000/api/v1";
+  // static final String utils = "http://192.168.43.65:4000/utils";
+  static final String v1 = "http://cokut.herokuapp.com/api/v1";
+  static final String utils = "http://cokut.herokuapp.com/utils";
 
 // Main Dio
   Dio mainDio = Dio(
@@ -48,8 +49,9 @@ class Api {
     Map<String, dynamic> map,
     String endpoint, {
     bool util = false,
+    String token = "",
   }) async {
-    Dio dio = util ? await utilDio() : await superDio("");
+    Dio dio = util ? await utilDio() : await superDio(token);
     try {
       Response response = await dio.post(
         endpoint,
@@ -80,6 +82,9 @@ class Api {
         ),
       );
     } on DioError catch (e) {
+      if (e.error) {
+        throw SocketException("Please check your network connectivity");
+      }
       return e.response;
     }
     return response;
@@ -87,6 +92,7 @@ class Api {
 
   // Register User
   Future<dynamic> registerUser({
+    @required String token,
     @required String name,
     String email,
     String phone,
@@ -97,8 +103,16 @@ class Api {
       "email": email,
       "phone": phone,
     };
-    Response resp = await postData(map, "/register");
-    return resp.data;
+
+    Response resp = await postData(map, "/register", token: token);
+
+    if (resp.data["success"]) {
+      return resp.data;
+    } else if (resp.data["msg"] == "DETAILS_EXIST") {
+      throw DetailsExistException();
+    } else {
+      throw CustomException(resp.data["msg"]);
+    }
   }
 
   // Get User
@@ -107,7 +121,7 @@ class Api {
     var dio = superDio(token);
     try {
       Response resp = await dio.get('/getuser');
-      if (resp.data["exist"]) {
+      if (resp.data["exist"] && resp.data["user"] != null) {
         userData = resp.data["user"];
         userData["registered"] = true;
       } else if (!resp.data["exist"]) {

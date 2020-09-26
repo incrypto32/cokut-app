@@ -17,8 +17,8 @@ class CustomTextFormField extends StatelessWidget {
   final String prefixText;
   final bool centerText;
   final bool isPassword;
-  final Function validator;
-  final Function onChanged;
+  final Function(String) validator;
+  final Function(dynamic) onChanged;
   final TextInputType textInputType;
   final double borderRadius;
 

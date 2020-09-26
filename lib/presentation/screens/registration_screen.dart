@@ -1,22 +1,71 @@
+import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/presentation/widgets/components/registration_form.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // FirebaseAuth.instance.signOut();
     return Scaffold(
-      body: Center(
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [Text("hiiiiiiii")],
+      body: SingleChildScrollView(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Spacer(),
+              Container(
+                margin: EdgeInsets.all(50),
+                child: Image.asset(
+                  'assets/images/blaksid.png',
+                ),
               ),
-            ),
+              Container(
+                height: 100,
+                child: BlocBuilder<UserDataCubit, UserDataState>(
+                  builder: (context, state) {
+                    if (state is UserRegisterLoading) {
+                      return SpinKitCircle(
+                        size: 50,
+                        color: Colors.green,
+                      );
+                    } else if (state is UserRegistrationError) {
+                      return Container(
+                        width: 300,
+                        child: Text(
+                          state.message ?? "An error occured",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              .copyWith(color: Colors.red),
+                        ),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
+              ),
+              Spacer(),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(30),
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                      color: Colors.grey,
+                    )
+                  ],
+                ),
+                child: RegistrationForm(),
+              ),
+            ],
           ),
         ),
       ),

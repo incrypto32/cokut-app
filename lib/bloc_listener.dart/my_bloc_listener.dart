@@ -1,3 +1,6 @@
+import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +26,13 @@ class _AuthBlocDeciderState extends State<AuthBlocDecider> {
         if (state is AuthenticationLoading) {
           return LoadingScreen();
         } else if (state is Authenticated) {
-          return HomeSwitcher();
+          return BlocProvider<UserDataCubit>(
+            create: (ctx) => UserDataCubit(
+              context.repository<UserRepository>(),
+              context.repository<AuthenticationRepository>(),
+            ),
+            child: HomeSwitcher(),
+          );
         }
         return AuthScreen();
       },

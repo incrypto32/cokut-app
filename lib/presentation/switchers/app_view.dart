@@ -1,6 +1,5 @@
-import 'package:cokut/cubit/user_data/user_data_cubit.dart';
-import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:cokut/bloc_listener.dart/my_bloc_listener.dart';
@@ -33,12 +32,6 @@ class _AppViewState extends State<AppView> {
           create: (ctx) =>
               LoginCubit(context.repository<AuthenticationRepository>()),
         ),
-        BlocProvider<UserDataCubit>(
-          create: (ctx) => UserDataCubit(
-            context.repository<UserRepository>(),
-            context.repository<AuthenticationRepository>(),
-          ),
-        )
       ],
       child: MaterialApp(
         title: 'Cokut',
