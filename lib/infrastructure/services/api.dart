@@ -1,11 +1,14 @@
+import 'dart:io';
+
+import 'package:cokut/utils/logger.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class Api {
-//   static final String v1 = "http://192.168.43.65:4000/api/v1";
-//   static final String utils = "http://192.168.43.65:4000/utils";
-  static final String v1 = "http://cokut.herokuapp.com/api/v1";
-  static final String utils = "http://cokut.herokuapp.com/utils";
+  static final String v1 = "http://192.168.43.65:4000/api/v1";
+  static final String utils = "http://192.168.43.65:4000/utils";
+  // static final String v1 = "http://cokut.herokuapp.com/api/v1";
+  // static final String utils = "http://cokut.herokuapp.com/utils";
 
 // Main Dio
   Dio mainDio = Dio(
@@ -100,15 +103,25 @@ class Api {
 
   // Get User
   Future<Map<String, dynamic>> getUser(String token, {int i = 0}) async {
-    Map userData = {};
+    Map<String, dynamic> userData = {};
     var dio = superDio(token);
-    Response resp = await dio.get('/getuser');
-    if (resp.data["exist"]) {
-      userData = resp.data["user"];
-      userData["registered"] = true;
-    } else if (!resp.data["exist"]) {
-      userData["registered"] = false;
+    try {
+      Response resp = await dio.get('/getuser');
+      if (resp.data["exist"]) {
+        userData = resp.data["user"];
+        userData["registered"] = true;
+      } else if (!resp.data["exist"]) {
+        userData["registered"] = false;
+      }
+      return userData;
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        throw SocketException("Conenction Error");
+      }
+    } catch (e) {
+      throw e;
     }
+    logger.i("Something FIshy in api.dart");
     return userData;
   }
 }

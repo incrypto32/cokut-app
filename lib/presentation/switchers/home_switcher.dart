@@ -1,6 +1,8 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/presentation/screens/error_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
 import 'package:cokut/presentation/screens/loading_screen.dart';
+import 'package:cokut/presentation/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,16 +11,17 @@ class HomeSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserDataCubit, UserDataState>(
       builder: (context, state) {
+        print("State is $state");
         if (state is UserDataLoading) {
-          LoadingScreen();
+          return LoadingScreen();
         } else if (state is UserRegistered) {
-          HomeScreen();
+          return HomeScreen();
         } else if (state is UserNotRegistered) {
-          return Scaffold(
-            body: Center(
-              child: Text("Not Registered"),
-            ),
-          );
+          return RegistrationScreen();
+        } else if (state is UserDataError) {
+          return ErrorScreen(() {
+            context.bloc<UserDataCubit>().getUser();
+          });
         }
         return LoadingScreen();
       },

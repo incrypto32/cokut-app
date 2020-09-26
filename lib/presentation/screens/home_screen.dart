@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:cokut/presentation/widgets/main/home_page.dart';
 import 'package:cokut/presentation/screens/search_screen.dart';
 import 'package:cokut/presentation/widgets/main/settings_page.dart';
-import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
