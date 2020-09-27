@@ -1,8 +1,10 @@
+import 'package:cokut/presentation/widgets/main/cart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cokut/presentation/widgets/main/home_page.dart';
 import 'package:cokut/presentation/screens/search_screen.dart';
 import 'package:cokut/presentation/widgets/main/settings_page.dart';
+import 'package:cokut/presentation/widgets/main/cart_page.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -20,10 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     SearchPage(),
-    Text(
-      'Index 2: Cart',
-      style: optionStyle,
-    ),
+    CartWidget(),
     Settings(),
   ];
 
