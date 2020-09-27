@@ -1,13 +1,23 @@
-import 'package:cokut/models/order.dart';
+//import 'package:cokut/common/cartItem_list.dart';
+import 'package:cokut/models/cartItem.dart';
 import 'package:flutter/material.dart';
+import 'package:cokut/infrastructure/services/cartItem_handling/cartItem_handler.dart';
 
-class CartWidget extends StatelessWidget {
+class CartWidget extends StatefulWidget{
   const CartWidget();
+  @override
+  CartWidgetState createState()=> CartWidgetState();
+}
+class CartWidgetState extends State<CartWidget> {
+
   final fee = 15.00;
   final hpad = 15.0;
   final ordFont = 20.0;
+
   @override
   Widget build(BuildContext context) {
+    CartItemHandler cartItemHandler=CartItemHandler();
+    cartItemHandler.initCartItem();
     return Container(
       color: Colors.lightBlueAccent[150],
       padding: EdgeInsets.all(15.0),
@@ -16,9 +26,9 @@ class CartWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Your Food Cart", style: TextStyle(fontSize: 25.0)),
-            getCartItemList(),
+            getCartItemList(cartItemHandler),//from cartItem handler class
             SizedBox(height: 3.0),
-            getBillDetails(),
+            getBillDetails(cartItemHandler),
             SizedBox(height: 8.0),
             Text("Address Details", style: TextStyle(fontSize: 18.0)),
             Padding(
@@ -57,7 +67,7 @@ class CartWidget extends StatelessWidget {
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    print("Your Grand total is ${getTotal() + fee}RS");
+                    print("Your Grand total is ${getTotal(cartItemHandler.getCartItem()) + fee}RS");
                   },
                 ),
               ),
@@ -69,7 +79,8 @@ class CartWidget extends StatelessWidget {
   }
 
   //widget for getting bill
-  Widget getBillDetails() {
+  Widget getBillDetails(CartItemHandler cartItemHandler) {
+    List<CartItem> items=cartItemHandler.getCartItem();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: hpad),
       height: 165.00,
@@ -80,7 +91,7 @@ class CartWidget extends StatelessWidget {
             color: Colors.white,
             child: ListTile(
               title: Text("Items Total"),
-              trailing: Text("${getTotal()}"),
+              trailing: Text("${getTotal(items)}"),
             ),
           ),
           Container(
@@ -102,7 +113,7 @@ class CartWidget extends StatelessWidget {
               title: Center(
                 child: Text("Total"),
               ),
-              trailing: Text("${getTotal() + fee}"),
+              trailing: Text("${getTotal(items) + fee}"),
             ),
           )
         ],
@@ -110,45 +121,46 @@ class CartWidget extends StatelessWidget {
     );
   }
 
-  //widget for getting order list
-  Widget getCartItemList() {
-    List<CartItem> items = getCartItem();
-    return CartItems(hpad: hpad, items: items, ordFont: ordFont);
+  //widget for getting cartItem list
+  Widget getCartItemList(CartItemHandler cartItemHandler) {
+
+    return CartItems(hpad: hpad, cartItemHandler: cartItemHandler, ordFont: ordFont);
   }
 
-  double getTotal() {
+  double getTotal(List<CartItem> items) {
     double total = 0;
-    List<CartItem> ord = getCartItem();
-    ord.forEach((order) {
-      total += order.price * order.count;
+    //List<CartItem> ord = getCartItem();
+    items.forEach((cartItem) {
+      total += cartItem.price * cartItem.count;
     });
     return total;
   }
 
-  //to get list of orders
-  List<CartItem> getCartItem() {
-    List<CartItem> order = List<CartItem>();
-    order.add(CartItem("Biriyani", "Hotel A", 100.00, 1));
-    order.add(CartItem("Fried Rice", "Hotel b", 125.00, 1));
-    //  order.add(CartItem("Orange Juice","Hotel b",25.00,1));
-    return order;
-  }
+  //to get list of cartItems
+//  List<CartItem> getCartItem() {
+//    List<CartItem> cartItem = List<CartItem>();
+//    cartItem.add(CartItem("Biriyani", "Hotel A", 100.00, 1));
+//    cartItem.add(CartItem("Fried Rice", "Hotel b", 125.00, 1));
+//    //  cartItem.add(CartItem("Orange Juice","Hotel b",25.00,1));
+//    return cartItem;
+//  }
 }
 
 class CartItems extends StatelessWidget {
   const CartItems({
     Key key,
     @required this.hpad,
-    @required this.items,
+    @required this.cartItemHandler,
     @required this.ordFont,
   }) : super(key: key);
 
   final double hpad;
-  final List<CartItem> items;
+  final CartItemHandler cartItemHandler;
   final double ordFont;
 
   @override
   Widget build(BuildContext context) {
+    var items=cartItemHandler.getCartItem();
     return Container(
       height: 175.00,
       padding: EdgeInsets.symmetric(horizontal: hpad),
@@ -189,7 +201,10 @@ class CartItems extends StatelessWidget {
                         Icons.add,
                       ),
                       onTap: () {
+
                         print("${items[index].count} add");
+                        cartItemHandler.incrementCartItem(index);
+
                       },
                     ),
                     Padding(
@@ -202,6 +217,7 @@ class CartItems extends StatelessWidget {
                         ),
                         onTap: () {
                           print("${items[index].count} minus");
+                          cartItemHandler.decrementCartItem(index);
                         }),
                   ],
                 ),
@@ -212,4 +228,6 @@ class CartItems extends StatelessWidget {
       ),
     );
   }
+
+
 }
