@@ -1,4 +1,5 @@
 import 'package:cokut/presentation/screens/restaurant_screen.dart';
+import 'package:cokut/presentation/screens/store_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +48,8 @@ class _AppViewState extends State<AppView> {
           '/otp': (ctx) => Otp(),
           '/loading': (ctx) => LoadingScreen(),
           '/restaurants': (ctx) => RestaurantScreen(),
+          '/homemade': (ctx) => RestaurantScreen(isHomeMade: true),
+          '/store': (ctx) => StoreScreen(),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {

@@ -68,9 +68,10 @@ class Api {
     Map<String, dynamic> map,
     String endpoint, {
     bool util = false,
+    String token = "",
   }) async {
     Response response;
-    Dio dio = util ? await utilDio() : superDio("");
+    Dio dio = util ? await utilDio() : superDio(token);
     try {
       response = await dio.request(
         endpoint,
@@ -82,7 +83,7 @@ class Api {
         ),
       );
     } on DioError catch (e) {
-      if (e.error) {
+      if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
       }
       return e.response;
@@ -137,5 +138,27 @@ class Api {
     }
     logger.i("Something FIshy in api.dart");
     return userData;
+  }
+
+  // Get Restaurant
+  // Get User
+  Future<List<Map<String, dynamic>>> getRestaurants(
+    String token, {
+    bool isHomeMade = false,
+  }) async {
+    Response resp;
+    try {
+      resp = await getData(
+        null,
+        isHomeMade ? '/gethome' : '/getoutlets',
+        token: token,
+      );
+
+      return List<Map<String, dynamic>>.from(resp.data);
+    } catch (e) {
+      if (!resp.data["success"]) {
+        throw CustomException(resp.data["msg"]);
+      }
+    }
   }
 }

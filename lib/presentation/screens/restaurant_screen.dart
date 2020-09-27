@@ -1,9 +1,23 @@
 import 'package:cokut/common/constants.dart';
+import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
+import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
+import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestaurantScreen extends StatelessWidget {
+  final bool isHomeMade;
+  const RestaurantScreen({this.isHomeMade = false});
+
   @override
   Widget build(BuildContext context) {
+    final RestaurantCubit _restaurantCubit = RestaurantCubit(
+      context.repository<RestaurantRepository>(),
+      context.repository<AuthenticationRepository>(),
+      isHomeMade: isHomeMade,
+    );
     return Scaffold(
       backgroundColor: ColorIt.hexToColor(ColorIt.mainBody),
       body: Column(
@@ -26,7 +40,7 @@ class RestaurantScreen extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Text(
-                    "Restaurants",
+                    isHomeMade ? "Homemade" : "Restaurants",
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headline3.copyWith(
                       color: Colors.white,
@@ -40,8 +54,75 @@ class RestaurantScreen extends StatelessWidget {
               ],
             ),
           ),
+          Expanded(
+            child: BlocBuilder<RestaurantCubit, RestaurantState>(
+                cubit: _restaurantCubit,
+                builder: (context, state) {
+                  if (state is RestaurantLoading) {
+                    return LoadingShimmer();
+                  } else if (state is RestaurantsLoaded) {
+                    return Container(
+                      padding: EdgeInsets.all(20),
+                      child: ListView.builder(
+                        itemCount: state.restaurants.length,
+                        itemBuilder: (context, index) =>
+                            RestaurantTile(state.restaurants[index]),
+                      ),
+                    );
+                  }
+                  if (state is RestaurantsError) {
+                    print(state.message);
+                    return RestaurantErrorWidget(
+                      reload: () {
+                        _restaurantCubit.getRestaurants();
+                      },
+                      message: state.message,
+                    );
+                  }
+                }),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class RestaurantErrorWidget extends StatelessWidget {
+  final Function reload;
+  final String message;
+  const RestaurantErrorWidget({
+    Key key,
+    this.reload,
+    this.message,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          child: Image.asset(
+            'assets/images/error.png',
+            height: 150,
+          ),
+        ),
+        Text(
+          message ?? "An error occured",
+          style: TextStyle(color: Colors.red),
+        ),
+        FlatButton(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Retry"),
+              Icon(Icons.replay),
+            ],
+          ),
+          onPressed: reload,
+        ),
+      ],
     );
   }
 }

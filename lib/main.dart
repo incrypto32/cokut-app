@@ -1,5 +1,6 @@
 import 'package:cokut/cubit/firebase_app/firebase_app_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/switchers/app_view.dart';
 import 'package:flutter/material.dart';
@@ -16,10 +17,9 @@ class MyApp extends StatelessWidget {
       create: (ctx) => FirebaseAppCubit(),
       child: MultiRepositoryProvider(
         providers: [
-          RepositoryProvider(
-            create: (context) => AuthenticationRepository(),
-          ),
+          RepositoryProvider(create: (context) => AuthenticationRepository()),
           RepositoryProvider(create: (context) => UserRepository()),
+          RepositoryProvider(create: (context) => RestaurantRepository()),
         ],
         child: AppView(),
       ),
