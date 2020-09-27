@@ -1,11 +1,11 @@
 import 'package:cokut/infrastructure/services/api.dart';
+import 'package:cokut/models/meal.dart';
 
 class MealsRepository {
   Api _api = Api();
 
-  //   Future<List<Meal>> getRestaurants(String token) async {
-  //   var restaurantList = await _api.getRestaurants(token);
-  //   return restaurantList.map((e) => Restaurant.fromJson(e)).toList();
-  // }
-
+  Future<List<Meal>> getMeals(String token, String rid) async {
+    var mealList = await _api.getMeals(token, rid: rid);
+    return mealList.map((e) => Meal.fromJson(e)).toList();
+  }
 }

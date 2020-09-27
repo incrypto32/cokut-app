@@ -6,10 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class Api {
-  // static final String v1 = "http://192.168.43.65:4000/api/v1";
-  // static final String utils = "http://192.168.43.65:4000/utils";
-  static final String v1 = "http://cokut.herokuapp.com/api/v1";
-  static final String utils = "http://cokut.herokuapp.com/utils";
+  static final String v1 = "http://192.168.43.65:4000/api/v1";
+  static final String utils = "http://192.168.43.65:4000/utils";
+  // static final String v1 = "http://cokut.herokuapp.com/api/v1";
+  // static final String utils = "http://cokut.herokuapp.com/utils";
 
 // Main Dio
   Dio mainDio = Dio(
@@ -72,10 +72,11 @@ class Api {
   }) async {
     Response response;
     Dio dio = util ? await utilDio() : superDio(token);
+    logger.i(map);
     try {
       response = await dio.request(
         endpoint,
-        data: map,
+        queryParameters: map,
         options: Options(
           method: "GET",
           contentType: "application/json",
@@ -153,6 +154,7 @@ class Api {
         isHomeMade ? '/gethome' : '/getoutlets',
         token: token,
       );
+      print(resp.data);
 
       return List<Map<String, dynamic>>.from(resp.data);
     } catch (e) {
@@ -174,9 +176,11 @@ class Api {
         '/getmeals',
         token: token,
       );
+      print(resp.data);
 
       return List<Map<String, dynamic>>.from(resp.data);
     } catch (e) {
+      logger.e(e);
       if (!resp.data["success"]) {
         throw CustomException(resp.data["msg"]);
       }
