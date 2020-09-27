@@ -162,4 +162,69 @@ class Api {
     }
     return null;
   }
+
+  // Get Meals
+  Future<List<Map<String, dynamic>>> getMeals(String token,
+      {@required String rid}) async {
+    Response resp;
+    Map<String, dynamic> map = {"rid": rid};
+    try {
+      resp = await getData(
+        map,
+        '/getmeals',
+        token: token,
+      );
+
+      return List<Map<String, dynamic>>.from(resp.data);
+    } catch (e) {
+      if (!resp.data["success"]) {
+        throw CustomException(resp.data["msg"]);
+      }
+    }
+    return null;
+  }
+
+  // Get Specials
+  Future<List<Map<String, dynamic>>> getSpecials(
+    String token,
+  ) async {
+    Response resp;
+
+    try {
+      resp = await getData(
+        null,
+        '/getspecials',
+        token: token,
+      );
+
+      return List<Map<String, dynamic>>.from(resp.data);
+    } catch (e) {
+      if (!resp.data["success"]) {
+        throw CustomException(resp.data["msg"]);
+      }
+    }
+    return null;
+  }
+
+  // Get Spicey
+  Future<List<Map<String, dynamic>>> getSpicey(
+    String token,
+  ) async {
+    Response resp;
+
+    try {
+      resp = await getData(
+        null,
+        '/getspicey',
+        token: token,
+      );
+
+      return List<Map<String, dynamic>>.from(resp.data);
+    } catch (e) {
+      if (!resp.data["success"]) {
+        throw CustomException(resp.data["msg"]);
+      }
+    }
+    return null;
+  }
 }
