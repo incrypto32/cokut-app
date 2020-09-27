@@ -160,5 +160,6 @@ class Api {
         throw CustomException(resp.data["msg"]);
       }
     }
+    return null;
   }
 }

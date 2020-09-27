@@ -18,6 +18,9 @@ class RestaurantScreen extends StatelessWidget {
       context.repository<AuthenticationRepository>(),
       isHomeMade: isHomeMade,
     );
+
+    final Function reload = () => _restaurantCubit.getRestaurants();
+
     return Scaffold(
       backgroundColor: ColorIt.hexToColor(ColorIt.mainBody),
       body: Column(
@@ -73,12 +76,14 @@ class RestaurantScreen extends StatelessWidget {
                   if (state is RestaurantsError) {
                     print(state.message);
                     return RestaurantErrorWidget(
-                      reload: () {
-                        _restaurantCubit.getRestaurants();
-                      },
+                      reload: reload,
                       message: state.message,
                     );
                   }
+                  return RestaurantErrorWidget(
+                    reload: reload,
+                    message: "",
+                  );
                 }),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:cokut/common/constants.dart';
+import 'package:cokut/presentation/widgets/main/cart_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cokut/presentation/widgets/main/home_page.dart';
@@ -21,10 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const List<Widget> _widgetOptions = <Widget>[
     HomeWidget(),
     SearchPage(),
-    Text(
-      'Index 2: Cart',
-      style: optionStyle,
-    ),
+    CartWidget(),
     Settings(),
   ];
 
