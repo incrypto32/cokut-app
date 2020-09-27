@@ -1,5 +1,6 @@
 //import 'package:cokut/common/cartItem_list.dart';
 import 'package:cokut/models/cartItem.dart';
+import 'package:cokut/presentation/widgets/components/incrementWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:cokut/infrastructure/services/cartItem_handling/cartItem_handler.dart';
 
@@ -188,40 +189,7 @@ class CartItems extends StatelessWidget {
                   )
                 ],
               ),
-              trailing: Container(
-                width: 75.0,
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.black)),
-
-                //row for choosing count
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      child: Icon(
-                        Icons.add,
-                      ),
-                      onTap: () {
-
-                        print("${items[index].count} add");
-                        cartItemHandler.incrementCartItem(index);
-
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text("${items[index].count}"),
-                    ),
-                    GestureDetector(
-                        child: Icon(
-                          Icons.remove,
-                        ),
-                        onTap: () {
-                          print("${items[index].count} minus");
-                          cartItemHandler.decrementCartItem(index);
-                        }),
-                  ],
-                ),
-              ),
+              trailing:IncrementWidget(items[index].count)
             ),
           );
         },
