@@ -7,8 +7,16 @@ abstract class MealsState extends Equatable {
   List<Object> get props => [];
 }
 
+class MealsInitial extends MealsState {}
+
 class MealsLoading extends MealsState {}
 
-class MealsLoaded extends MealsState {}
+class MealsLoaded extends MealsState {
+  final List<Meal> meals;
+  const MealsLoaded(this.meals);
+}
 
-class MealsError extends MealsState {}
+class MealsError extends MealsState {
+  final String message;
+  const MealsError(this.message);
+}
