@@ -15,25 +15,29 @@ class MealTile extends StatelessWidget {
   final int count;
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        name,
-        style: TextStyle(fontSize: 15),
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      color: Colors.white,
+      child: ListTile(
+        title: Text(
+          name,
+          style: TextStyle(fontSize: 15),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              hotel,
+              style: TextStyle(fontSize: 12),
+            ),
+            Text(
+              "${price}",
+              style: TextStyle(fontSize: 12),
+            )
+          ],
+        ),
+        trailing: IncrementWidget(),
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            hotel,
-            style: TextStyle(fontSize: 12),
-          ),
-          Text(
-            "${price}",
-            style: TextStyle(fontSize: 12),
-          )
-        ],
-      ),
-      trailing: IncrementWidget(),
     );
   }
 }
