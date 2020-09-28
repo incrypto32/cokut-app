@@ -1,11 +1,17 @@
+import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/restaurant.dart';
+import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
+import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
+import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class StoreScreen extends StatelessWidget {
+class RestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Restaurant restaurant =
-        ModalRoute.of(context).settings.arguments ?? Restaurant();
+    final Restaurant restaurant = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: Column(
@@ -43,9 +49,46 @@ class StoreScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Container(
-            color: Colors.white,
-          )),
+            child: BlocProvider<MealsCubit>(
+              create: (context) => MealsCubit(
+                context.repository<MealsRepository>(),
+                context.repository<AuthenticationRepository>(),
+                rid: restaurant.id,
+              ),
+              child: BlocBuilder<MealsCubit, MealsState>(
+                  builder: (context, state) {
+                if (state is MealsInitial) {
+                  return LoadingShimmer();
+                } else if (state is MealsLoading) {
+                  return LoadingShimmer();
+                } else if (state is MealsLoaded) {
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    child: ListView.builder(
+                      itemCount: state.meals.length,
+                      itemBuilder: (context, index) =>
+                          Text(state.meals[index].name ?? "blah"),
+                    ),
+                  );
+                }
+                if (state is MealsError) {
+                  print(state.message);
+                  return RestaurantErrorWidget(
+                    reload: () {
+                      context.bloc<MealsCubit>().getMeals(restaurant.id);
+                    },
+                    message: state.message,
+                  );
+                }
+                return RestaurantErrorWidget(
+                  reload: () {
+                    context.bloc<MealsCubit>().getMeals(restaurant.id);
+                  },
+                  message: "",
+                );
+              }),
+            ),
+          )
         ],
       ),
     );

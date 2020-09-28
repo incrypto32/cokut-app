@@ -15,7 +15,6 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   AuthenticationCubit(this._authenticationRepository)
       : super(AuthenticationLoading()) {
     _userSubscription = _authenticationRepository.user.listen((user) {
-      logger.d("AuthStream triggered");
       getAuthState(user);
     });
   }
@@ -30,7 +29,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
   Future<void> getAuthState(User user) async {
     try {
       if (user != null) {
-        logger.i("LOGGED IN");
+        logger.i("User logged In");
         emit(Authenticated(user));
       } else {
         emit(UnAuthenticated());

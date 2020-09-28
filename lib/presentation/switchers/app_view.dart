@@ -1,4 +1,6 @@
-import 'package:cokut/presentation/screens/restaurant_screen.dart';
+import 'package:cokut/models/meal.dart';
+import 'package:cokut/presentation/screens/meal_cat_screen.dart';
+import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
 import 'package:cokut/presentation/screens/store_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -47,9 +49,11 @@ class _AppViewState extends State<AppView> {
           '/auth': (ctx) => AuthScreen(),
           '/otp': (ctx) => Otp(),
           '/loading': (ctx) => LoadingScreen(),
-          '/restaurants': (ctx) => RestaurantScreen(),
-          '/homemade': (ctx) => RestaurantScreen(isHomeMade: true),
-          '/store': (ctx) => StoreScreen(),
+          '/restaurants': (ctx) => RestaurantListScreen(),
+          '/homemade': (ctx) => RestaurantListScreen(isHomeMade: true),
+          '/store': (ctx) => RestaurantScreen(),
+          '/specials': (ctx) => MealCategoryScreen(mealType: MealType.special),
+          '/spicey': (ctx) => MealCategoryScreen(mealType: MealType.spicey),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {

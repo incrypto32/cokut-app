@@ -11,13 +11,13 @@ _$_Meal _$_$_MealFromJson(Map<String, dynamic> json) {
     id: json['id'] as String,
     name: json['name'] as String,
     prize: (json['prize'] as num)?.toDouble(),
-    displayPrize: (json['displayPrize'] as num)?.toDouble(),
+    displayPrize: (json['display_price'] as num).toDouble(),
   );
 }
 
-Map<String, dynamic> _$MealToJson(_$_Meal instance) => <String, dynamic>{
+Map<String, dynamic> _$_$_MealToJson(_$_Meal instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'prize': instance.prize,
-      'displayPrize': instance.displayPrize,
+      'display_price': instance.displayPrize,
     };

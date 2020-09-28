@@ -21,13 +21,11 @@ class UserDataCubit extends Cubit<UserDataState> {
   }
 
   Future<void> getUser() async {
-    logger.d("GET USER");
     emit(UserDataLoading());
     try {
       var user = await _userRepository.getUser(
         (await _authenticationRepository.getToken()),
       );
-      logger.d(user.toJson());
       if (user.registered) {
         emit(UserRegistered());
       } else {

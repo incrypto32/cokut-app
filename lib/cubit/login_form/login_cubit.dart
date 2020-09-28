@@ -10,12 +10,9 @@ Map<String, dynamic> values = {"vid": "", "codeSent": true};
 class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authRepo;
 
-  LoginCubit(this._authRepo) : super(LoginInitial()) {
-    logger.wtf("DHE PINNEM NJAN");
-  }
+  LoginCubit(this._authRepo) : super(LoginInitial());
 
   Future<void> signInWithGoogle() async {
-    logger.d("SignInWithGoogle Called");
     emit(LoginLoading());
     try {
       await _authRepo.logInWithGoogle();
@@ -26,7 +23,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> verifyPhone(String phoneNumber) async {
-    logger.d("Verify Phone Called : $phoneNumber");
     values["codeSent"] = false;
     emit(LoginLoading());
     try {
@@ -56,17 +52,17 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void onVerificationFailed(String error) {
-    logger.w(error);
+    logger.e(error);
     emit(
       PhoneVerifcationFailed("An error occured please try again"),
     );
   }
 
   void phoneCodeSent(String vid, int ftoken) {
-    logger.d("Phone code sent vid : $vid");
+    logger.i("phone code sent");
     values["codeSent"] = true;
     values["vid"] = vid;
-    logger.d(values["vid"]);
+
     emit(LoginPhoneOTPSend());
   }
 
@@ -76,7 +72,7 @@ class LoginCubit extends Cubit<LoginState> {
 
   @override
   Future<void> close() {
-    logger.wtf("Login CUBIT CLOSED");
+    logger.i("Login CUBIT CLOSED");
     return super.close();
   }
 }

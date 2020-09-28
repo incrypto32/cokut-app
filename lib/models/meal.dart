@@ -11,8 +11,14 @@ abstract class Meal with _$Meal {
     String id,
     String name,
     double prize,
-    double displayPrize,
+    @JsonKey(name: 'display_price', nullable: false) double displayPrize,
   }) = _Meal;
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
+}
+
+enum MealType {
+  regular,
+  special,
+  spicey,
 }

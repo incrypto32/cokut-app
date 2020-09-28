@@ -124,11 +124,6 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   void signInWithGoogle() {
-    // logger.d("HI");
-    // logger.e("AYYO");
-    // logger.w("SHIT");
-    // logger.wtf("AYYYYYOOO");
-    // logger.i("HMM");
     context.bloc<LoginCubit>().signInWithGoogle();
   }
 }

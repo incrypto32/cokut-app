@@ -1,6 +1,5 @@
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/login_form/login_cubit.dart';
-import 'package:cokut/utils/logger.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +37,6 @@ class _OtpState extends State<Otp> {
                 } else if (state is LoggedIn) {
                   Navigator.of(context).pop();
                 } else if (state is LoginLoading) {
-                  logger.i("LOADINGEEY");
                   setLoading(true);
                 }
               },

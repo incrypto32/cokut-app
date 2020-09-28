@@ -6,10 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 
 class Api {
-  static final String v1 = "http://192.168.43.65:4000/api/v1";
-  static final String utils = "http://192.168.43.65:4000/utils";
-  // static final String v1 = "http://cokut.herokuapp.com/api/v1";
-  // static final String utils = "http://cokut.herokuapp.com/utils";
+  // static final String v1 = "http://192.168.43.65:4000/api/v1";
+  // static final String utils = "http://192.168.43.65:4000/utils";
+  static final String v1 = "http://cokut.herokuapp.com/api/v1";
+  static final String utils = "http://cokut.herokuapp.com/utils";
 
 // Main Dio
   Dio mainDio = Dio(
@@ -72,7 +72,7 @@ class Api {
   }) async {
     Response response;
     Dio dio = util ? await utilDio() : superDio(token);
-    logger.i(map);
+
     try {
       response = await dio.request(
         endpoint,
@@ -86,8 +86,9 @@ class Api {
     } on DioError catch (e) {
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
+      } else if (!e.response.data["success"]) {
+        throw CustomException(e.response.data["msg"]);
       }
-      return e.response;
     }
     return response;
   }
@@ -132,13 +133,11 @@ class Api {
       return userData;
     } on DioError catch (e) {
       if (e.error is SocketException) {
-        throw SocketException("Conenction Error");
+        throw SocketException("Connection Error");
+      } else {
+        throw CustomException(e.response.data["msg"]);
       }
-    } catch (e) {
-      throw e;
     }
-    logger.i("Something FIshy in api.dart");
-    return userData;
   }
 
   // Get Restaurant
@@ -148,87 +147,30 @@ class Api {
     bool isHomeMade = false,
   }) async {
     Response resp;
-    try {
-      resp = await getData(
-        null,
-        isHomeMade ? '/gethome' : '/getoutlets',
-        token: token,
-      );
-      print(resp.data);
 
-      return List<Map<String, dynamic>>.from(resp.data);
-    } catch (e) {
-      if (!resp.data["success"]) {
-        throw CustomException(resp.data["msg"]);
-      }
-    }
-    return null;
+    resp = await getData(
+      null,
+      isHomeMade ? '/gethome' : '/getregoutlets',
+      token: token,
+    );
+
+    return List<Map<String, dynamic>>.from(resp.data);
   }
 
   // Get Meals
   Future<List<Map<String, dynamic>>> getMeals(String token,
-      {@required String rid}) async {
+      {String rid, String endpoint = "/getmeals"}) async {
     Response resp;
     Map<String, dynamic> map = {"rid": rid};
-    try {
-      resp = await getData(
-        map,
-        '/getmeals',
-        token: token,
-      );
-      print(resp.data);
+    logger.d(map);
 
-      return List<Map<String, dynamic>>.from(resp.data);
-    } catch (e) {
-      logger.e(e);
-      if (!resp.data["success"]) {
-        throw CustomException(resp.data["msg"]);
-      }
-    }
-    return null;
-  }
+    resp = await getData(
+      map,
+      endpoint,
+      token: token,
+    );
+    print(resp.data);
 
-  // Get Specials
-  Future<List<Map<String, dynamic>>> getSpecials(
-    String token,
-  ) async {
-    Response resp;
-
-    try {
-      resp = await getData(
-        null,
-        '/getspecials',
-        token: token,
-      );
-
-      return List<Map<String, dynamic>>.from(resp.data);
-    } catch (e) {
-      if (!resp.data["success"]) {
-        throw CustomException(resp.data["msg"]);
-      }
-    }
-    return null;
-  }
-
-  // Get Spicey
-  Future<List<Map<String, dynamic>>> getSpicey(
-    String token,
-  ) async {
-    Response resp;
-
-    try {
-      resp = await getData(
-        null,
-        '/getspicey',
-        token: token,
-      );
-
-      return List<Map<String, dynamic>>.from(resp.data);
-    } catch (e) {
-      if (!resp.data["success"]) {
-        throw CustomException(resp.data["msg"]);
-      }
-    }
-    return null;
+    return List<Map<String, dynamic>>.from(resp.data);
   }
 }

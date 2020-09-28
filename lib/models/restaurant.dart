@@ -12,6 +12,7 @@ abstract class Restaurant with _$Restaurant {
     String name,
     String phone,
     String address,
+    String logo,
   }) = _Restaurant;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>

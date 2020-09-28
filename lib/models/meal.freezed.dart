@@ -17,7 +17,11 @@ class _$MealTearOff {
   const _$MealTearOff();
 
 // ignore: unused_element
-  _Meal call({String id, String name, double prize, double displayPrize}) {
+  _Meal call(
+      {String id,
+      String name,
+      double prize,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrize}) {
     return _Meal(
       id: id,
       name: name,
@@ -41,6 +45,7 @@ mixin _$Meal {
   String get id;
   String get name;
   double get prize;
+  @JsonKey(name: 'display_price', nullable: false)
   double get displayPrize;
 
   Map<String, dynamic> toJson();
@@ -51,7 +56,11 @@ mixin _$Meal {
 abstract class $MealCopyWith<$Res> {
   factory $MealCopyWith(Meal value, $Res Function(Meal) then) =
       _$MealCopyWithImpl<$Res>;
-  $Res call({String id, String name, double prize, double displayPrize});
+  $Res call(
+      {String id,
+      String name,
+      double prize,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrize});
 }
 
 /// @nodoc
@@ -85,7 +94,11 @@ abstract class _$MealCopyWith<$Res> implements $MealCopyWith<$Res> {
   factory _$MealCopyWith(_Meal value, $Res Function(_Meal) then) =
       __$MealCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, double prize, double displayPrize});
+  $Res call(
+      {String id,
+      String name,
+      double prize,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrize});
 }
 
 /// @nodoc
@@ -119,10 +132,15 @@ class __$MealCopyWithImpl<$Res> extends _$MealCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Meal extends _Meal with DiagnosticableTreeMixin {
-  const _$_Meal({this.id, this.name, this.prize, this.displayPrize})
+  const _$_Meal(
+      {this.id,
+      this.name,
+      this.prize,
+      @JsonKey(name: 'display_price', nullable: false) this.displayPrize})
       : super._();
 
-  factory _$_Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);
+  factory _$_Meal.fromJson(Map<String, dynamic> json) =>
+      _$_$_MealFromJson(json);
 
   @override
   final String id;
@@ -131,6 +149,7 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
   @override
   final double prize;
   @override
+  @JsonKey(name: 'display_price', nullable: false)
   final double displayPrize;
 
   @override
@@ -178,14 +197,18 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$MealToJson(this);
+    return _$_$_MealToJson(this);
   }
 }
 
 abstract class _Meal extends Meal {
   const _Meal._() : super._();
   const factory _Meal(
-      {String id, String name, double prize, double displayPrize}) = _$_Meal;
+      {String id,
+      String name,
+      double prize,
+      @JsonKey(name: 'display_price', nullable: false)
+          double displayPrize}) = _$_Meal;
 
   factory _Meal.fromJson(Map<String, dynamic> json) = _$_Meal.fromJson;
 
@@ -196,6 +219,7 @@ abstract class _Meal extends Meal {
   @override
   double get prize;
   @override
+  @JsonKey(name: 'display_price', nullable: false)
   double get displayPrize;
   @override
   _$MealCopyWith<_Meal> get copyWith;

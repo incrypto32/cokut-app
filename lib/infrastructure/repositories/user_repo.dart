@@ -12,7 +12,6 @@ class UserRepository {
   Future<User> getUser(String token, {int i = 0}) async {
     try {
       var userData = await _api.getUser(token);
-      logger.i(userData);
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);
@@ -35,8 +34,6 @@ class UserRepository {
       email: email,
       gid: gid,
     );
-
-    logger.d(userData);
 
     return User.fromJson(userData);
   }

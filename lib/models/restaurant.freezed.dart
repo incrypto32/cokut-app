@@ -17,12 +17,14 @@ class _$RestaurantTearOff {
   const _$RestaurantTearOff();
 
 // ignore: unused_element
-  _Restaurant call({String id, String name, String phone, String address}) {
+  _Restaurant call(
+      {String id, String name, String phone, String address, String logo}) {
     return _Restaurant(
       id: id,
       name: name,
       phone: phone,
       address: address,
+      logo: logo,
     );
   }
 
@@ -42,6 +44,7 @@ mixin _$Restaurant {
   String get name;
   String get phone;
   String get address;
+  String get logo;
 
   Map<String, dynamic> toJson();
   $RestaurantCopyWith<Restaurant> get copyWith;
@@ -52,7 +55,8 @@ abstract class $RestaurantCopyWith<$Res> {
   factory $RestaurantCopyWith(
           Restaurant value, $Res Function(Restaurant) then) =
       _$RestaurantCopyWithImpl<$Res>;
-  $Res call({String id, String name, String phone, String address});
+  $Res call(
+      {String id, String name, String phone, String address, String logo});
 }
 
 /// @nodoc
@@ -69,12 +73,14 @@ class _$RestaurantCopyWithImpl<$Res> implements $RestaurantCopyWith<$Res> {
     Object name = freezed,
     Object phone = freezed,
     Object address = freezed,
+    Object logo = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       phone: phone == freezed ? _value.phone : phone as String,
       address: address == freezed ? _value.address : address as String,
+      logo: logo == freezed ? _value.logo : logo as String,
     ));
   }
 }
@@ -85,7 +91,8 @@ abstract class _$RestaurantCopyWith<$Res> implements $RestaurantCopyWith<$Res> {
           _Restaurant value, $Res Function(_Restaurant) then) =
       __$RestaurantCopyWithImpl<$Res>;
   @override
-  $Res call({String id, String name, String phone, String address});
+  $Res call(
+      {String id, String name, String phone, String address, String logo});
 }
 
 /// @nodoc
@@ -104,12 +111,14 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
     Object name = freezed,
     Object phone = freezed,
     Object address = freezed,
+    Object logo = freezed,
   }) {
     return _then(_Restaurant(
       id: id == freezed ? _value.id : id as String,
       name: name == freezed ? _value.name : name as String,
       phone: phone == freezed ? _value.phone : phone as String,
       address: address == freezed ? _value.address : address as String,
+      logo: logo == freezed ? _value.logo : logo as String,
     ));
   }
 }
@@ -118,7 +127,7 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
 
 /// @nodoc
 class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
-  const _$_Restaurant({this.id, this.name, this.phone, this.address})
+  const _$_Restaurant({this.id, this.name, this.phone, this.address, this.logo})
       : super._();
 
   factory _$_Restaurant.fromJson(Map<String, dynamic> json) =>
@@ -132,10 +141,12 @@ class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
   final String phone;
   @override
   final String address;
+  @override
+  final String logo;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Restaurant(id: $id, name: $name, phone: $phone, address: $address)';
+    return 'Restaurant(id: $id, name: $name, phone: $phone, address: $address, logo: $logo)';
   }
 
   @override
@@ -146,7 +157,8 @@ class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('phone', phone))
-      ..add(DiagnosticsProperty('address', address));
+      ..add(DiagnosticsProperty('address', address))
+      ..add(DiagnosticsProperty('logo', logo));
   }
 
   @override
@@ -160,7 +172,10 @@ class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
             (identical(other.phone, phone) ||
                 const DeepCollectionEquality().equals(other.phone, phone)) &&
             (identical(other.address, address) ||
-                const DeepCollectionEquality().equals(other.address, address)));
+                const DeepCollectionEquality()
+                    .equals(other.address, address)) &&
+            (identical(other.logo, logo) ||
+                const DeepCollectionEquality().equals(other.logo, logo)));
   }
 
   @override
@@ -169,7 +184,8 @@ class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(phone) ^
-      const DeepCollectionEquality().hash(address);
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(logo);
 
   @override
   _$RestaurantCopyWith<_Restaurant> get copyWith =>
@@ -184,7 +200,11 @@ class _$_Restaurant extends _Restaurant with DiagnosticableTreeMixin {
 abstract class _Restaurant extends Restaurant {
   const _Restaurant._() : super._();
   const factory _Restaurant(
-      {String id, String name, String phone, String address}) = _$_Restaurant;
+      {String id,
+      String name,
+      String phone,
+      String address,
+      String logo}) = _$_Restaurant;
 
   factory _Restaurant.fromJson(Map<String, dynamic> json) =
       _$_Restaurant.fromJson;
@@ -197,6 +217,8 @@ abstract class _Restaurant extends Restaurant {
   String get phone;
   @override
   String get address;
+  @override
+  String get logo;
   @override
   _$RestaurantCopyWith<_Restaurant> get copyWith;
 }

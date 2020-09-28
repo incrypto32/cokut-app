@@ -28,6 +28,7 @@ class RestaurantCubit extends Cubit<RestaurantState> {
       var l = isHomeMade
           ? await _restaurantRepository.getHomeMadeStores(token)
           : await _restaurantRepository.getRestaurants(token);
+
       emit(RestaurantsLoaded(l));
     } catch (e) {
       logger.e(e);
@@ -35,6 +36,8 @@ class RestaurantCubit extends Cubit<RestaurantState> {
         emit(RestaurantsError("Please check your network connection"));
       } else if (e is CustomException) {
         emit(RestaurantsError(e.message));
+      } else {
+        emit(RestaurantsError("An error occured"));
       }
     }
   }
