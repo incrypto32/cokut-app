@@ -1,23 +1,23 @@
 //import 'package:cokut/common/cartItem_list.dart';
 import 'package:cokut/models/cartItem.dart';
-import 'package:cokut/presentation/widgets/components/incrementWidget.dart';
+import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:flutter/material.dart';
 import 'package:cokut/infrastructure/services/cartItem_handling/cartItem_handler.dart';
 
-class CartWidget extends StatefulWidget{
+class CartWidget extends StatefulWidget {
   const CartWidget();
   @override
-  CartWidgetState createState()=> CartWidgetState();
+  CartWidgetState createState() => CartWidgetState();
 }
-class CartWidgetState extends State<CartWidget> {
 
+class CartWidgetState extends State<CartWidget> {
   final fee = 15.00;
   final hpad = 15.0;
   final ordFont = 20.0;
 
   @override
   Widget build(BuildContext context) {
-    CartItemHandler cartItemHandler=CartItemHandler();
+    CartItemHandler cartItemHandler = CartItemHandler();
     cartItemHandler.initCartItem();
     return Container(
       color: Colors.lightBlueAccent[150],
@@ -27,7 +27,7 @@ class CartWidgetState extends State<CartWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Your Food Cart", style: TextStyle(fontSize: 25.0)),
-            getCartItemList(cartItemHandler),//from cartItem handler class
+            getCartItemList(cartItemHandler), //from cartItem handler class
             SizedBox(height: 3.0),
             getBillDetails(cartItemHandler),
             SizedBox(height: 8.0),
@@ -68,7 +68,8 @@ class CartWidgetState extends State<CartWidget> {
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                   onPressed: () {
-                    print("Your Grand total is ${getTotal(cartItemHandler.getCartItem()) + fee}RS");
+                    print(
+                        "Your Grand total is ${getTotal(cartItemHandler.getCartItem()) + fee}RS");
                   },
                 ),
               ),
@@ -81,7 +82,7 @@ class CartWidgetState extends State<CartWidget> {
 
   //widget for getting bill
   Widget getBillDetails(CartItemHandler cartItemHandler) {
-    List<CartItem> items=cartItemHandler.getCartItem();
+    List<CartItem> items = cartItemHandler.getCartItem();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: hpad),
       height: 165.00,
@@ -124,8 +125,8 @@ class CartWidgetState extends State<CartWidget> {
 
   //widget for getting cartItem list
   Widget getCartItemList(CartItemHandler cartItemHandler) {
-
-    return CartItems(hpad: hpad, cartItemHandler: cartItemHandler, ordFont: ordFont);
+    return CartItems(
+        hpad: hpad, cartItemHandler: cartItemHandler, ordFont: ordFont);
   }
 
   double getTotal(List<CartItem> items) {
@@ -161,41 +162,21 @@ class CartItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var items=cartItemHandler.getCartItem();
+    var items = cartItemHandler.getCartItem();
     return Container(
       height: 175.00,
       padding: EdgeInsets.symmetric(horizontal: hpad),
       child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.all(5.0),
-            color: Colors.white,
-            child: ListTile(
-              title: Text(
-                items[index].name,
-                style: TextStyle(fontSize: ordFont),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    items[index].hotel,
-                    style: TextStyle(fontSize: ordFont - 5.0),
-                  ),
-                  Text(
-                    "${items[index].price},",
-                    style: TextStyle(fontSize: ordFont - 2.0),
-                  )
-                ],
-              ),
-              trailing:IncrementWidget(items[index].count)
-            ),
+          return MealTile(
+            name: items[index].name,
+            hotel: items[index].hotel,
+            price: items[index].price,
+            count: items[index].count,
           );
         },
       ),
     );
   }
-
-
 }
