@@ -71,24 +71,31 @@ class HomeWidget extends StatelessWidget {
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(asset),
-            ),
-            Positioned.fill(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 45),
-                alignment:
-                    opposite ? Alignment.centerLeft : Alignment.centerRight,
-                child: Text(
-                  category,
-                  style: TextStyle(color: Colors.white, fontSize: 25),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            color: Colors.blueGrey,
+            child: Stack(
+              children: [
+                Image.asset(
+                  asset,
+                  width: double.infinity,
+                  fit: BoxFit.fitWidth,
                 ),
-              ),
-            )
-          ],
+                Positioned.fill(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(horizontal: 45),
+                    alignment:
+                        opposite ? Alignment.centerLeft : Alignment.centerRight,
+                    child: Text(
+                      category,
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

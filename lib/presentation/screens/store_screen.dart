@@ -2,7 +2,6 @@ import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/restaurant.dart';
-import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:flutter/material.dart';

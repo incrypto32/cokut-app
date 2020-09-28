@@ -8,3 +8,8 @@ abstract class CartState extends Equatable {
 }
 
 class CartInitial extends CartState {}
+
+class CartChanged extends CartState {
+  final CartItemMock123 cartItem;
+  const CartChanged(this.cartItem);
+}
