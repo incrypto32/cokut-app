@@ -1,15 +1,23 @@
 part of 'cart_cubit.dart';
 
-abstract class CartState extends Equatable {
-  const CartState();
-
-  @override
-  List<Object> get props => [];
+abstract class CartState {
+  final Map<String, CartItemMock123> cartItems;
+  const CartState(this.cartItems);
 }
 
-class CartInitial extends CartState {}
+class Cart extends CartState {
+  final Map<String, CartItemMock123> cartItems;
+  const Cart(this.cartItems) : super(cartItems);
+}
 
-class CartChanged extends CartState {
-  final CartItemMock123 cartItem;
-  const CartChanged(this.cartItem);
+class CartItemDeleted extends CartState {
+  final Map<String, CartItemMock123> cartItems;
+  final String id;
+  const CartItemDeleted(this.cartItems, this.id) : super(cartItems);
+}
+
+class CartItemAdded extends CartState {
+  final Map<String, CartItemMock123> cartItems;
+  final String id;
+  const CartItemAdded(this.cartItems, this.id) : super(cartItems);
 }

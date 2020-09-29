@@ -36,10 +36,7 @@ class MealCategoryScreen extends StatelessWidget {
                         ? ListView.builder(
                             itemCount: state.meals.length,
                             itemBuilder: (context, index) => MealTile(
-                              name: state.meals[index].name,
-                              hotel: "",
-                              price: state.meals[index].displayPrize,
-                              count: 0,
+                              meal: state.meals[index],
                             ),
                           )
                         : RestaurantErrorWidget(message: "Nothing Here ");

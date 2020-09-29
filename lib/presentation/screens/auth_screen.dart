@@ -19,9 +19,16 @@ class _AuthScreenState extends State<AuthScreen> {
       create: (context) =>
           LoginCubit(context.repository<AuthenticationRepository>()),
       child: Scaffold(
-        backgroundColor: Colors.black,
+        // backgroundColor: Colors.black,
         body: SingleChildScrollView(
           child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/bg.jpg'),
+                fit: BoxFit.cover,
+                alignment: Alignment.centerLeft,
+              ),
+            ),
             height: mediaQuery.size.height,
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -30,9 +37,6 @@ class _AuthScreenState extends State<AuthScreen> {
                   flex: 5,
                   child: AnimatedContainer(
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(0)),
                     duration: Duration(milliseconds: duration),
                     child: Column(
                       children: [

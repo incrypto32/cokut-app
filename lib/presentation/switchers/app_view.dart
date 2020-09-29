@@ -1,3 +1,5 @@
+import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/models/meal.dart';
 import 'package:cokut/presentation/screens/meal_cat_screen.dart';
 import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
@@ -35,6 +37,11 @@ class _AppViewState extends State<AppView> {
         BlocProvider<LoginCubit>(
           create: (ctx) =>
               LoginCubit(context.repository<AuthenticationRepository>()),
+        ),
+        BlocProvider<CartCubit>(
+          create: (ctx) => CartCubit(
+            context.repository<CartRepositoryMock123>(),
+          ),
         ),
       ],
       child: MaterialApp(

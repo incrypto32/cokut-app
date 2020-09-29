@@ -7,11 +7,13 @@ class GetUserFailure implements Exception {}
 
 class UserRepository {
   Api _api = Api();
+  User user;
 
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
       var userData = await _api.getUser(token);
+      user = User.fromJson(userData);
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);

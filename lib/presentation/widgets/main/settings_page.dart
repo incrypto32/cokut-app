@@ -1,10 +1,15 @@
 import 'package:cokut/infrastructure/auth.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
+import 'package:cokut/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Settings extends StatelessWidget {
   const Settings();
   @override
   Widget build(BuildContext context) {
+    var user = context.repository<UserRepository>().user ??
+        User(name: "Name", email: "email", phone: "7034320441");
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -19,10 +24,10 @@ class Settings extends StatelessWidget {
                 size: 60,
               ),
               title: Text(
-                " Name",
+                user.name ?? "Name",
                 style: Theme.of(context).textTheme.headline6,
               ),
-              subtitle: Text("mail@mail.com"),
+              subtitle: Text(user.email ?? "mail"),
               trailing: IconButton(
                 onPressed: authService.signOut,
                 icon: Icon(

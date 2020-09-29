@@ -1,18 +1,15 @@
+import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/models/meal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealTile extends StatelessWidget {
   const MealTile({
     Key key,
-    @required this.name,
-    @required this.hotel,
-    @required this.price,
-    @required this.count,
+    this.meal,
   }) : super(key: key);
 
-  final String name;
-  final String hotel;
-  final double price;
-  final int count;
+  final Meal meal;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,76 +17,83 @@ class MealTile extends StatelessWidget {
       color: Colors.white,
       child: ListTile(
         title: Text(
-          name,
+          meal.name,
           style: TextStyle(fontSize: 15),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              hotel,
+              "",
               style: TextStyle(fontSize: 12),
             ),
             Text(
-              "₹${price}",
+              "₹${meal.displayPrize}",
               style: TextStyle(fontSize: 12),
             )
           ],
         ),
-        trailing: IncrementWidget(),
+        trailing: IncrementWidget(
+          meal: meal,
+        ),
       ),
     );
   }
 }
 
 class IncrementWidget extends StatelessWidget {
-  IncrementWidget();
-  static int _count = 0;
+  final Meal meal;
+  IncrementWidget({this.meal});
+
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (context, StateSetter setState) {
         void increment() {
-          setState(() {
-            _count++;
-          });
+          context.bloc<CartCubit>().addToCart(meal);
         }
 
         void decrement() {
-          setState(() {
-            _count > 0 ? _count-- : 0;
-          });
+          context.bloc<CartCubit>().removFromCart(meal);
         }
 
         return Container(
           width: 75.0,
           decoration: BoxDecoration(
-            border: Border.all(color: Colors.black),
+            border: Border.all(
+              color: Colors.green,
+            ),
           ),
           //row for choosing count
           child: Row(
             children: [
               GestureDetector(
                 child: Icon(
-                  Icons.add,
+                  Icons.remove,
+                  color: Colors.green,
                 ),
-                onTap: () {
-                  print("${_count} add");
-                  increment();
-                },
+                onTap: decrement,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                child: Text("${_count}"),
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    print(state);
+
+                    return Text(
+                      (state.cartItems[meal.id] != null
+                          ? state.cartItems[meal.id].count.toString()
+                          : "0"),
+                    );
+                  },
+                ),
               ),
               GestureDetector(
                 child: Icon(
-                  Icons.remove,
+                  Icons.add,
+                  color: Colors.green,
                 ),
-                onTap: () {
-                  print("${_count} minus");
-                  decrement();
-                },
+                onTap: increment,
               ),
             ],
           ),

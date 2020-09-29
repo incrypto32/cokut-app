@@ -67,10 +67,7 @@ class RestaurantScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: state.meals.length,
                       itemBuilder: (context, index) => MealTile(
-                        name: state.meals[index].name,
-                        hotel: "",
-                        price: state.meals[index].displayPrize,
-                        count: 0,
+                        meal: state.meals[index],
                       ),
                     ),
                   );

@@ -24,9 +24,10 @@ class HomeWidget extends StatelessWidget {
                   autoPlayAnimationDuration: Duration(milliseconds: 800),
                 ),
                 items: [
-                  "https://images.unsplash.com/photo-1506354666786-959d6d497f1a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+                  "assets/images/1.jpg",
+                  "assets/images/2.jpg",
                 ].map((e) {
-                  return Image.network(
+                  return Image.asset(
                     e,
                     fit: BoxFit.cover,
                   );

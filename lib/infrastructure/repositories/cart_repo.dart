@@ -23,24 +23,41 @@ class CartRepository {
 
 class CartRepositoryMock123 {
   Map<String, CartItemMock123> cart = {};
+  printey() {
+    cart.forEach((key, value) {
+      print(value.count);
+    });
+  }
 
-  CartItemMock123 incrementItem(Meal meal) {
+  Map<String, CartItemMock123> incrementItem(Meal meal) {
     String id = meal.id;
     if (cart[id] != null) {
-      return cart[id].increment();
+      cart[id].increment();
+      return cart;
     } else {
       cart[id] = CartItemMock123(meal);
-      return cart[id];
+      return cart;
     }
   }
 
-  CartItemMock123 decrementItem(Meal meal) {
+  Map<String, CartItemMock123> decrementItem(Meal meal) {
     String id = meal.id;
-    if (cart[id] != null) {
-      return cart[id].decrement();
+    if (cart[id] != null && cart[id].count != 1) {
+      cart[id].decrement();
+      return cart;
     } else {
-      cart[id] = CartItemMock123(meal);
-      return cart[id];
+      cart.remove(id);
+      return cart;
     }
+  }
+
+  double getCartPrice() {
+    double val = 0;
+    cart.forEach((key, value) {
+      val = val + value.count * value.meal.prize;
+      print(val);
+    });
+    print(val);
+    return val;
   }
 }
