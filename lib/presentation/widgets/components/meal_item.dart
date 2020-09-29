@@ -31,7 +31,7 @@ class MealTile extends StatelessWidget {
               style: TextStyle(fontSize: 12),
             ),
             Text(
-              "${price}",
+              "₹${price}",
               style: TextStyle(fontSize: 12),
             )
           ],
