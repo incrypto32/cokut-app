@@ -41,4 +41,8 @@ class CartCubit extends Cubit<CartState> {
   double getCartPrice() {
     return _cartRepository.getCartPrice();
   }
+
+  double getDeliveryPrice() {
+    return _cartRepository.getDeliveryPrice();
+  }
 }

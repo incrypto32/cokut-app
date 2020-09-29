@@ -52,12 +52,18 @@ class CartRepositoryMock123 {
   }
 
   double getCartPrice() {
-    double val = 0;
+    double n = 0.0;
     cart.forEach((key, value) {
-      val = val + value.count * value.meal.prize;
-      print(val);
+      n += value.count * value.meal.displayPrize;
     });
-    print(val);
-    return val;
+    print(n);
+    return n;
+  }
+
+  double getDeliveryPrice() {
+    double n = 20.0;
+
+    print(n);
+    return n;
   }
 }

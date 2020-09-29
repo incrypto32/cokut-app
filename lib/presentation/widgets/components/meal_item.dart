@@ -58,7 +58,6 @@ class IncrementWidget extends StatelessWidget {
         }
 
         return Container(
-          width: 75.0,
           decoration: BoxDecoration(
             border: Border.all(
               color: Colors.green,
@@ -66,13 +65,14 @@ class IncrementWidget extends StatelessWidget {
           ),
           //row for choosing count
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              GestureDetector(
-                child: Icon(
+              IconButton(
+                icon: Icon(
                   Icons.remove,
                   color: Colors.green,
                 ),
-                onTap: decrement,
+                onPressed: decrement,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
@@ -88,12 +88,12 @@ class IncrementWidget extends StatelessWidget {
                   },
                 ),
               ),
-              GestureDetector(
-                child: Icon(
+              IconButton(
+                icon: Icon(
                   Icons.add,
                   color: Colors.green,
                 ),
-                onTap: increment,
+                onPressed: increment,
               ),
             ],
           ),

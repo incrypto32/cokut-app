@@ -9,6 +9,10 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
+        var cartCubit = context.bloc<CartCubit>();
+        var deliveryPrice = cartCubit.getDeliveryPrice();
+        var cartTotal = cartCubit.getCartPrice();
+        var grandTotal = deliveryPrice + cartTotal;
         List<MealTile> mealTiles = [];
         state.cartItems.forEach(
           (key, value) => mealTiles.add(
@@ -47,6 +51,7 @@ class CartWidget extends StatelessWidget {
                   ),
                   ...mealTiles,
                   Container(
+                    padding: EdgeInsets.all(20),
                     margin: EdgeInsets.symmetric(
                       vertical: 20,
                     ),
@@ -58,14 +63,20 @@ class CartWidget extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Cart Total"), Text("95.0")],
+                            children: [
+                              Text("Cart Total"),
+                              Text(cartCubit.getCartPrice().toString() ?? "")
+                            ],
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Delivary Charge"), Text("95.0")],
+                            children: [
+                              Text("Delivery Charge"),
+                              Text("$deliveryPrice")
+                            ],
                           ),
                         ),
                         Divider(
@@ -76,7 +87,10 @@ class CartWidget extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [Text("Grand Total"), Text("95.0")],
+                            children: [
+                              Text("Grand Total"),
+                              Text("$grandTotal")
+                            ],
                           ),
                         ),
                       ],
