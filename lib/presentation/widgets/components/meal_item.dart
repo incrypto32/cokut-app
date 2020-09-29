@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MealTile extends StatelessWidget {
@@ -67,30 +68,108 @@ class IncrementWidget extends StatelessWidget {
             border: Border.all(color: Colors.black),
           ),
           //row for choosing count
-          child: Row(
+          child:
+//          Row(
+//            crossAxisAlignment: CrossAxisAlignment.center,
+//            children: [
+//              Expanded(
+//                child: SizedBox(
+//                  height: 32.0,
+//                  child: IconButton(
+//                    icon: Icon(
+//                      Icons.remove,
+//                      size: 19.0,
+//                    ),
+//                    onPressed: () {
+//                      print("${_count} minus");
+//                      decrement();
+//                    },
+//                  ),
+//                ),
+//              ),
+//
+//              Expanded(
+//                child: Container(
+////                padding: EdgeInsets.only(left: 4.0),
+//                      alignment: Alignment.center,
+//                      width: 25.0,
+//                      height: 32.0,
+//                      child: Padding(
+//                          padding: EdgeInsets.only(left:0.0,),
+//                          child: Text("${_count}",))),
+//              ),
+//
+//              Expanded(
+//                child: Container(
+//                  //alignment: Alignment.centerLeft,
+//                  height: 32.0,
+//                  child: Padding(
+//                    padding: EdgeInsets.only(right:4.0),
+//                    child: IconButton(
+//                      icon: Icon(
+//                        Icons.add,
+//                        size: 19.0,
+//                      ),
+//                      onPressed: () {
+//                        print("${_count} add");
+//                        increment();
+//                      },
+//                    ),
+//                  ),
+//                ),
+//              ),
+//
+//            ],
+//          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              GestureDetector(
-                child: Icon(
-                  Icons.add,
+              Container(
+                width: 16.0,
+                height: 32.0,
+               // color: Colors.blue,
+                alignment: Alignment.center,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.remove,
+                    size: 19.0,
+                  ),
+                  onPressed: () {
+                    print("${_count} minus");
+                    decrement();
+                  },
                 ),
-                onTap: () {
-                  print("${_count} add");
-                  increment();
-                },
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6.0),
-                child: Text("${_count}"),
-              ),
-              GestureDetector(
-                child: Icon(
-                  Icons.remove,
+
+              Container(
+               // padding: EdgeInsets.only(left: 2.0),
+                    alignment: Alignment.centerRight,
+                //    color: Colors.red,
+                    width: 25.0,
+                    height: 32.0,
+                    child: Container(
+//                        padding: EdgeInsets.only(left:3.0,),
+                        child: Text("${_count}",))),
+              Container(
+             //   color: Colors.blue,
+                width: 22.0,
+                height: 32.0,
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      size: 19.0,
+                    ),
+                    onPressed: () {
+                      print("${_count} add");
+                      increment();
+                    },
+                  ),
                 ),
-                onTap: () {
-                  print("${_count} minus");
-                  decrement();
-                },
-              ),
+
+
+
             ],
           ),
         );

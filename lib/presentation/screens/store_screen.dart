@@ -3,6 +3,7 @@ import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/restaurant.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
+import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -66,7 +67,13 @@ class RestaurantScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: state.meals.length,
                       itemBuilder: (context, index) =>
-                          Text(state.meals[index].name ?? "blah"),
+                          //Text(state.meals[index].name ?? "blah"),
+                          MealTile(
+                            name: state.meals[index].name??"blah",
+                            hotel: "",
+                            price: 100.0,
+                            count: 0,
+                          )
                     ),
                   );
                 }
