@@ -6,60 +6,71 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            // color: Colors.amber,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              // clipBehavior: Clip.hardEdge,
-              child: CarouselSlider(
-                options: CarouselOptions(
-                  height: 150,
-                  viewportFraction: 1.0,
-                  disableCenter: true,
-                  autoPlay: true,
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        title: Image.asset(
+          'assets/images/blaksid.png',
+          height: 40,
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              // color: Colors.amber,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                // clipBehavior: Clip.hardEdge,
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 150,
+                    viewportFraction: 1.0,
+                    disableCenter: true,
+                    autoPlay: true,
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  ),
+                  items: [
+                    "assets/images/1.jpg",
+                    "assets/images/2.jpg",
+                  ].map((e) {
+                    return Image.asset(
+                      e,
+                      fit: BoxFit.cover,
+                    );
+                  }).toList(),
                 ),
-                items: [
-                  "assets/images/1.jpg",
-                  "assets/images/2.jpg",
-                ].map((e) {
-                  return Image.asset(
-                    e,
-                    fit: BoxFit.cover,
-                  );
-                }).toList(),
               ),
             ),
-          ),
-          ...[
-            buildCategoryStack(
-              context,
-              asset: 'assets/images/special.png',
-              category: "Specials",
-            ),
-            buildCategoryStack(
-              context,
-              asset: 'assets/images/restaurants.png',
-              category: "Restaurants",
-              opposite: true,
-            ),
-            buildCategoryStack(
-              context,
-              asset: 'assets/images/homemade.png',
-              category: "Homemade",
-            ),
-            buildCategoryStack(
-              context,
-              asset: 'assets/images/spicey.png',
-              category: "Spicey",
-              opposite: true,
-            ),
+            ...[
+              buildCategoryStack(
+                context,
+                asset: 'assets/images/special.png',
+                category: "Specials",
+              ),
+              buildCategoryStack(
+                context,
+                asset: 'assets/images/restaurants.png',
+                category: "Restaurants",
+                opposite: true,
+              ),
+              buildCategoryStack(
+                context,
+                asset: 'assets/images/homemade.png',
+                category: "Homemade",
+              ),
+              buildCategoryStack(
+                context,
+                asset: 'assets/images/spicey.png',
+                category: "Spicey",
+                opposite: true,
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
