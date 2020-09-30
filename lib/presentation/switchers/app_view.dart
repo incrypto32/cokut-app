@@ -32,11 +32,13 @@ class _AppViewState extends State<AppView> {
       providers: [
         BlocProvider<AuthenticationCubit>(
           create: (ctx) => AuthenticationCubit(
-              context.repository<AuthenticationRepository>()),
+            context.repository<AuthenticationRepository>(),
+          ),
         ),
         BlocProvider<LoginCubit>(
-          create: (ctx) =>
-              LoginCubit(context.repository<AuthenticationRepository>()),
+          create: (ctx) => LoginCubit(
+            context.repository<AuthenticationRepository>(),
+          ),
         ),
         BlocProvider<CartCubit>(
           create: (ctx) => CartCubit(
