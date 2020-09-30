@@ -57,10 +57,11 @@ class Utils {
   static showFlushBar(context, content) {
     Flushbar(
       animationDuration: Duration(milliseconds: 400),
-      duration: Duration(seconds: 1),
+      // duration: Duration(seconds: 1),
+      // isDismissible: ,
       backgroundColor: Colors.transparent,
       borderRadius: 10,
-      flushbarStyle: FlushbarStyle.FLOATING,
+      flushbarStyle: FlushbarStyle.GROUNDED,
       messageText: Card(
         elevation: 5,
         color: Colors.white,
