@@ -9,11 +9,14 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
+        //
+        //
         var cartCubit = context.bloc<CartCubit>();
         var deliveryPrice = cartCubit.getDeliveryPrice();
         var cartTotal = cartCubit.getCartPrice();
         var grandTotal = deliveryPrice + cartTotal;
         List<MealTile> mealTiles = [];
+
         state.cartItems.forEach(
           (key, value) => mealTiles.add(
             MealTile(
@@ -21,6 +24,7 @@ class CartWidget extends StatelessWidget {
             ),
           ),
         );
+
         if (mealTiles.length == 0) {
           return Center(
             child: Column(
@@ -34,6 +38,7 @@ class CartWidget extends StatelessWidget {
             ),
           );
         }
+
         return SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(20),
