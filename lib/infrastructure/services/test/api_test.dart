@@ -12,8 +12,8 @@ void main() async {
       "adl3": "Address line 1",
       "zone": "ZONE",
     };
-    var a = await api.removeAddress(token: "TEST_TOKEN", address: testaddr);
-    var b = await api.addAddress(token: "TEST_TOKEN", address: testaddr);
+    await api.removeAddress(token: "TEST_TOKEN", address: testaddr);
+    await api.addAddress(token: "TEST_TOKEN", address: testaddr);
     var c = await api.getUser("TEST_TOKEN");
     var address = Address.fromJson(c["address"][0]);
     print(address);

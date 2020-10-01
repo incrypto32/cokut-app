@@ -12,12 +12,12 @@ class Api {
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
   Api() {
-    v1 = "http://192.168.43.65:4000/api/v1";
-    utils = "http://192.168.43.65:4000/utils";
-    v1 = "http://localhost:4000/api/v1";
-    utils = "http://localhost:4000/utils";
-    // v1 = "http://cokut.herokuapp.com/api/v1";
-    // utils = "http://cokut.herokuapp.com/utils";
+    // v1 = "http://192.168.43.65:4000/api/v1";
+    // utils = "http://192.168.43.65:4000/utils";
+    // v1 = "http://localhost:4000/api/v1";
+    // utils = "http://localhost:4000/utils";
+    v1 = "http://cokut.herokuapp.com/api/v1";
+    utils = "http://cokut.herokuapp.com/utils";
   }
 
 // Main Dio
