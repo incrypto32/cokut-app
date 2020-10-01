@@ -1,6 +1,7 @@
 import 'package:cokut/cubit/cart/cart_cubit.dart';
 import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/models/meal.dart';
+import 'package:cokut/presentation/screens/address_screen.dart';
 import 'package:cokut/presentation/screens/meal_cat_screen.dart';
 import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
 import 'package:cokut/presentation/screens/store_screen.dart';
@@ -63,6 +64,7 @@ class _AppViewState extends State<AppView> {
           '/store': (ctx) => RestaurantScreen(),
           '/specials': (ctx) => MealCategoryScreen(mealType: MealType.special),
           '/spicey': (ctx) => MealCategoryScreen(mealType: MealType.spicey),
+          '/address': (ctx) => AddressScreen(),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {
