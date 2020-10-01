@@ -61,7 +61,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             color: Colors.green,
             onPressed: () {
               if (_formKey.currentState.validate()) {
-                context.bloc<UserDataCubit>().registUser(
+                context.bloc<UserDataCubit>().registerUser(
                       email: data["email"],
                       name: data["name"],
                       phoneNumber: data["phone"],

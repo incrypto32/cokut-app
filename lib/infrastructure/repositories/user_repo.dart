@@ -36,7 +36,29 @@ class UserRepository {
       email: email,
       gid: gid,
     );
+    user = User.fromJson(userData);
+    return user;
+  }
 
-    return User.fromJson(userData);
+  // Add Address
+  Future<User> addAddress(
+      {@required String token, @required Address address}) async {
+    var userData = await _api.addAddress(
+      token: token,
+      address: address.toJson(),
+    );
+    user = User.fromJson(userData);
+    return user;
+  }
+
+  // Remove User
+  Future<User> removeAddress(
+      {@required String token, @required Address address}) async {
+    var userData = await _api.removeAddress(
+      token: token,
+      address: address.toJson(),
+    );
+    user = User.fromJson(userData);
+    return user;
   }
 }

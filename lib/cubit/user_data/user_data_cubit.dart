@@ -36,7 +36,7 @@ class UserDataCubit extends Cubit<UserDataState> {
     }
   }
 
-  Future<void> registUser(
+  Future<void> registerUser(
       {String name, String email, String phoneNumber, String gid}) async {
     emit(UserRegisterLoading());
 
