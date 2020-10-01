@@ -36,7 +36,9 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-            buildSettingsItemTile("Address", Icons.home),
+            buildSettingsItemTile("Address", Icons.home, onTap: () {
+              Navigator.of(context).pushNamed('/address');
+            }),
             buildSettingsItemTile("Payments", Icons.payment),
             buildSettingsItemTile("Orders", Icons.event_note),
             buildSettingsItemTile("Refferals", Icons.card_giftcard),
@@ -54,8 +56,10 @@ class Settings extends StatelessWidget {
     );
   }
 
-  ListTile buildSettingsItemTile(String content, IconData icon) {
+  ListTile buildSettingsItemTile(String content, IconData icon,
+      {Function onTap}) {
     return ListTile(
+      onTap: onTap,
       leading: Icon(icon),
       title: Text(
         content,
