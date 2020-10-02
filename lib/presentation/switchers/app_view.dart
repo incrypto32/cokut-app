@@ -5,6 +5,7 @@ import 'package:cokut/presentation/screens/address_screen.dart';
 import 'package:cokut/presentation/screens/meal_cat_screen.dart';
 import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
 import 'package:cokut/presentation/screens/store_screen.dart';
+import 'package:cokut/presentation/widgets/settingspage/terms.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,6 +66,7 @@ class _AppViewState extends State<AppView> {
           '/specials': (ctx) => MealCategoryScreen(mealType: MealType.special),
           '/spicey': (ctx) => MealCategoryScreen(mealType: MealType.spicey),
           '/address': (ctx) => AddressScreen(),
+          '/terms' : (ctx) => terms(),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {
