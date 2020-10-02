@@ -1,3 +1,4 @@
+
 import 'package:cokut/infrastructure/auth.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
@@ -36,36 +37,35 @@ class Settings extends StatelessWidget {
                 ),
               ),
             ),
-            buildSettingsItemTile("Address", Icons.home, onTap: () {
-              Navigator.of(context).pushNamed('/address');
-            }),
-            buildSettingsItemTile("Payments", Icons.payment),
-            buildSettingsItemTile("Orders", Icons.event_note),
-            buildSettingsItemTile("Refferals", Icons.card_giftcard),
-            buildSettingsItemTile("Settings", Icons.settings),
+            buildSettingsItemTile(context,"Address", Icons.home,"address"),
+            buildSettingsItemTile(context,"Payments", Icons.payment,"payment"),
+            buildSettingsItemTile(context,"Orders", Icons.event_note,"orders"),
+            buildSettingsItemTile(context,"Refferals", Icons.card_giftcard,"referrals"),
+            buildSettingsItemTile(context,"Settings", Icons.settings,"settings"),
             Container(
               color: Colors.grey[100],
               height: 30,
             ),
-            buildSettingsItemTile("Terms of Service", Icons.import_contacts),
-            buildSettingsItemTile("Rate the app", Icons.star),
-            buildSettingsItemTile("About", Icons.subject),
+            buildSettingsItemTile(context,"Terms of Service", Icons.import_contacts,"terms"),
+            buildSettingsItemTile(context,"Rate the app", Icons.star,"rate"),
+            buildSettingsItemTile(context,"About", Icons.subject,"about"),
           ],
         ),
       ),
     );
   }
 
-  ListTile buildSettingsItemTile(String content, IconData icon,
-      {Function onTap}) {
+  ListTile buildSettingsItemTile(BuildContext context,String content, IconData icon,String function) {
     return ListTile(
-      onTap: onTap,
       leading: Icon(icon),
       title: Text(
         content,
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
       trailing: Icon(Icons.chevron_right),
+      onTap: (){
+        Navigator.of(context).pushNamed("/"+function);
+      },
     );
   }
 }
