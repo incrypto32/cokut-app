@@ -21,39 +21,32 @@ class RestaurantListScreen extends StatelessWidget {
         children: [
           PageCover(heading: isHomeMade ? "Homemade" : "Restaurants"),
           Expanded(
-            child: BlocProvider<RestaurantCubit>(
-              create: (ctx) => RestaurantCubit(
-                context.repository<RestaurantRepository>(),
-                context.repository<AuthenticationRepository>(),
-                isHomeMade: isHomeMade,
-              ),
-              child: BlocBuilder<RestaurantCubit, RestaurantState>(
-                  builder: (context, state) {
-                if (state is RestaurantLoading) {
-                  return LoadingShimmer();
-                } else if (state is RestaurantsLoaded) {
-                  return Container(
-                    padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                    child: ListView.builder(
-                      itemCount: state.restaurants.length,
-                      itemBuilder: (context, index) =>
-                          RestaurantTile(state.restaurants[index]),
-                    ),
-                  );
-                }
-                if (state is RestaurantsError) {
-                  print(state.message);
-                  return RestaurantErrorWidget(
-                    reload: context.bloc<RestaurantCubit>().getRestaurants,
-                    message: state.message,
-                  );
-                }
+            child: BlocBuilder<RestaurantCubit, RestaurantState>(
+                builder: (context, state) {
+              if (state is RestaurantLoading) {
+                return LoadingShimmer();
+              } else if (state is RestaurantsLoaded) {
+                return Container(
+                  padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: ListView.builder(
+                    itemCount: state.restaurants.length,
+                    itemBuilder: (context, index) =>
+                        RestaurantTile(state.restaurants[index]),
+                  ),
+                );
+              }
+              if (state is RestaurantsError) {
+                print(state.message);
                 return RestaurantErrorWidget(
                   reload: context.bloc<RestaurantCubit>().getRestaurants,
-                  message: "",
+                  message: state.message,
                 );
-              }),
-            ),
+              }
+              return RestaurantErrorWidget(
+                reload: context.bloc<RestaurantCubit>().getRestaurants,
+                message: "",
+              );
+            }),
           ),
         ],
       ),
