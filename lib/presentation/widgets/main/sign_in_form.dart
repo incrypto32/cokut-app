@@ -1,6 +1,6 @@
 import 'package:cokut/cubit/login_form/login_cubit.dart';
 import 'package:cokut/utils/utils.dart';
-import 'package:cokut/presentation/widgets/components/custom_text_form_field.dart';
+import 'package:cokut/presentation/widgets/components/micro/custom_text_form_field.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -23,10 +23,14 @@ class AddressCubit extends Cubit<AddressState> {
       );
     } catch (e) {
       if (e is SocketException) {
-        emit(AddressError("Please check your network connection"));
+        emit(AddressAdditionError("Please check your network connection"));
       } else {
-        emit(AddressError("An error occured please try again"));
+        emit(AddressAdditionError("An error occured please try again"));
       }
     }
+  }
+
+  void addAddressLocal(Address address) {
+    _userRepository.addAddressLocal(address);
   }
 }

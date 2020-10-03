@@ -1,7 +1,5 @@
 import 'package:cokut/common/constants.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
-import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/page_cover.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
@@ -26,12 +24,26 @@ class RestaurantListScreen extends StatelessWidget {
               if (state is RestaurantLoading) {
                 return LoadingShimmer();
               } else if (state is RestaurantsLoaded) {
+                var list = isHomeMade
+                    ? state.restaurants
+                        .where((element) => element.type == "homemade")
+                        .toList()
+                    : state.restaurants
+                        .where((element) => element.type == "regular")
+                        .toList();
+                if (list.length == 0) {
+                  return RestaurantErrorWidget(
+                    reload: context.bloc<RestaurantCubit>().getRestaurants,
+                    message: "Nothing Here",
+                  );
+                }
+
                 return Container(
                   padding: EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: ListView.builder(
-                    itemCount: state.restaurants.length,
+                    itemCount: list.length,
                     itemBuilder: (context, index) =>
-                        RestaurantTile(state.restaurants[index]),
+                        RestaurantTile(list[index]),
                   ),
                 );
               }

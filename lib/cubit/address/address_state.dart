@@ -14,7 +14,7 @@ class AddressData extends AddressState {
 
 class AddressLoading extends AddressState {}
 
-class AddressError extends AddressState {
+class AddressAdditionError extends AddressState {
   final String message;
-  AddressError(this.message);
+  AddressAdditionError(this.message);
 }

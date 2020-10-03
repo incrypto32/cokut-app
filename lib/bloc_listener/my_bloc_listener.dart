@@ -1,3 +1,5 @@
+import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,11 +28,15 @@ class _AuthBlocDeciderState extends State<AuthBlocDecider> {
         if (state is AuthenticationLoading) {
           return LoadingScreen();
         } else if (state is Authenticated) {
-          return BlocProvider<UserDataCubit>(
-            create: (ctx) => UserDataCubit(
-              context.repository<UserRepository>(),
-              context.repository<AuthenticationRepository>(),
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider<UserDataCubit>(
+                create: (ctx) => UserDataCubit(
+                  context.repository<UserRepository>(),
+                  context.repository<AuthenticationRepository>(),
+                ),
+              ),
+            ],
             child: HomeSwitcher(),
           );
         }

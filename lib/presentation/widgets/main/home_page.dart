@@ -27,10 +27,9 @@ class HomeWidget extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                // color: Colors.amber,
+                margin: EdgeInsets.symmetric(vertical: 10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  // clipBehavior: Clip.hardEdge,
                   child: CarouselSlider(
                     options: CarouselOptions(
                       height: 150,
@@ -51,39 +50,73 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              ...[
-                buildCategoryStack(
-                  context,
-                  asset: 'assets/images/special.png',
-                  category: "Specials",
-                ),
-                buildCategoryStack(
-                  context,
-                  asset: 'assets/images/restaurants.png',
-                  category: "Restaurants",
-                  opposite: true,
-                ),
-                buildCategoryStack(
-                  context,
-                  asset: 'assets/images/homemade.png',
-                  category: "Homemade",
-                ),
-                buildCategoryStack(
-                  context,
-                  asset: 'assets/images/spicey.png',
-                  category: "Spicey",
-                  opposite: true,
-                ),
-              ],
+              // ...[
+              //   buildCategoryStack(
+              //     context,
+              //     asset: 'assets/images/special.png',
+              //     category: "Specials",
+              //   ),
+              //   buildCategoryStack(
+              //     context,
+              //     asset: 'assets/images/restaurants.png',
+              //     category: "Restaurants",
+              //     opposite: true,
+              //   ),
+              //   buildCategoryStack(
+              //     context,
+              //     asset: 'assets/images/homemade.png',
+              //     category: "Homemade",
+              //   ),
+              //   buildCategoryStack(
+              //     context,
+              //     asset: 'assets/images/spicey.png',
+              //     category: "Spicey",
+              //     opposite: true,
+              //   ),
+              // ],
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                width: double.infinity,
+                height: 100,
+                // color: Colors.amber,
+                child: DefaultTextStyle(
+                  style: TextStyle(color: Colors.grey[700]),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      buildHomeIcon(
+                        context,
+                        asset: 'assets/images/home/hamburger.png',
+                        name: "Specials",
+                      ),
+                      buildHomeIcon(
+                        context,
+                        asset: 'assets/images/home/store.png',
+                        name: "Restaurants",
+                      ),
+                      buildHomeIcon(
+                        context,
+                        asset: 'assets/images/home/home.png',
+                        name: "Homemade",
+                      ),
+                      buildHomeIcon(
+                        context,
+                        asset: 'assets/images/home/seasoning.png',
+                        name: "Spicey",
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Row(
                   children: [
                     Text(
                       "Restaurants",
                       style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.grey[600],
+                            color: Colors.blueGrey[800],
                             fontSize: 23,
+                            fontWeight: FontWeight.bold,
                           ),
                     ),
                     Spacer(),
@@ -126,6 +159,43 @@ class HomeWidget extends StatelessWidget {
               }),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildHomeIcon(BuildContext context,
+      {String asset, String name, String route}) {
+    return FlatButton(
+      padding: EdgeInsets.all(0),
+      onPressed: () =>
+          Navigator.of(context).pushNamed('/' + (route ?? name.toLowerCase())),
+      child: Container(
+        width: 60,
+        margin: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.lightGreenAccent[100],
+                ),
+                child: Image.asset(
+                  asset,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            FittedBox(
+              child: Text(
+                name,
+              ),
+            ),
+          ],
         ),
       ),
     );

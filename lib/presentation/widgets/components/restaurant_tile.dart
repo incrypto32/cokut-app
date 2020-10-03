@@ -1,5 +1,7 @@
 import 'package:cokut/models/restaurant.dart';
+import 'package:cokut/provider/favorites.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantTile extends StatelessWidget {
   final Restaurant _restaurant;
@@ -39,25 +41,18 @@ class RestaurantTile extends StatelessWidget {
                       Text(
                         _restaurant.name ?? "Hotel Abcd",
                         textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       SizedBox(height: 2),
                       Text(
                         "Hotel",
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 15,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1,
                       ),
                       SizedBox(height: 2),
                       Text(
                         _restaurant.address,
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 11,
-                        ),
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            fontSize: 11, fontWeight: FontWeight.w300),
                       ),
                     ],
                   ),
@@ -65,8 +60,30 @@ class RestaurantTile extends StatelessWidget {
               ),
               Container(
                 height: 100,
+                padding: EdgeInsets.all(10),
                 child: Center(
-                  child: Icon(Icons.chevron_right),
+                  child: Consumer<Favorites>(
+                    builder: (context, value, child) =>
+                        value.restaurants.contains(_restaurant.id)
+                            ? IconButton(
+                                onPressed: () {
+                                  value.toggleFavorite(_restaurant.id);
+                                },
+                                icon: Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                ),
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  value.toggleFavorite(_restaurant.id);
+                                },
+                                icon: Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                  ),
                 ),
               ),
             ],

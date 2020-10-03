@@ -6,6 +6,24 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Address _$AddressFromJson(Map<String, dynamic> json) {
+  return Address(
+    title: json['title'] as String,
+    adl1: json['adl1'] as String,
+    adl2: json['adl2'] as String,
+    adl3: json['adl3'] as String,
+    zone: json['zone'] as String,
+  );
+}
+
+Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
+      'title': instance.title,
+      'adl1': instance.adl1,
+      'adl2': instance.adl2,
+      'adl3': instance.adl3,
+      'zone': instance.zone,
+    };
+
 _$_User _$_$_UserFromJson(Map<String, dynamic> json) {
   return _$_User(
     name: json['name'] as String,
@@ -27,21 +45,4 @@ Map<String, dynamic> _$_$_UserToJson(_$_User instance) => <String, dynamic>{
       'phone': instance.phone,
       'address': instance.address,
       'registered': instance.registered,
-    };
-
-_$_Address _$_$_AddressFromJson(Map<String, dynamic> json) {
-  return _$_Address(
-    adl1: json['adl1'] as String,
-    adl2: json['adl2'] as String,
-    adl3: json['adl3'] as String,
-    zone: json['zone'] as String,
-  );
-}
-
-Map<String, dynamic> _$_$_AddressToJson(_$_Address instance) =>
-    <String, dynamic>{
-      'adl1': instance.adl1,
-      'adl2': instance.adl2,
-      'adl3': instance.adl3,
-      'zone': instance.zone,
     };

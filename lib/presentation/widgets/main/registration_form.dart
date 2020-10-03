@@ -1,5 +1,5 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
-import 'package:cokut/presentation/widgets/components/custom_text_form_field.dart';
+import 'package:cokut/presentation/widgets/components/micro/custom_text_form_field.dart';
 import 'package:cokut/utils/validators.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';

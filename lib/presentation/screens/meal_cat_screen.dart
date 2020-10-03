@@ -11,13 +11,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MealCategoryScreen extends StatelessWidget {
   final MealType mealType;
-  const MealCategoryScreen({this.mealType = MealType.regular});
+  final String title;
+  const MealCategoryScreen({this.mealType = MealType.regular, this.title});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          PageCover(heading: "Specials"),
+          PageCover(heading: title),
           Expanded(
             child: BlocProvider<MealsCubit>(
               create: (context) => MealsCubit(

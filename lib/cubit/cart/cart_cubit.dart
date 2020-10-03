@@ -7,7 +7,7 @@ import 'package:cokut/utils/logger.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final CartRepositoryMock123 _cartRepository;
+  final CartRepository _cartRepository;
   CartCubit(this._cartRepository) : super(Cart(_cartRepository.cart));
 
   void addToCart(Meal meal) {

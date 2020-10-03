@@ -20,6 +20,7 @@ import 'package:cokut/presentation/screens/auth_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
 import 'package:cokut/presentation/screens/loading_screen.dart';
 import 'package:cokut/presentation/screens/otp_screen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppView extends StatefulWidget {
   @override
@@ -45,14 +46,13 @@ class _AppViewState extends State<AppView> {
         ),
         BlocProvider<CartCubit>(
           create: (ctx) => CartCubit(
-            context.repository<CartRepositoryMock123>(),
+            context.repository<CartRepository>(),
           ),
         ),
         BlocProvider<RestaurantCubit>(
           create: (ctx) => RestaurantCubit(
             context.repository<RestaurantRepository>(),
             context.repository<AuthenticationRepository>(),
-            // isHomeMade: isHomeMade,
           ),
         )
       ],
@@ -62,6 +62,19 @@ class _AppViewState extends State<AppView> {
         theme: ThemeData(
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: GoogleFonts.montserratTextTheme(
+            Theme.of(context).textTheme.copyWith(
+                  bodyText1: Theme.of(context).textTheme.bodyText1.copyWith(
+                        color: Colors.grey[600],
+                      ),
+                  headline6: Theme.of(context).textTheme.headline6.copyWith(
+                        color: Colors.blueGrey[600],
+                        fontSize: 18,
+                        letterSpacing: -.4,
+                        fontWeight: FontWeight.w400,
+                      ),
+                ),
+          ),
         ),
         routes: {
           '/home': (ctx) => HomeScreen(),
@@ -71,8 +84,14 @@ class _AppViewState extends State<AppView> {
           '/restaurants': (ctx) => RestaurantListScreen(),
           '/homemade': (ctx) => RestaurantListScreen(isHomeMade: true),
           '/store': (ctx) => RestaurantScreen(),
-          '/specials': (ctx) => MealCategoryScreen(mealType: MealType.special),
-          '/spicey': (ctx) => MealCategoryScreen(mealType: MealType.spicey),
+          '/specials': (ctx) => MealCategoryScreen(
+                mealType: MealType.special,
+                title: "Specials",
+              ),
+          '/spicey': (ctx) => MealCategoryScreen(
+                mealType: MealType.spicey,
+                title: "Spicey",
+              ),
           '/address': (ctx) => AddressScreen(),
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(

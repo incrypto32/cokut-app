@@ -46,6 +46,7 @@ dependencies:
   shimmer: ^1.1.1
   flushbar: ^1.10.4
   stacked_services: ^0.5.4+4
+  google_fonts: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -53,8 +54,9 @@ dev_dependencies:
   build_resolvers: null
   build_runner: null
   freezed: ^0.12.1
-  json_serializable: ^3.2.5 
+  json_serializable: ^3.2.5
   flutter_launcher_icons: "0.7.4"
+  
 flutter_icons:
   android: "launcher_icon"
   ios: true
@@ -71,7 +73,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-  #   - images/a_dot_ham.jpeg
+    - assets/images/home/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

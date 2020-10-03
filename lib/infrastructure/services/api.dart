@@ -189,6 +189,20 @@ class Api {
     return List<Map<String, dynamic>>.from(resp.data);
   }
 
+  // Get Restaurant
+  // Get User
+  Future<List<Map<String, dynamic>>> getAllRestaurants(String token) async {
+    Response resp;
+
+    resp = await getData(
+      null,
+      '/getoutlets',
+      token: token,
+    );
+
+    return List<Map<String, dynamic>>.from(resp.data);
+  }
+
   // Get Meals
   Future<List<Map<String, dynamic>>> getMeals(String token,
       {String rid, String endpoint = "/getmeals"}) async {

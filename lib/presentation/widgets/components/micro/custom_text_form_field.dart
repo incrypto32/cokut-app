@@ -11,6 +11,7 @@ class CustomTextFormField extends StatelessWidget {
     this.centerText = false,
     this.borderRadius = 30,
     this.textInputType = TextInputType.text,
+    this.padding,
   }) : super(key: key);
 
   final String hintText;
@@ -21,14 +22,16 @@ class CustomTextFormField extends StatelessWidget {
   final Function(dynamic) onChanged;
   final TextInputType textInputType;
   final double borderRadius;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 30,
-        vertical: 15,
-      ),
+      padding: padding ??
+          EdgeInsets.symmetric(
+            horizontal: 30,
+            vertical: 15,
+          ),
       child: TextFormField(
         keyboardType: textInputType,
         textAlign: centerText ? TextAlign.center : TextAlign.left,

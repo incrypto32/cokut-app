@@ -1,14 +1,6 @@
 import 'package:cokut/models/meal.dart';
 import 'package:cokut/utils/logger.dart';
 
-class CartItem {
-  String name;
-  String hotel;
-  double price;
-  int count;
-  CartItem(this.name, this.hotel, this.price, this.count);
-}
-
 class CartItemMock123 {
   Meal meal;
   int count;

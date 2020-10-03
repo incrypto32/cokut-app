@@ -25,9 +25,12 @@ class RestaurantCubit extends Cubit<RestaurantState> {
     emit(RestaurantLoading());
     try {
       var token = (await _authenticationRepository.getToken());
-      var l = isHomeMade
-          ? await _restaurantRepository.getHomeMadeStores(token)
-          : await _restaurantRepository.getRestaurants(token);
+
+      var l = isHomeMade != null
+          ? (isHomeMade
+              ? await _restaurantRepository.getHomeMadeStores(token)
+              : await _restaurantRepository.getRestaurants(token))
+          : await _restaurantRepository.getAllRestaurants(token);
 
       emit(RestaurantsLoaded(l));
     } catch (e) {
