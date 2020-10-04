@@ -1,26 +1,28 @@
-import 'package:cokut/cubit/cart/cart_cubit.dart';
-import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
-import 'package:cokut/infrastructure/repositories/cart_repo.dart';
-import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
-import 'package:cokut/models/meal.dart';
-import 'package:cokut/presentation/screens/address_screen.dart';
-import 'package:cokut/presentation/screens/meal_cat_screen.dart';
-import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
-import 'package:cokut/presentation/screens/store_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:cokut/bloc_listener/my_bloc_listener.dart';
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/firebase_app/firebase_app_cubit.dart';
 import 'package:cokut/cubit/login_form/login_cubit.dart';
-import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/cubit/user_data/user_data_cubit.dart';
 import 'package:cokut/presentation/screens/auth_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
 import 'package:cokut/presentation/screens/loading_screen.dart';
 import 'package:cokut/presentation/screens/otp_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:cokut/presentation/screens/address_screen.dart';
+import 'package:cokut/presentation/screens/meal_cat_screen.dart';
+import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
+import 'package:cokut/presentation/screens/store_screen.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/models/meal.dart';
 
 class AppView extends StatefulWidget {
   @override
@@ -29,33 +31,43 @@ class AppView extends StatefulWidget {
 
 class _AppViewState extends State<AppView> {
   final _navigatorKey = GlobalKey<NavigatorState>();
+
   NavigatorState get _navigator => _navigatorKey.currentState;
+
+  var blocs = [
+    BlocProvider<AuthenticationCubit>(
+      create: (ctx) => AuthenticationCubit(
+        ctx.repository<AuthenticationRepository>(),
+      ),
+    ),
+    BlocProvider<LoginCubit>(
+      create: (ctx) => LoginCubit(
+        ctx.repository<AuthenticationRepository>(),
+      ),
+    ),
+    BlocProvider<CartCubit>(
+      create: (ctx) => CartCubit(
+        ctx.repository<CartRepository>(),
+      ),
+    ),
+    BlocProvider<RestaurantCubit>(
+      create: (ctx) => RestaurantCubit(
+        ctx.repository<RestaurantRepository>(),
+        ctx.repository<AuthenticationRepository>(),
+      ),
+    ),
+    BlocProvider<UserDataCubit>(
+      create: (ctx) => UserDataCubit(
+        ctx.repository<UserRepository>(),
+        ctx.repository<AuthenticationRepository>(),
+      ),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthenticationCubit>(
-          create: (ctx) => AuthenticationCubit(
-            context.repository<AuthenticationRepository>(),
-          ),
-        ),
-        BlocProvider<LoginCubit>(
-          create: (ctx) => LoginCubit(
-            context.repository<AuthenticationRepository>(),
-          ),
-        ),
-        BlocProvider<CartCubit>(
-          create: (ctx) => CartCubit(
-            context.repository<CartRepository>(),
-          ),
-        ),
-        BlocProvider<RestaurantCubit>(
-          create: (ctx) => RestaurantCubit(
-            context.repository<RestaurantRepository>(),
-            context.repository<AuthenticationRepository>(),
-          ),
-        )
-      ],
+      providers: blocs,
       child: MaterialApp(
         title: 'Cokut',
         navigatorKey: _navigatorKey,

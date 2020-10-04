@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cokut/common/exceptions.dart';
+import 'package:cokut/models/user.dart';
 import 'package:cokut/utils/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
@@ -60,6 +61,25 @@ class UserDataCubit extends Cubit<UserDataState> {
         );
       } else if (e is SocketException) {
         emit(UserRegistrationError(message: e.message));
+      }
+    }
+  }
+
+  Future<void> addAddress(Address address) async {
+    try {
+      emit(AddressLoading());
+      var addresses = await _userRepository.addAddress(
+        token: (await _authenticationRepository.getToken()),
+        address: address,
+      );
+      logger.i(addresses);
+      emit(AddressDataChange());
+    } catch (e) {
+      logger.e(e);
+      if (e is SocketException) {
+        emit(AddressUpdateError("Please check your network connection"));
+      } else {
+        emit(AddressUpdateError("An error occured please try again"));
       }
     }
   }

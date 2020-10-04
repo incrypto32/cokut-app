@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cokut/infrastructure/services/api.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/utils/logger.dart';
@@ -9,7 +7,6 @@ class GetUserFailure implements Exception {}
 
 class UserRepository {
   Api _api = Api();
-  List<Address> addresses = [];
   User user;
 
   // Get User
@@ -44,20 +41,17 @@ class UserRepository {
   }
 
   // Add Address
-  Future<User> addAddress(
+  Future<List<Address>> addAddress(
       {@required String token, @required Address address}) async {
     var userData = await _api.addAddress(
       token: token,
       address: address.toJson(),
     );
-    user = User.fromJson(userData);
-    return user;
-  }
 
-  void addAddressLocal(Address address) {
-    logger.i("Called Add Address Local");
-    addresses.add(address);
-    print(json.encode(address));
+    user = User.fromJson(userData);
+    print(userData["address"]);
+
+    return user.address;
   }
 
   // Remove User

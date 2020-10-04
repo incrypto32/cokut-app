@@ -11,13 +11,19 @@ class Api {
   // static final String v1 = "http://cokut.herokuapp.com/api/v1";
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
-  Api() {
-    // v1 = "http://192.168.43.65:4000/api/v1";
-    // utils = "http://192.168.43.65:4000/utils";
+  Api({bool test}) {
+    if (test ?? false) {
+      v1 = "http://192.168.43.65:4000/api/v1";
+      utils = "http://192.168.43.65:4000/utils";
+    } else {
+      v1 = "http://cokut.herokuapp.com/api/v1";
+      utils = "http://cokut.herokuapp.com/utils";
+    }
+
     // v1 = "http://localhost:4000/api/v1";
     // utils = "http://localhost:4000/utils";
-    v1 = "http://cokut.herokuapp.com/api/v1";
-    utils = "http://cokut.herokuapp.com/utils";
+    // v1 = "http://cokut.herokuapp.com/api/v1";
+    // utils = "http://cokut.herokuapp.com/utils";
   }
 
 // Main Dio
@@ -138,7 +144,7 @@ class Api {
     @required Map<String, dynamic> address,
   }) async {
     Response resp = await postData(address, "/addaddress", token: token);
-    return resp.data["success"] ?? false;
+    return resp.data["user"];
   }
 
   // Register User

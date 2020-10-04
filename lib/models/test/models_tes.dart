@@ -1,4 +1,3 @@
-import 'package:cokut/models/restaurant.dart';
 import 'package:cokut/models/user.dart';
 
 void main() {

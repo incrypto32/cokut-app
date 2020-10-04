@@ -54,17 +54,17 @@ class Utils {
     );
   }
 
-  static showFlushBar(context, content) {
+  static showFlushBar(context, content, {Icon icon}) {
     Flushbar(
       animationDuration: Duration(milliseconds: 400),
-      // duration: Duration(seconds: 1),
-      // isDismissible: ,
+      duration: Duration(seconds: 1),
+      isDismissible: true,
       backgroundColor: Colors.transparent,
       borderRadius: 10,
       flushbarStyle: FlushbarStyle.GROUNDED,
       messageText: Card(
         elevation: 5,
-        color: Colors.white,
+        color: Colors.black54,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           alignment: Alignment.center,
@@ -75,12 +75,13 @@ class Utils {
               Text(
                 content,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black54),
+                style: TextStyle(color: Colors.white),
               ),
-              Icon(
-                Icons.shopping_basket,
-                color: Colors.green,
-              ),
+              icon ??
+                  Icon(
+                    Icons.shopping_basket,
+                    color: Colors.green,
+                  ),
             ],
           ),
         ),
