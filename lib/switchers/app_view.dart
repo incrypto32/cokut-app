@@ -1,15 +1,19 @@
+import 'package:cokut/switchers/my_bloc_listener.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:cokut/bloc_listener/my_bloc_listener.dart';
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/firebase_app/firebase_app_cubit.dart';
 import 'package:cokut/cubit/login_form/login_cubit.dart';
 import 'package:cokut/cubit/cart/cart_cubit.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/presentation/screens/auth_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
 import 'package:cokut/presentation/screens/loading_screen.dart';
@@ -18,10 +22,6 @@ import 'package:cokut/presentation/screens/address_screen.dart';
 import 'package:cokut/presentation/screens/meal_cat_screen.dart';
 import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
 import 'package:cokut/presentation/screens/store_screen.dart';
-import 'package:cokut/infrastructure/repositories/cart_repo.dart';
-import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
-import 'package:cokut/infrastructure/repositories/user_repo.dart';
-import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/models/meal.dart';
 
 class AppView extends StatefulWidget {

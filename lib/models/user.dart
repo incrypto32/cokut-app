@@ -5,6 +5,7 @@ part 'user.g.dart';
 
 @freezed
 abstract class User with _$User {
+  User._();
   factory User({
     String name,
     String email,

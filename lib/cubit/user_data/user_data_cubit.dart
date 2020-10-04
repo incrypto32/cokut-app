@@ -83,4 +83,23 @@ class UserDataCubit extends Cubit<UserDataState> {
       }
     }
   }
+
+  Future<void> deleteAddress(Address address) async {
+    try {
+      emit(AddressLoading());
+      var addresses = await _userRepository.removeAddress(
+        token: (await _authenticationRepository.getToken()),
+        address: address,
+      );
+      logger.i(addresses);
+      emit(AddressDataChange());
+    } catch (e) {
+      logger.e(e);
+      if (e is SocketException) {
+        emit(AddressUpdateError("Please check your network connection"));
+      } else {
+        emit(AddressUpdateError("An error occured please try again"));
+      }
+    }
+  }
 }

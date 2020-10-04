@@ -3,6 +3,7 @@ import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/widgets/components/address_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen();
@@ -23,22 +24,34 @@ class _AddressScreenState extends State<AddressScreen> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: SingleChildScrollView(
-        child: BlocBuilder<UserDataCubit, UserDataState>(
-          buildWhen: (previous, current) =>
-              !(current is AddressLoading || current is AddressUpdateError),
-          builder: (context, state) => Column(
-            mainAxisSize: MainAxisSize.min,
-            children: (state is AddressDataChange)
-                ? context
-                    .repository<UserRepository>()
-                    .user
-                    .address
-                    .map((e) => Text(e.title ?? ""))
-                    .toList()
-                : [],
-          ),
-        ),
+      body: BlocBuilder<UserDataCubit, UserDataState>(
+        buildWhen: (previous, current) => !(current is AddressUpdateError),
+        builder: (context, state) => (state is AddressLoading)
+            ? Center(
+                child: SpinKitCircle(
+                  size: 35,
+                  color: Colors.green,
+                ),
+              )
+            : ListView(
+                shrinkWrap: true,
+                children:
+                    context.repository<UserRepository>().user.address.map((e) {
+                  print(e.adl1);
+                  return ListTile(
+                    title: Text(e.title ?? "NULL"),
+                    subtitle: Text(e.adl1),
+                    trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                        ),
+                        onPressed: () {
+                          context.bloc<UserDataCubit>().deleteAddress(e);
+                        }),
+                  );
+                }).toList(),
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

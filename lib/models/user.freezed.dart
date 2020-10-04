@@ -146,14 +146,15 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 @JsonSerializable()
 
 /// @nodoc
-class _$_User with DiagnosticableTreeMixin implements _User {
+class _$_User extends _User with DiagnosticableTreeMixin {
   _$_User(
       {this.name,
       this.email,
       this.uid,
       this.phone,
       this.address,
-      this.registered});
+      this.registered})
+      : super._();
 
   factory _$_User.fromJson(Map<String, dynamic> json) =>
       _$_$_UserFromJson(json);
@@ -229,7 +230,8 @@ class _$_User with DiagnosticableTreeMixin implements _User {
   }
 }
 
-abstract class _User implements User {
+abstract class _User extends User {
+  _User._() : super._();
   factory _User(
       {String name,
       String email,

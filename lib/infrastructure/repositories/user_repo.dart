@@ -7,13 +7,17 @@ class GetUserFailure implements Exception {}
 
 class UserRepository {
   Api _api = Api();
-  User user;
+  Map<String, User> _user = {"user": User()};
+
+  User get user => _user["user"];
 
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
       var userData = await _api.getUser(token);
-      user = User.fromJson(userData);
+      _user["user"] = User.fromJson(userData);
+      logger.i(userData);
+      logger.i(_user["user"]);
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);
@@ -36,8 +40,8 @@ class UserRepository {
       email: email,
       gid: gid,
     );
-    user = User.fromJson(userData);
-    return user;
+    _user["user"] = User.fromJson(userData);
+    return _user["user"];
   }
 
   // Add Address
@@ -48,10 +52,10 @@ class UserRepository {
       address: address.toJson(),
     );
 
-    user = User.fromJson(userData);
-    print(userData["address"]);
+    _user["user"] = User.fromJson(userData);
+    logger.wtf(_user["user"]);
 
-    return user.address;
+    return _user["user"].address;
   }
 
   // Remove User
@@ -61,7 +65,7 @@ class UserRepository {
       token: token,
       address: address.toJson(),
     );
-    user = User.fromJson(userData);
-    return user;
+    _user["user"] = User.fromJson(userData);
+    return _user["user"];
   }
 }
