@@ -11,6 +11,9 @@ class UserRepository {
 
   User get user => _user["user"];
 
+  List<Address> get addressList =>
+      (_user["user"].address ?? {}).values.toList();
+
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
@@ -45,7 +48,7 @@ class UserRepository {
   }
 
   // Add Address
-  Future<List<Address>> addAddress(
+  Future<void> addAddress(
       {@required String token, @required Address address}) async {
     var userData = await _api.addAddress(
       token: token,
@@ -54,18 +57,15 @@ class UserRepository {
 
     _user["user"] = User.fromJson(userData);
     logger.wtf(_user["user"]);
-
-    return _user["user"].address;
   }
 
   // Remove User
-  Future<User> removeAddress(
+  Future<void> removeAddress(
       {@required String token, @required Address address}) async {
     var userData = await _api.removeAddress(
       token: token,
       address: address.toJson(),
     );
     _user["user"] = User.fromJson(userData);
-    return _user["user"];
   }
 }

@@ -30,10 +30,10 @@ _$_User _$_$_UserFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     uid: json['uid'] as String,
     phone: json['phone'] as String,
-    address: (json['address'] as List)
-        ?.map((e) =>
-            e == null ? null : Address.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    address: (json['address'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k, e == null ? null : Address.fromJson(e as Map<String, dynamic>)),
+    ),
     registered: json['registered'] as bool,
   );
 }

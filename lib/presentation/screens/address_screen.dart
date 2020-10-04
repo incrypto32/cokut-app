@@ -36,19 +36,68 @@ class _AddressScreenState extends State<AddressScreen> {
             : ListView(
                 shrinkWrap: true,
                 children:
-                    context.repository<UserRepository>().user.address.map((e) {
+                    context.repository<UserRepository>().addressList.map((e) {
                   print(e.adl1);
-                  return ListTile(
-                    title: Text(e.title ?? "NULL"),
-                    subtitle: Text(e.adl1),
-                    trailing: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red,
+                  return Container(
+                    margin: EdgeInsets.all(10),
+                    child: Card(
+                      elevation: 5,
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        width: double.infinity,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                e.title ?? "",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                              ),
+                            ),
+                            Text(
+                              "${e.adl1}, ${e.adl2}, ${e.adl3}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(fontWeight: FontWeight.normal),
+                            ),
+                            Text(
+                              "zone : ${e.zone}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2
+                                  .copyWith(fontWeight: FontWeight.normal),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                FlatButton(
+                                  padding: EdgeInsets.all(0),
+                                  textColor: Colors.green,
+                                  onPressed: () {},
+                                  child: Text("SET AS PRIMARY"),
+                                ),
+                                FlatButton(
+                                  padding: EdgeInsets.all(0),
+                                  onPressed: () {},
+                                  textColor: Colors.red,
+                                  child: Text("DELETE"),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                        onPressed: () {
-                          context.bloc<UserDataCubit>().deleteAddress(e);
-                        }),
+                      ),
+                    ),
                   );
                 }).toList(),
               ),

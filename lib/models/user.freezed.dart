@@ -22,7 +22,7 @@ class _$UserTearOff {
       String email,
       String uid,
       String phone,
-      List<Address> address,
+      Map<String, Address> address,
       bool registered}) {
     return _User(
       name: name,
@@ -50,7 +50,7 @@ mixin _$User {
   String get email;
   String get uid;
   String get phone;
-  List<Address> get address;
+  Map<String, Address> get address;
   bool get registered;
 
   Map<String, dynamic> toJson();
@@ -66,7 +66,7 @@ abstract class $UserCopyWith<$Res> {
       String email,
       String uid,
       String phone,
-      List<Address> address,
+      Map<String, Address> address,
       bool registered});
 }
 
@@ -92,7 +92,8 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
       email: email == freezed ? _value.email : email as String,
       uid: uid == freezed ? _value.uid : uid as String,
       phone: phone == freezed ? _value.phone : phone as String,
-      address: address == freezed ? _value.address : address as List<Address>,
+      address:
+          address == freezed ? _value.address : address as Map<String, Address>,
       registered:
           registered == freezed ? _value.registered : registered as bool,
     ));
@@ -109,7 +110,7 @@ abstract class _$UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       String email,
       String uid,
       String phone,
-      List<Address> address,
+      Map<String, Address> address,
       bool registered});
 }
 
@@ -136,7 +137,8 @@ class __$UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
       email: email == freezed ? _value.email : email as String,
       uid: uid == freezed ? _value.uid : uid as String,
       phone: phone == freezed ? _value.phone : phone as String,
-      address: address == freezed ? _value.address : address as List<Address>,
+      address:
+          address == freezed ? _value.address : address as Map<String, Address>,
       registered:
           registered == freezed ? _value.registered : registered as bool,
     ));
@@ -168,7 +170,7 @@ class _$_User extends _User with DiagnosticableTreeMixin {
   @override
   final String phone;
   @override
-  final List<Address> address;
+  final Map<String, Address> address;
   @override
   final bool registered;
 
@@ -237,7 +239,7 @@ abstract class _User extends User {
       String email,
       String uid,
       String phone,
-      List<Address> address,
+      Map<String, Address> address,
       bool registered}) = _$_User;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
@@ -251,7 +253,7 @@ abstract class _User extends User {
   @override
   String get phone;
   @override
-  List<Address> get address;
+  Map<String, Address> get address;
   @override
   bool get registered;
   @override

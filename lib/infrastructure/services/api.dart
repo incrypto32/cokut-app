@@ -12,7 +12,7 @@ class Api {
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
   Api({bool test}) {
-    if (test ?? false) {
+    if (true ?? false) {
       v1 = "http://192.168.43.65:4000/api/v1";
       utils = "http://192.168.43.65:4000/utils";
     } else {
@@ -84,12 +84,8 @@ class Api {
   }
 
   // Form data post wrapper
-  Future<Response> getData(
-    Map<String, dynamic> map,
-    String endpoint, {
-    bool util = false,
-    String token = "",
-  }) async {
+  Future<Response> getData(Map<String, dynamic> map, String endpoint,
+      {bool util = false, String token = "", String method = "GET"}) async {
     Response response;
     Dio dio = util ? await utilDio() : superDio(token);
 
@@ -98,12 +94,13 @@ class Api {
         endpoint,
         queryParameters: map,
         options: Options(
-          method: "GET",
+          method: method,
           contentType: "application/json",
           responseType: ResponseType.json,
         ),
       );
     } on DioError catch (e) {
+      logger.e(e);
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
       } else if (!e.response.data["success"]) {
@@ -127,7 +124,7 @@ class Api {
       "phone": phone,
     };
 
-    Response resp = await postData(map, "/register", token: token);
+    Response resp = await postData(map, "/user/register", token: token);
 
     if (resp.data["success"]) {
       return resp.data;
@@ -143,7 +140,7 @@ class Api {
     @required String token,
     @required Map<String, dynamic> address,
   }) async {
-    Response resp = await postData(address, "/addaddress", token: token);
+    Response resp = await postData(address, "/user/address", token: token);
     return resp.data["user"];
   }
 
@@ -152,8 +149,9 @@ class Api {
     @required String token,
     @required Map<String, dynamic> address,
   }) async {
-    Response resp = await postData(address, "/removeaddress", token: token);
-    return resp.data["success"] ?? false;
+    Response resp = await getData({"title": address["title"]}, "/user/address",
+        method: "DELETE", token: token);
+    return resp.data["user"];
   }
 
   // Get User
@@ -161,7 +159,7 @@ class Api {
     Map<String, dynamic> userData = {};
     var dio = superDio(token);
     try {
-      Response resp = await dio.get('/getuser');
+      Response resp = await dio.get('/user');
       if (resp.data["exist"] && resp.data["user"] != null) {
         userData = resp.data["user"];
         userData["registered"] = true;
@@ -170,6 +168,7 @@ class Api {
       }
       return userData;
     } on DioError catch (e) {
+      print(e);
       if (e.error is SocketException) {
         throw SocketException("Connection Error");
       } else {
@@ -188,7 +187,7 @@ class Api {
 
     resp = await getData(
       null,
-      isHomeMade ? '/gethome' : '/getregoutlets',
+      isHomeMade ? '/restaurants/home' : '/restaurants/regular',
       token: token,
     );
 
@@ -202,7 +201,7 @@ class Api {
 
     resp = await getData(
       null,
-      '/getoutlets',
+      '/restaurants',
       token: token,
     );
 
@@ -211,7 +210,7 @@ class Api {
 
   // Get Meals
   Future<List<Map<String, dynamic>>> getMeals(String token,
-      {String rid, String endpoint = "/getmeals"}) async {
+      {String rid, String endpoint = "/meals"}) async {
     Response resp;
     Map<String, dynamic> map = {"rid": rid};
     logger.d(map);

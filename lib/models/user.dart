@@ -11,7 +11,7 @@ abstract class User with _$User {
     String email,
     String uid,
     String phone,
-    List<Address> address,
+    Map<String, Address> address,
     bool registered,
   }) = _User;
 

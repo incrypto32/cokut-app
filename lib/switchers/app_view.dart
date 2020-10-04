@@ -79,6 +79,10 @@ class _AppViewState extends State<AppView> {
                   bodyText1: Theme.of(context).textTheme.bodyText1.copyWith(
                         color: Colors.grey[600],
                       ),
+                  bodyText2: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                      ),
                   headline6: Theme.of(context).textTheme.headline6.copyWith(
                         color: Colors.blueGrey[600],
                         fontSize: 18,

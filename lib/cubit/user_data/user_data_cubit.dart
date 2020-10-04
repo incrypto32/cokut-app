@@ -68,11 +68,11 @@ class UserDataCubit extends Cubit<UserDataState> {
   Future<void> addAddress(Address address) async {
     try {
       emit(AddressLoading());
-      var addresses = await _userRepository.addAddress(
+      await _userRepository.addAddress(
         token: (await _authenticationRepository.getToken()),
         address: address,
       );
-      logger.i(addresses);
+
       emit(AddressDataChange());
     } catch (e) {
       logger.e(e);
@@ -87,11 +87,11 @@ class UserDataCubit extends Cubit<UserDataState> {
   Future<void> deleteAddress(Address address) async {
     try {
       emit(AddressLoading());
-      var addresses = await _userRepository.removeAddress(
+      await _userRepository.removeAddress(
         token: (await _authenticationRepository.getToken()),
         address: address,
       );
-      logger.i(addresses);
+
       emit(AddressDataChange());
     } catch (e) {
       logger.e(e);
