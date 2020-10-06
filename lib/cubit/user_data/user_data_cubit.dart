@@ -38,14 +38,21 @@ class UserDataCubit extends Cubit<UserDataState> {
         (await authenticationRepository.getToken()),
       );
       logger.d(user);
-      cartRepository.setDeliveryAddress(
-          cartRepository.deliveryAddress ?? userRepository.addressList[0]);
+      Address address;
+      if (userRepository.addressList != null &&
+          userRepository.addressList.length != 0) {
+        address = userRepository.addressList[0];
+      }
+      cartRepository
+          .setDeliveryAddress(cartRepository.deliveryAddress ?? address);
       if (user.registered) {
         emit(UserRegistered());
       } else {
         emit(UserNotRegistered());
       }
     } catch (e) {
+      logger.e(e);
+
       emit(UserDataError());
     }
   }
@@ -65,6 +72,7 @@ class UserDataCubit extends Cubit<UserDataState> {
       getUser();
     } catch (e) {
       logger.e(e);
+      print("ERRPR");
       if (e is DetailsExistException) {
         emit(
           UserRegistrationError(
@@ -75,6 +83,10 @@ class UserDataCubit extends Cubit<UserDataState> {
       } else if (e is SocketException) {
         emit(UserRegistrationError(message: e.message));
       }
+      emit(UserRegistrationError(
+          message: e.message == "DETAILS_EXIST"
+              ? "An Account already exist with the provided details"
+              : ""));
     }
   }
 
@@ -131,4 +143,6 @@ class UserDataCubit extends Cubit<UserDataState> {
       }
     }
   }
+
+  Future<void> getOrders() {}
 }

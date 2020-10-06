@@ -6,18 +6,11 @@ void main() async {
 
   print("1");
   try {
-    var orderData = {
-      "rid": "5f6307c925f7fd7485853558",
-      "address": "Matte Hotel 86940",
-      "items": {"5f6307ea25f7fd7485853559": 2}
-    };
-    var data = await api.order(orderData, "TEST_TOKEN");
+    var data = await api.getOrders("TEST_TOKEN");
     print(data);
     print("blah");
-    var order = Order.fromJson(data["order"]);
-    print("blah2");
 
-    print(order.toJson());
+    print("blah2");
   } catch (e) {
     print(e);
   }

@@ -42,7 +42,9 @@ class Settings extends StatelessWidget {
               Navigator.of(context).pushNamed('/address');
             }),
             // buildSettingsItemTile("Payments", Icons.payment),
-            buildSettingsItemTile("Orders", Icons.event_note),
+            buildSettingsItemTile("Orders", Icons.event_note, onTap: () {
+              Navigator.of(context).pushNamed('/address');
+            }),
             // buildSettingsItemTile("Refferals", Icons.card_giftcard),
             // buildSettingsItemTile("Settings", Icons.settings),
             // Container(

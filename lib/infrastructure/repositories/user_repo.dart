@@ -16,14 +16,20 @@ class UserRepository {
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
+      print("called get User");
       var userData = await _api.getUser(token);
       _user["user"] = User.fromJson(userData);
+      print(userData);
 
       return User.fromJson(userData);
     } catch (e) {
       logger.e(e);
       throw GetUserFailure;
     }
+  }
+
+  clearUser() {
+    _user["user"] = User();
   }
 
   // Register User

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,11 +15,17 @@ part 'authentication_state.dart';
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository _authenticationRepository;
   final CartRepository cartRepository;
+  final UserRepository userRepository;
   StreamSubscription _userSubscription;
   AuthenticationCubit(this._authenticationRepository,
-      {@required this.cartRepository})
+      {@required this.cartRepository, @required this.userRepository})
       : super(AuthenticationLoading()) {
     _userSubscription = _authenticationRepository.user.listen((user) {
+      if (user == null) {
+        cartRepository.clear();
+        cartRepository.setDeliveryAddress(null);
+        userRepository.clearUser();
+      }
       getAuthState(user);
     });
   }

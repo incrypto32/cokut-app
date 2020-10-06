@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
-import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';

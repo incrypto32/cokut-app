@@ -12,7 +12,7 @@ class Api {
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
   Api({bool test}) {
-    if (true ?? false) {
+    if (test ?? false) {
       v1 = "http://192.168.43.65:4000/api/v1";
       utils = "http://192.168.43.65:4000/utils";
     } else {
@@ -100,7 +100,7 @@ class Api {
         ),
       );
     } on DioError catch (e) {
-      logger.e(e);
+      logger.e(e.response);
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
       } else if (!e.response.data["success"]) {
@@ -128,9 +128,10 @@ class Api {
 
     if (resp.data["success"]) {
       return resp.data;
-    } else if (resp.data["msg"] == "DETAILS_EXIST") {
+    } else if (resp.data["msg"].toString().trim() == "DETAILS_EXIST") {
       throw DetailsExistException();
     } else {
+      logger.wtf("IVIDEYO?");
       throw CustomException(resp.data["msg"]);
     }
   }
@@ -160,6 +161,7 @@ class Api {
     var dio = superDio(token);
     try {
       Response resp = await dio.get('/user');
+      logger.i(resp.data);
       if (resp.data["exist"] && resp.data["user"] != null) {
         userData = resp.data["user"];
         userData["registered"] = true;
@@ -169,6 +171,7 @@ class Api {
       return userData;
     } on DioError catch (e) {
       logger.e(e);
+      print(e.response.data);
       if (e.error is SocketException) {
         throw SocketException("Connection Error");
       } else {
@@ -188,6 +191,20 @@ class Api {
     resp = await getData(
       null,
       isHomeMade ? '/restaurants/home' : '/restaurants/regular',
+      token: token,
+    );
+
+    return List<Map<String, dynamic>>.from(resp.data);
+  }
+
+  // Get Restaurant
+  // Get User
+  Future<List<Map<String, dynamic>>> getOrders(String token) async {
+    Response resp;
+
+    resp = await getData(
+      null,
+      '/user/orders',
       token: token,
     );
 

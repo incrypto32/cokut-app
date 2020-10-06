@@ -39,6 +39,7 @@ class _AppViewState extends State<AppView> {
       create: (ctx) => AuthenticationCubit(
         ctx.repository<AuthenticationRepository>(),
         cartRepository: ctx.repository<CartRepository>(),
+        userRepository: ctx.repository<UserRepository>(),
       ),
     ),
     BlocProvider<LoginCubit>(
