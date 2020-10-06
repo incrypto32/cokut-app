@@ -1,26 +1,30 @@
 import 'package:cokut/models/cartItem.dart';
 import 'package:cokut/models/meal.dart';
+import 'package:cokut/models/user.dart';
 
 class CartRepository {
-  Map<String, CartItemMock123> cart = {};
-  printey() {
-    cart.forEach((key, value) {
-      print(value.count);
-    });
+  Map<String, CartItem> cart = {};
+  Address _deliveryAddress;
+  String rid = "";
+
+  clear() {
+    cart = {};
+    _deliveryAddress = null;
+    rid = "";
   }
 
-  Map<String, CartItemMock123> incrementItem(Meal meal) {
+  Map<String, CartItem> incrementItem(Meal meal) {
     String id = meal.id;
     if (cart[id] != null) {
       cart[id].increment();
       return cart;
     } else {
-      cart[id] = CartItemMock123(meal);
+      cart[id] = CartItem(meal);
       return cart;
     }
   }
 
-  Map<String, CartItemMock123> decrementItem(Meal meal) {
+  Map<String, CartItem> decrementItem(Meal meal) {
     String id = meal.id;
     if (cart[id] != null && cart[id].count != 1) {
       cart[id].decrement();
@@ -31,19 +35,37 @@ class CartRepository {
     }
   }
 
+  int itemNumber() {
+    int n = 0;
+    cart.forEach((key, value) {
+      n += value.count;
+    });
+    return n;
+  }
+
+  set deliveryAddress(Address address) {
+    _deliveryAddress = address;
+  }
+
+  setDeliveryAddress(Address address) {
+    _deliveryAddress = address;
+
+    return _deliveryAddress;
+  }
+
+  Address get deliveryAddress => _deliveryAddress;
+
   double getCartPrice() {
     double n = 0.0;
     cart.forEach((key, value) {
       n += value.count * value.meal.displayPrize;
     });
-    print(n);
+
     return n;
   }
 
   double getDeliveryPrice() {
     double n = 20.0;
-
-    print(n);
     return n;
   }
 }

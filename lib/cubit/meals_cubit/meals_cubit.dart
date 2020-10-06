@@ -20,12 +20,10 @@ class MealsCubit extends Cubit<MealsState> {
     this.rid,
     this.mealType = MealType.regular,
   }) : super(MealsLoading()) {
-    getMeals(rid, mealType: mealType);
+    getMeals(rid: rid, mealType: mealType);
   }
 
-  Future<void> getMeals(String rid, {MealType mealType}) async {
-    print("##### Loading....");
-    print(rid);
+  Future<void> getMeals({String rid, MealType mealType}) async {
     emit(MealsLoading());
     try {
       var token = (await _authenticationRepository.getToken());
@@ -55,7 +53,6 @@ class MealsCubit extends Cubit<MealsState> {
           }
       }
 
-      print("##### $meals");
       emit(MealsLoaded(meals));
     } catch (e) {
       if (e is SocketException) {

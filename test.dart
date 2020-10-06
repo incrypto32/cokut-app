@@ -2,7 +2,6 @@ void main() {
   try {
     hi();
   } catch (e) {
-    print("Error undeyyy");
     print(e);
   }
 }

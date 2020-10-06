@@ -6,6 +6,7 @@ import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/provider/favorites.dart';
 import 'package:cokut/switchers/app_view.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
           RepositoryProvider(create: (context) => MealsRepository()),
           RepositoryProvider(create: (context) => CartRepository()),
           ChangeNotifierProvider(create: (context) => Favorites()),
+          Provider(create: (context) => GlobalKey<NavigatorState>()),
+          Provider(create: (context) => Utils())
         ],
         child: AppView(),
       ),

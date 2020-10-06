@@ -1,8 +1,11 @@
+import 'package:cokut/presentation/widgets/main/cart_page.dart';
 import 'package:cokut/switchers/my_bloc_listener.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/firebase_app/firebase_app_cubit.dart';
@@ -30,19 +33,17 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
-  NavigatorState get _navigator => _navigatorKey.currentState;
-
   var blocs = [
     BlocProvider<AuthenticationCubit>(
       create: (ctx) => AuthenticationCubit(
         ctx.repository<AuthenticationRepository>(),
+        cartRepository: ctx.repository<CartRepository>(),
       ),
     ),
     BlocProvider<LoginCubit>(
       create: (ctx) => LoginCubit(
         ctx.repository<AuthenticationRepository>(),
+        utils: Provider.of<Utils>(ctx, listen: false),
       ),
     ),
     BlocProvider<CartCubit>(
@@ -58,14 +59,19 @@ class _AppViewState extends State<AppView> {
     ),
     BlocProvider<UserDataCubit>(
       create: (ctx) => UserDataCubit(
-        ctx.repository<UserRepository>(),
-        ctx.repository<AuthenticationRepository>(),
+        authenticationRepository: ctx.repository<AuthenticationRepository>(),
+        cartRepository: ctx.repository<CartRepository>(),
+        utils: Provider.of<Utils>(ctx, listen: false),
+        userRepository: ctx.repository<UserRepository>(),
       ),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final _navigatorKey =
+        Provider.of<GlobalKey<NavigatorState>>(context, listen: false);
+
     return MultiBlocProvider(
       providers: blocs,
       child: MaterialApp(
@@ -100,6 +106,7 @@ class _AppViewState extends State<AppView> {
           '/restaurants': (ctx) => RestaurantListScreen(),
           '/homemade': (ctx) => RestaurantListScreen(isHomeMade: true),
           '/store': (ctx) => RestaurantScreen(),
+          '/cart': (ctx) => CartWidget(),
           '/specials': (ctx) => MealCategoryScreen(
                 mealType: MealType.special,
                 title: "Specials",
@@ -112,9 +119,8 @@ class _AppViewState extends State<AppView> {
         },
         home: BlocBuilder<FirebaseAppCubit, FirebaseAppState>(
           builder: (context, state) {
-            print(state);
             if (state is FirebaseAppLoaded) {
-              return AuthBlocDecider(_navigator);
+              return AuthBlocDecider(_navigatorKey.currentState);
             } else {
               return LoadingScreen();
             }

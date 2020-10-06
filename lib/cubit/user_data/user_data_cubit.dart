@@ -2,31 +2,44 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cokut/common/exceptions.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:equatable/equatable.dart';
 import 'package:bloc/bloc.dart';
 
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
+import 'package:flutter/cupertino.dart';
 
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
-  final UserRepository _userRepository;
-  final AuthenticationRepository _authenticationRepository;
+  final UserRepository userRepository;
+  final Utils utils;
 
-  UserDataCubit(this._userRepository, this._authenticationRepository)
-      : super(UserDataLoading()) {
+  final AuthenticationRepository authenticationRepository;
+  final CartRepository cartRepository;
+
+  UserDataCubit({
+    @required this.userRepository,
+    @required this.authenticationRepository,
+    @required this.cartRepository,
+    @required this.utils,
+  }) : super(UserDataLoading()) {
     getUser();
   }
 
   Future<void> getUser() async {
     emit(UserDataLoading());
     try {
-      var user = await _userRepository.getUser(
-        (await _authenticationRepository.getToken()),
+      var user = await userRepository.getUser(
+        (await authenticationRepository.getToken()),
       );
+      logger.d(user);
+      cartRepository.setDeliveryAddress(
+          cartRepository.deliveryAddress ?? userRepository.addressList[0]);
       if (user.registered) {
         emit(UserRegistered());
       } else {
@@ -42,8 +55,8 @@ class UserDataCubit extends Cubit<UserDataState> {
     emit(UserRegisterLoading());
 
     try {
-      await _userRepository.registerUser(
-        token: (await _authenticationRepository.getToken()),
+      await userRepository.registerUser(
+        token: (await authenticationRepository.getToken()),
         name: name,
         email: email,
         phone: phoneNumber,
@@ -68,8 +81,8 @@ class UserDataCubit extends Cubit<UserDataState> {
   Future<void> addAddress(Address address) async {
     try {
       emit(AddressLoading());
-      await _userRepository.addAddress(
-        token: (await _authenticationRepository.getToken()),
+      await userRepository.addAddress(
+        token: (await authenticationRepository.getToken()),
         address: address,
       );
 
@@ -84,11 +97,27 @@ class UserDataCubit extends Cubit<UserDataState> {
     }
   }
 
+  Future<void> setPrimaryAddress(BuildContext context, Address address) async {
+    try {
+      emit(AddressLoading());
+
+      Utils.showFlushBar(context, "Successfully set as primary address");
+      emit(AddressDataChange());
+    } catch (e) {
+      logger.e(e);
+      if (e is SocketException) {
+        emit(AddressUpdateError("Please check your network connection"));
+      } else {
+        emit(AddressUpdateError("An error occured please try again"));
+      }
+    }
+  }
+
   Future<void> deleteAddress(Address address) async {
     try {
       emit(AddressLoading());
-      await _userRepository.removeAddress(
-        token: (await _authenticationRepository.getToken()),
+      await userRepository.removeAddress(
+        token: (await authenticationRepository.getToken()),
         address: address,
       );
 

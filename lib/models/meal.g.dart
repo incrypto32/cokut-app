@@ -9,6 +9,7 @@ part of 'meal.dart';
 _$_Meal _$_$_MealFromJson(Map<String, dynamic> json) {
   return _$_Meal(
     id: json['id'] as String,
+    rid: json['rid'] as String,
     name: json['name'] as String,
     prize: (json['prize'] as num)?.toDouble(),
     displayPrize: (json['display_price'] as num).toDouble(),
@@ -17,6 +18,7 @@ _$_Meal _$_$_MealFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$_$_MealToJson(_$_Meal instance) => <String, dynamic>{
       'id': instance.id,
+      'rid': instance.rid,
       'name': instance.name,
       'prize': instance.prize,
       'display_price': instance.displayPrize,

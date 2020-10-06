@@ -9,6 +9,7 @@ abstract class Meal with _$Meal {
   const Meal._();
   const factory Meal({
     String id,
+    String rid,
     String name,
     double prize,
     @JsonKey(name: 'display_price', nullable: false) double displayPrize,

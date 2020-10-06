@@ -168,7 +168,7 @@ class Api {
       }
       return userData;
     } on DioError catch (e) {
-      print(e);
+      logger.e(e);
       if (e.error is SocketException) {
         throw SocketException("Connection Error");
       } else {
@@ -213,14 +213,12 @@ class Api {
       {String rid, String endpoint = "/meals"}) async {
     Response resp;
     Map<String, dynamic> map = {"rid": rid};
-    logger.d(map);
 
     resp = await getData(
       map,
       endpoint,
       token: token,
     );
-    print(resp.data);
 
     return List<Map<String, dynamic>>.from(resp.data);
   }

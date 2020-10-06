@@ -35,4 +35,10 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) =>
       _$AddressFromJson(json);
   Map<String, dynamic> toJson() => _$AddressToJson(this);
+
+  @override
+  String toString() {
+    var a = "${adl1}, ${adl2}, ${adl3},${zone}";
+    return a;
+  }
 }

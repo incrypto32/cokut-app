@@ -1,6 +1,5 @@
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
 import 'package:cokut/cubit/login_form/login_cubit.dart';
-import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,7 +16,6 @@ class _OtpState extends State<Otp> {
   bool isLoading = false;
 
   void setLoading(bool val) {
-    print("Setting loading  $val");
     setState(() {
       isLoading = val;
     });
@@ -33,7 +31,6 @@ class _OtpState extends State<Otp> {
               listener: (context, state) {
                 setLoading(false);
                 if (state is PhoneVerifcationFailed) {
-                  Utils.showWarning(context, content: state.message);
                 } else if (state is LoggedIn) {
                   Navigator.of(context).pop();
                 } else if (state is LoginLoading) {

@@ -1,3 +1,4 @@
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,9 @@ class Settings extends StatelessWidget {
               ),
               subtitle: Text(user.email ?? "mail"),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.repository<AuthenticationRepository>().logOut();
+                },
                 icon: Icon(
                   Icons.lock_outline,
                   color: Colors.red,

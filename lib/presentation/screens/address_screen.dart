@@ -37,7 +37,6 @@ class _AddressScreenState extends State<AddressScreen> {
                 shrinkWrap: true,
                 children:
                     context.repository<UserRepository>().addressList.map((e) {
-                  print(e.adl1);
                   return Container(
                     margin: EdgeInsets.all(10),
                     child: Card(
@@ -88,7 +87,11 @@ class _AddressScreenState extends State<AddressScreen> {
                                 ),
                                 FlatButton(
                                   padding: EdgeInsets.all(0),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context
+                                        .bloc<UserDataCubit>()
+                                        .deleteAddress(e);
+                                  },
                                   textColor: Colors.red,
                                   child: Text("DELETE"),
                                 ),

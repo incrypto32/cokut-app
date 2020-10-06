@@ -2,6 +2,7 @@ import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/meal.dart';
+import 'package:cokut/presentation/widgets/components/cart_reminder_frame.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:cokut/presentation/widgets/components/page_cover.dart';
@@ -34,22 +35,28 @@ class MealCategoryScreen extends StatelessWidget {
                     return LoadingShimmer();
                   } else if (state is MealsLoaded) {
                     return state.meals.length > 0
-                        ? ListView.builder(
-                            itemCount: state.meals.length,
-                            itemBuilder: (context, index) => MealTile(
-                              meal: state.meals[index],
+                        ? CartReminderFrame(
+                            child: ListView.builder(
+                              itemCount: state.meals.length,
+                              itemBuilder: (context, index) => MealTile(
+                                meal: state.meals[index],
+                              ),
                             ),
                           )
                         : RestaurantErrorWidget(message: "Nothing Here ");
                   } else if (state is MealsError) {
                     return RestaurantErrorWidget(
                       message: state.message ?? "An error occured",
-                      reload: () {},
+                      reload: () {
+                        context.bloc<MealsCubit>().getMeals(mealType: mealType);
+                      },
                     );
                   }
                   return RestaurantErrorWidget(
                     message: "An error occured",
-                    reload: () {},
+                    reload: () {
+                      context.bloc<MealsCubit>().getMeals(mealType: mealType);
+                    },
                   );
                 },
               ),

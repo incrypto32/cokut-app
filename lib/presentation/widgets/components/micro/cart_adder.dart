@@ -12,7 +12,7 @@ class IncrementWidget extends StatelessWidget {
     return StatefulBuilder(
       builder: (context, StateSetter setState) {
         void increment() {
-          context.bloc<CartCubit>().addToCart(meal);
+          context.bloc<CartCubit>().addToCart(context, meal);
         }
 
         void decrement() {
@@ -36,12 +36,12 @@ class IncrementWidget extends StatelessWidget {
                 ),
                 onPressed: decrement,
               ),
-              Padding(
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                alignment: Alignment.center,
+                width: 30,
                 child: BlocBuilder<CartCubit, CartState>(
                   builder: (context, state) {
-                    print(state);
-
                     return Text(
                       (state.cartItems[meal.id] != null
                           ? state.cartItems[meal.id].count.toString()

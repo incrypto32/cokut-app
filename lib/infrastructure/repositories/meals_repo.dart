@@ -14,13 +14,14 @@ class MealsRepository {
   Future<List<Meal>> getSpecials({String token, String rid}) async {
     logger.d(rid);
     var mealList =
-        await _api.getMeals(token, rid: rid, endpoint: "/getspecials");
+        await _api.getMeals(token, rid: rid, endpoint: "/meals/specials");
     return mealList.map((e) => Meal.fromJson(e)).toList();
   }
 
   Future<List<Meal>> getSpicey({String token, String rid}) async {
     logger.d(rid);
-    var mealList = await _api.getMeals(token, rid: rid, endpoint: "/getspicey");
+    var mealList =
+        await _api.getMeals(token, rid: rid, endpoint: "/meals/spicey");
     return mealList.map((e) => Meal.fromJson(e)).toList();
   }
 }

@@ -22,7 +22,6 @@ class _SignInFormState extends State<SignInForm> {
   bool isLoading = false;
 
   void setLoading(bool val) {
-    print("Setting loading  $val");
     setState(() {
       isLoading = val;
     });

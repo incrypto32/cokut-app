@@ -50,61 +50,62 @@ class HomeWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              // ...[
-              //   buildCategoryStack(
-              //     context,
-              //     asset: 'assets/images/special.png',
-              //     category: "Specials",
-              //   ),
-              //   buildCategoryStack(
-              //     context,
-              //     asset: 'assets/images/restaurants.png',
-              //     category: "Restaurants",
-              //     opposite: true,
-              //   ),
-              //   buildCategoryStack(
-              //     context,
-              //     asset: 'assets/images/homemade.png',
-              //     category: "Homemade",
-              //   ),
-              //   buildCategoryStack(
-              //     context,
-              //     asset: 'assets/images/spicey.png',
-              //     category: "Spicey",
-              //     opposite: true,
-              //   ),
-              // ],
               Container(
-                width: double.infinity,
-                height: 100,
-                // color: Colors.amber,
-                child: DefaultTextStyle(
-                  style: TextStyle(color: Colors.grey[700]),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      buildHomeIcon(
-                        context,
-                        asset: 'assets/images/home/hamburger.png',
-                        name: "Specials",
+                padding: EdgeInsets.symmetric(vertical: 10),
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Categories",
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      .copyWith(fontSize: 23),
+                ),
+              ),
+              FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 10),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/specials');
+                },
+                child: Image.asset('assets/images/home/cspecials.png'),
+              ),
+              Container(
+                height: 150,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/restaurants');
+                        },
+                        child: Image.asset(
+                          'assets/images/home/callstores.png',
+                          height: 150,
+                        ),
                       ),
-                      buildHomeIcon(
-                        context,
-                        asset: 'assets/images/home/store.png',
-                        name: "Restaurants",
+                    ),
+                    Expanded(
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/homemade');
+                        },
+                        child: Image.asset(
+                          'assets/images/home/chomebakes.png',
+                          height: 150,
+                        ),
                       ),
-                      buildHomeIcon(
-                        context,
-                        asset: 'assets/images/home/home.png',
-                        name: "Homemade",
+                    ),
+                    Expanded(
+                      child: FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/spicey');
+                        },
+                        child: Image.asset(
+                          'assets/images/home/cspicestores.png',
+                          height: 150,
+                        ),
                       ),
-                      buildHomeIcon(
-                        context,
-                        asset: 'assets/images/home/seasoning.png',
-                        name: "Spicey",
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -116,7 +117,6 @@ class HomeWidget extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline6.copyWith(
                             color: Colors.blueGrey[800],
                             fontSize: 23,
-                            fontWeight: FontWeight.bold,
                           ),
                     ),
                     Spacer(),
@@ -130,12 +130,6 @@ class HomeWidget extends StatelessWidget {
                   return LoadingShimmer();
                 } else if (state is RestaurantsLoaded) {
                   return Container(
-                    // padding: EdgeInsets.only(top: 20, left: 20, right: 20),
-                    // child: ListView.builder(
-                    //   itemCount: state.restaurants.length,
-                    //   itemBuilder: (context, index) =>
-                    //       RestaurantTile(state.restaurants[index]),
-                    // ),
                     child: Column(
                       children: [
                         ...state.restaurants
@@ -196,46 +190,6 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildCategoryStack(BuildContext context,
-      {String asset, bool opposite = false, String category}) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed("/" + category.toLowerCase());
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          vertical: 10,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
-          child: Container(
-            color: Colors.blueGrey,
-            child: Stack(
-              children: [
-                Image.asset(
-                  asset,
-                  width: double.infinity,
-                  fit: BoxFit.fitWidth,
-                ),
-                Positioned.fill(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 45),
-                    alignment:
-                        opposite ? Alignment.centerLeft : Alignment.centerRight,
-                    child: Text(
-                      category,
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
         ),
       ),
     );

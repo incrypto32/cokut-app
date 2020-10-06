@@ -19,11 +19,13 @@ class _$MealTearOff {
 // ignore: unused_element
   _Meal call(
       {String id,
+      String rid,
       String name,
       double prize,
       @JsonKey(name: 'display_price', nullable: false) double displayPrize}) {
     return _Meal(
       id: id,
+      rid: rid,
       name: name,
       prize: prize,
       displayPrize: displayPrize,
@@ -43,6 +45,7 @@ const $Meal = _$MealTearOff();
 /// @nodoc
 mixin _$Meal {
   String get id;
+  String get rid;
   String get name;
   double get prize;
   @JsonKey(name: 'display_price', nullable: false)
@@ -58,6 +61,7 @@ abstract class $MealCopyWith<$Res> {
       _$MealCopyWithImpl<$Res>;
   $Res call(
       {String id,
+      String rid,
       String name,
       double prize,
       @JsonKey(name: 'display_price', nullable: false) double displayPrize});
@@ -74,12 +78,14 @@ class _$MealCopyWithImpl<$Res> implements $MealCopyWith<$Res> {
   @override
   $Res call({
     Object id = freezed,
+    Object rid = freezed,
     Object name = freezed,
     Object prize = freezed,
     Object displayPrize = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
+      rid: rid == freezed ? _value.rid : rid as String,
       name: name == freezed ? _value.name : name as String,
       prize: prize == freezed ? _value.prize : prize as double,
       displayPrize: displayPrize == freezed
@@ -96,6 +102,7 @@ abstract class _$MealCopyWith<$Res> implements $MealCopyWith<$Res> {
   @override
   $Res call(
       {String id,
+      String rid,
       String name,
       double prize,
       @JsonKey(name: 'display_price', nullable: false) double displayPrize});
@@ -113,12 +120,14 @@ class __$MealCopyWithImpl<$Res> extends _$MealCopyWithImpl<$Res>
   @override
   $Res call({
     Object id = freezed,
+    Object rid = freezed,
     Object name = freezed,
     Object prize = freezed,
     Object displayPrize = freezed,
   }) {
     return _then(_Meal(
       id: id == freezed ? _value.id : id as String,
+      rid: rid == freezed ? _value.rid : rid as String,
       name: name == freezed ? _value.name : name as String,
       prize: prize == freezed ? _value.prize : prize as double,
       displayPrize: displayPrize == freezed
@@ -134,6 +143,7 @@ class __$MealCopyWithImpl<$Res> extends _$MealCopyWithImpl<$Res>
 class _$_Meal extends _Meal with DiagnosticableTreeMixin {
   const _$_Meal(
       {this.id,
+      this.rid,
       this.name,
       this.prize,
       @JsonKey(name: 'display_price', nullable: false) this.displayPrize})
@@ -145,6 +155,8 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
   @override
   final String id;
   @override
+  final String rid;
+  @override
   final String name;
   @override
   final double prize;
@@ -154,7 +166,7 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Meal(id: $id, name: $name, prize: $prize, displayPrize: $displayPrize)';
+    return 'Meal(id: $id, rid: $rid, name: $name, prize: $prize, displayPrize: $displayPrize)';
   }
 
   @override
@@ -163,6 +175,7 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
     properties
       ..add(DiagnosticsProperty('type', 'Meal'))
       ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('rid', rid))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('prize', prize))
       ..add(DiagnosticsProperty('displayPrize', displayPrize));
@@ -174,6 +187,8 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
         (other is _Meal &&
             (identical(other.id, id) ||
                 const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.rid, rid) ||
+                const DeepCollectionEquality().equals(other.rid, rid)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
             (identical(other.prize, prize) ||
@@ -187,6 +202,7 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(rid) ^
       const DeepCollectionEquality().hash(name) ^
       const DeepCollectionEquality().hash(prize) ^
       const DeepCollectionEquality().hash(displayPrize);
@@ -205,6 +221,7 @@ abstract class _Meal extends Meal {
   const _Meal._() : super._();
   const factory _Meal(
       {String id,
+      String rid,
       String name,
       double prize,
       @JsonKey(name: 'display_price', nullable: false)
@@ -214,6 +231,8 @@ abstract class _Meal extends Meal {
 
   @override
   String get id;
+  @override
+  String get rid;
   @override
   String get name;
   @override

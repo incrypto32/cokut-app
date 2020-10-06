@@ -8,17 +8,10 @@ class Utils {
     BuildContext context, {
     @required String content,
   }) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          content ?? "Please Check Your Internet Connectivity",
-          textAlign: TextAlign.center,
-        ),
-      ),
-    );
+    showFlushBar(context, content, icon: Icon(Icons.warning));
   }
 
-  static showCartMessage(
+  showCartMessage(
     BuildContext context, {
     @required String content,
   }) {
@@ -89,7 +82,7 @@ class Utils {
     )..show(context);
   }
 
-  static showError(BuildContext context) {
+  showError(BuildContext context) {
     showWarning(
       context,
       content: "An error occured please try again",

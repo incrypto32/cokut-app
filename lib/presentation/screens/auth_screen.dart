@@ -1,8 +1,10 @@
 import 'package:cokut/cubit/login_form/login_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/presentation/widgets/main/sign_in_form.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -16,8 +18,10 @@ class _AuthScreenState extends State<AuthScreen> {
   Widget build(BuildContext context) {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return BlocProvider(
-      create: (context) =>
-          LoginCubit(context.repository<AuthenticationRepository>()),
+      create: (context) => LoginCubit(
+        context.repository<AuthenticationRepository>(),
+        utils: Provider.of<Utils>(context, listen: false),
+      ),
       child: Scaffold(
         // backgroundColor: Colors.black,
         body: SingleChildScrollView(

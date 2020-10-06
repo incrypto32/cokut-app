@@ -1,7 +1,6 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/presentation/widgets/components/micro/custom_text_form_field.dart';
-import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,8 +15,6 @@ class _AddressFormState extends State<AddressForm> {
 
   Address _address = Address();
   String Function(String) validator = (val) {
-    print("_____________________");
-    print(val);
     return val == "" || val == null ? "Please fill the field" : null;
   };
 
@@ -97,14 +94,14 @@ class _AddressFormState extends State<AddressForm> {
                   if (state is AddressDataChange) {
                     Navigator.of(context).pop();
                   } else if (state is AddressUpdateError) {
-                    Utils.showFlushBar(
-                      context,
-                      "An error occured",
-                      icon: Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                      ),
-                    );
+                    // Utils.showFlushBar(
+                    //   context,
+                    //   "An error occured",
+                    //   icon: Icon(
+                    //     Icons.error_outline,
+                    //     color: Colors.red,
+                    //   ),
+                    // );
                   }
                 },
                 builder: (context, state) => FlatButton(
@@ -113,9 +110,7 @@ class _AddressFormState extends State<AddressForm> {
                   onPressed: (state is AddressLoading)
                       ? () {}
                       : () {
-                          print(_address);
                           if (_formKey.currentState.validate()) {
-                            print("hi");
                             context.bloc<UserDataCubit>().addAddress(_address);
                           }
                         },

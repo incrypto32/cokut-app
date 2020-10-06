@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 
 part 'login_state.dart';
 
@@ -9,8 +11,9 @@ Map<String, dynamic> values = {"vid": "", "codeSent": true};
 
 class LoginCubit extends Cubit<LoginState> {
   final AuthenticationRepository _authRepo;
+  final Utils utils;
 
-  LoginCubit(this._authRepo) : super(LoginInitial());
+  LoginCubit(this._authRepo, {@required this.utils}) : super(LoginInitial());
 
   Future<void> signInWithGoogle() async {
     emit(LoginLoading());

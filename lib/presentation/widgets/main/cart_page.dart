@@ -1,5 +1,10 @@
 import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
+import 'package:cokut/presentation/widgets/components/boxes/address_box.dart';
+import 'package:cokut/presentation/widgets/components/boxes/bill_box.dart';
 import 'package:cokut/presentation/widgets/components/meal_item.dart';
+import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,21 +14,14 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
-        //
-        //
-        var cartCubit = context.bloc<CartCubit>();
-        var deliveryPrice = cartCubit.getDeliveryPrice();
-        var cartTotal = cartCubit.getCartPrice();
-        var grandTotal = deliveryPrice + cartTotal;
         List<MealTile> mealTiles = [];
-
-        state.cartItems.forEach(
-          (key, value) => mealTiles.add(
-            MealTile(
-              meal: value.meal,
-            ),
-          ),
-        );
+        context.repository<CartRepository>().cart.forEach(
+              (key, value) => mealTiles.add(
+                MealTile(
+                  meal: value.meal,
+                ),
+              ),
+            );
 
         if (mealTiles.length == 0) {
           return Center(
@@ -39,71 +37,49 @@ class CartWidget extends StatelessWidget {
           );
         }
 
-        return SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.all(20),
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            title: Container(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                "Your Food Cart",
+                style: Theme.of(context).textTheme.headline5,
+              ),
+            ),
+          ),
+          body: Container(
+            height: MediaQuery.of(context).size.height,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(children: [
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Text(
-                      "Your Food Cart",
-                      style: Theme.of(context).textTheme.headline5,
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(children: [
+                            RestaurantTile(
+                              context
+                                      .repository<RestaurantRepository>()
+                                      .restaurants[
+                                  context.repository<CartRepository>().rid],
+                            ),
+                            ...mealTiles,
+                            BillBox(),
+                            AddressBox()
+                          ]),
+                        ],
+                      ),
                     ),
                   ),
-                  ...mealTiles,
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.symmetric(
-                      vertical: 20,
-                    ),
-                    color: Colors.white,
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Cart Total"),
-                              Text(cartCubit.getCartPrice().toString() ?? "")
-                            ],
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Delivery Charge"),
-                              Text("$deliveryPrice")
-                            ],
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.black54,
-                          thickness: 1,
-                        ),
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Grand Total"),
-                              Text("$grandTotal")
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
+                ),
                 Container(
-                  margin: EdgeInsets.all(30),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   height: 40.0,
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -123,49 +99,6 @@ class CartWidget extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class Bill extends StatelessWidget {
-  const Bill({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: Colors.white,
-          child: ListTile(
-            title: Text("Items Total"),
-            trailing: Text(""),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          child: ListTile(
-            title: Text("Delivery Fee"),
-            trailing: Text(""),
-          ),
-        ),
-        Container(
-          // padding: EdgeInsets.symmetric(horizontal: 5.0),
-          decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1.0, color: Colors.black),
-              ),
-              color: Colors.white),
-          //color: Colors.white,
-          child: ListTile(
-            title: Center(
-              child: Text("Total"),
-            ),
-            trailing: Text(""),
-          ),
-        )
-      ],
     );
   }
 }

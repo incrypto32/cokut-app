@@ -1,18 +1,22 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:flutter/foundation.dart';
 
 part 'authentication_state.dart';
 
 class AuthenticationCubit extends Cubit<AuthenticationState> {
   final AuthenticationRepository _authenticationRepository;
+  final CartRepository cartRepository;
   StreamSubscription _userSubscription;
-  AuthenticationCubit(this._authenticationRepository)
+  AuthenticationCubit(this._authenticationRepository,
+      {@required this.cartRepository})
       : super(AuthenticationLoading()) {
     _userSubscription = _authenticationRepository.user.listen((user) {
       getAuthState(user);
@@ -32,6 +36,7 @@ class AuthenticationCubit extends Cubit<AuthenticationState> {
         logger.i("User logged In");
         emit(Authenticated(user));
       } else {
+        cartRepository.clear();
         emit(UnAuthenticated());
       }
     } catch (e) {}

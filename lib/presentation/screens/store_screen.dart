@@ -2,6 +2,7 @@ import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/restaurant.dart';
+import 'package:cokut/presentation/widgets/components/cart_reminder_frame.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
@@ -62,8 +63,7 @@ class RestaurantScreen extends StatelessWidget {
                 } else if (state is MealsLoading) {
                   return LoadingShimmer();
                 } else if (state is MealsLoaded) {
-                  return Container(
-                    padding: EdgeInsets.all(20),
+                  return CartReminderFrame(
                     child: ListView.builder(
                       itemCount: state.meals.length,
                       itemBuilder: (context, index) => MealTile(
@@ -76,14 +76,14 @@ class RestaurantScreen extends StatelessWidget {
                   print(state.message);
                   return RestaurantErrorWidget(
                     reload: () {
-                      context.bloc<MealsCubit>().getMeals(restaurant.id);
+                      context.bloc<MealsCubit>().getMeals(rid: restaurant.id);
                     },
                     message: state.message,
                   );
                 }
                 return RestaurantErrorWidget(
                   reload: () {
-                    context.bloc<MealsCubit>().getMeals(restaurant.id);
+                    context.bloc<MealsCubit>().getMeals(rid: restaurant.id);
                   },
                   message: "",
                 );
