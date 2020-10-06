@@ -64,10 +64,11 @@ class _SignInFormState extends State<SignInForm> {
               CustomTextFormField(
                 hintText: "Phone",
                 // prefixText: "+91 ",
+                textInputType: TextInputType.phone,
                 borderRadius: 10,
                 validator: (val) {
                   if (val == null) {
-                    return null;
+                    return "Enter a valid phone number";
                   }
                   if (val != null && val.length != 10) {
                     return "Enter a valid phone number";
@@ -110,6 +111,7 @@ class _SignInFormState extends State<SignInForm> {
 
   void signInWithPhone() async {
     var connectivity = await Utils.checkConnectivity();
+    print(phone);
     !connectivity
         ? Utils.showWarning(
             context,

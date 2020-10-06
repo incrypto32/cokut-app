@@ -10,9 +10,17 @@ class DeliveryAddressCubit extends Cubit<DeliveryAddressState> {
   final UserRepository _userRepository;
   DeliveryAddressCubit(this._cartRepository, this._userRepository)
       : super(DeliveryAddressInitial()) {
-    _cartRepository.deliveryAddress == null
-        ? changeDeliveryAddress(_userRepository.addressList[0])
-        : print("delivery address already set");
+    if ((_cartRepository.deliveryAddress == null &&
+            _userRepository.addressList == null) ||
+        _userRepository.addressList.length == 0) {
+      changeDeliveryAddress(null);
+    } else {
+      changeDeliveryAddress(_userRepository.addressList[0]);
+    }
+
+    // _cartRepository.deliveryAddress == null
+    //     ? changeDeliveryAddress(_userRepository.addressList[0])
+    //     : print("delivery address already set");
   }
 
   changeDeliveryAddress(Address address) {

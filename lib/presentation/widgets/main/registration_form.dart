@@ -1,5 +1,7 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/presentation/widgets/components/micro/custom_text_form_field.dart';
+import 'package:cokut/utils/logger.dart';
 import 'package:cokut/utils/validators.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +18,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.repository<AuthenticationRepository>().getUser();
+
+    logger.d("${user.phoneNumber}  ${user.email}");
     return Form(
       key: _formKey,
       child: Column(
@@ -38,32 +43,36 @@ class _RegistrationFormState extends State<RegistrationForm> {
             },
             validator: Validate.name,
           ),
-          CustomTextFormField(
-            borderRadius: 0,
-            hintText: "Email",
-            textInputType: TextInputType.emailAddress,
-            onChanged: (val) {
-              data["email"] = val;
-            },
-            validator: Validate.email,
-          ),
-          CustomTextFormField(
-            borderRadius: 0,
-            hintText: "Phone",
-            textInputType: TextInputType.phone,
-            onChanged: (val) {
-              data["phone"] = val;
-            },
-            validator: Validate.phone,
-          ),
+          user.email == null
+              ? CustomTextFormField(
+                  borderRadius: 0,
+                  hintText: "Email",
+                  textInputType: TextInputType.emailAddress,
+                  onChanged: (val) {
+                    data["email"] = val;
+                  },
+                  validator: Validate.email,
+                )
+              : Container(),
+          user.phoneNumber == null
+              ? CustomTextFormField(
+                  borderRadius: 0,
+                  hintText: "Phone",
+                  textInputType: TextInputType.phone,
+                  onChanged: (val) {
+                    data["phone"] = "+91" + val;
+                  },
+                  validator: Validate.phone,
+                )
+              : Container(),
           FlatButton(
             textColor: Colors.white,
             color: Colors.green,
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 context.bloc<UserDataCubit>().registerUser(
-                      email: data["email"],
-                      name: data["name"],
+                      email: data["email"] ?? user.email,
+                      name: data["name"] ?? user.phoneNumber,
                       phoneNumber: data["phone"],
                     );
               }

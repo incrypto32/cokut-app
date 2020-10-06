@@ -27,9 +27,7 @@ class UserDataCubit extends Cubit<UserDataState> {
     @required this.authenticationRepository,
     @required this.cartRepository,
     @required this.utils,
-  }) : super(UserDataLoading()) {
-    getUser();
-  }
+  }) : super(UserDataLoading());
 
   Future<void> getUser() async {
     emit(UserDataLoading());

@@ -14,17 +14,21 @@ class AddressBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    logger.wtf("INSIDE ADDRESS BOX BUILD");
     var _userRepository = context.repository<UserRepository>();
     var _cartRepository = context.repository<CartRepository>();
-    return BlocProvider<DeliveryAddressCubit>(
-      create: (context) =>
-          DeliveryAddressCubit(_cartRepository, _userRepository),
+    var _deliveryAddressCubit =
+        DeliveryAddressCubit(_cartRepository, _userRepository);
+    return BlocProvider<DeliveryAddressCubit>.value(
+      value: _deliveryAddressCubit,
       child: BlocBuilder<DeliveryAddressCubit, DeliveryAddressState>(
+        cubit: _deliveryAddressCubit,
         builder: (context, state) {
-          print(state);
+          logger.d(state);
           List<S2Choice<Address>> options = _userRepository.addressList
               .map((e) => S2Choice<Address>(value: e, title: e.title))
               .toList();
+
           Address address = _cartRepository.deliveryAddress;
 
           return (address == null)

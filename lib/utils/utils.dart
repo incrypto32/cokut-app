@@ -8,46 +8,15 @@ class Utils {
     BuildContext context, {
     @required String content,
   }) {
-    showFlushBar(context, content, icon: Icon(Icons.warning));
+    showFlushBar(context, content,
+        icon: Icon(
+          Icons.warning,
+          color: Colors.red,
+        ));
   }
 
-  showCartMessage(
-    BuildContext context, {
-    @required String content,
-  }) {
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 1),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        content: Card(
-          elevation: 5,
-          color: Colors.white,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 10),
-            alignment: Alignment.center,
-            height: 40,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  content,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.black54),
-                ),
-                Icon(
-                  Icons.shopping_basket,
-                  color: Colors.green,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  static showFlushBar(context, content, {Icon icon}) {
+  static showFlushBar(context, content,
+      {Icon icon, Color textColor = Colors.black}) {
     Flushbar(
       animationDuration: Duration(milliseconds: 400),
       duration: Duration(seconds: 2),
@@ -57,7 +26,7 @@ class Utils {
       flushbarStyle: FlushbarStyle.GROUNDED,
       messageText: Card(
         elevation: 5,
-        color: Colors.black54,
+        color: Colors.white,
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 10),
           alignment: Alignment.center,
@@ -68,7 +37,7 @@ class Utils {
               Text(
                 content,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColor),
               ),
               icon ??
                   Icon(

@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    context.bloc<UserDataCubit>().getUser();
     return BlocBuilder<UserDataCubit, UserDataState>(
       buildWhen: (previous, current) {
         logger.i(current);

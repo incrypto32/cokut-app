@@ -6,6 +6,7 @@ import 'package:cokut/presentation/widgets/components/boxes/bill_box.dart';
 import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,15 +27,17 @@ class CartWidget extends StatelessWidget {
             );
 
         if (mealTiles.length == 0) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 50),
-                  child: Image.asset('assets/images/empty-cart.png'),
-                ),
-              ],
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    child: Image.asset('assets/images/empty-cart.png'),
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -94,7 +97,11 @@ class CartWidget extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/checkout');
+                      context.repository<CartRepository>().deliveryAddress ==
+                              null
+                          ? Utils.showWarning(context,
+                              content: "Please select an address")
+                          : Navigator.of(context).pushNamed('/checkout');
                     },
                   ),
                 )

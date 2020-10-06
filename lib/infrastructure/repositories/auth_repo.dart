@@ -34,6 +34,10 @@ class AuthenticationRepository {
     return _firebaseAuth.currentUser.getIdToken();
   }
 
+  User getUser() {
+    return _firebaseAuth.currentUser;
+  }
+
   /// Starts the Sign In with Google Flow.
   ///
   /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.

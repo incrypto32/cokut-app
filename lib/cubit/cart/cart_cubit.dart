@@ -3,6 +3,7 @@ import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/models/cartItem.dart';
 import 'package:cokut/models/meal.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:cokut/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'cart_state.dart';
@@ -13,6 +14,8 @@ class CartCubit extends Cubit<CartState> {
 
   void addToCart(BuildContext context, Meal meal) {
     if (_cartRepository.rid != "" && _cartRepository.rid != meal.rid) {
+      Utils.showWarning(context,
+          content: "Please remove items from other store.");
       return;
     }
 
