@@ -1,6 +1,9 @@
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
+import 'package:cokut/presentation/widgets/components/order_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +13,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     var user = context.repository<UserRepository>().user ??
         User(name: "Name", email: "email", phone: "Phone");
+
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -42,9 +46,9 @@ class Settings extends StatelessWidget {
               Navigator.of(context).pushNamed('/address');
             }),
             // buildSettingsItemTile("Payments", Icons.payment),
-            buildSettingsItemTile("Orders", Icons.event_note, onTap: () {
-              Navigator.of(context).pushNamed('/address');
-            }),
+            // buildSettingsItemTile("Orders", Icons.event_note, onTap: () {
+            //   Navigator.of(context).pushNamed('/orders');
+            // }),
             // buildSettingsItemTile("Refferals", Icons.card_giftcard),
             // buildSettingsItemTile("Settings", Icons.settings),
             // Container(
@@ -54,6 +58,16 @@ class Settings extends StatelessWidget {
             buildSettingsItemTile("Terms of Service", Icons.import_contacts),
             buildSettingsItemTile("Rate the app", Icons.star),
             buildSettingsItemTile("About", Icons.subject),
+            OrderTile(
+              context
+                  .repository<RestaurantRepository>()
+                  .restaurants[context.repository<CartRepository>().rid],
+            ),
+            OrderTile(
+              context
+                  .repository<RestaurantRepository>()
+                  .restaurants[context.repository<CartRepository>().rid],
+            ),
           ],
         ),
       ),

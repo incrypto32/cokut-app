@@ -1,5 +1,4 @@
 import 'package:cokut/infrastructure/services/api.dart';
-import 'package:cokut/models/order.dart';
 
 void main() async {
   var api = Api();
