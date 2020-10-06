@@ -222,4 +222,10 @@ class Api {
 
     return List<Map<String, dynamic>>.from(resp.data);
   }
+
+  Future<Map<String, dynamic>> order(
+      Map<String, dynamic> orderData, String token) async {
+    var resp = await postData(orderData, '/order', token: token);
+    return Map<String, dynamic>.from(resp.data);
+  }
 }

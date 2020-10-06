@@ -1,8 +1,12 @@
+import 'package:cokut/infrastructure/services/api.dart';
 import 'package:cokut/models/cartItem.dart';
 import 'package:cokut/models/meal.dart';
+import 'package:cokut/models/order.dart';
 import 'package:cokut/models/user.dart';
+import 'package:cokut/utils/logger.dart';
 
 class CartRepository {
+  Api api = Api();
   Map<String, CartItem> cart = {};
   Address _deliveryAddress;
   String rid = "";
@@ -67,5 +71,17 @@ class CartRepository {
   double getDeliveryPrice() {
     double n = 20.0;
     return n;
+  }
+
+  Future<Order> order(String token) async {
+    var order = Order(
+      items: cart.map((key, value) => MapEntry(key, value.count)),
+      rid: rid,
+      address: deliveryAddress,
+    );
+    var orderData = await api.order(order.toJson(), token);
+    logger.i(orderData);
+    print(orderData);
+    return Order.fromJson(orderData["order"]);
   }
 }

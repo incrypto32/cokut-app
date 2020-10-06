@@ -1,3 +1,4 @@
+import 'package:cokut/presentation/screens/checkout_screen.dart';
 import 'package:cokut/presentation/widgets/main/cart_page.dart';
 import 'package:cokut/switchers/my_bloc_listener.dart';
 import 'package:cokut/utils/utils.dart';
@@ -107,6 +108,7 @@ class _AppViewState extends State<AppView> {
           '/homemade': (ctx) => RestaurantListScreen(isHomeMade: true),
           '/store': (ctx) => RestaurantScreen(),
           '/cart': (ctx) => CartWidget(),
+          '/checkout': (ctx) => CheckoutScreen(),
           '/specials': (ctx) => MealCategoryScreen(
                 mealType: MealType.special,
                 title: "Specials",

@@ -46,6 +46,11 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
+  clearCart() {
+    _cartRepository.clear();
+    emit(Cart(_cartRepository.cart));
+  }
+
   double getCartPrice() {
     return _cartRepository.getCartPrice();
   }

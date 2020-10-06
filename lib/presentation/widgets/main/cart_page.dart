@@ -5,6 +5,7 @@ import 'package:cokut/presentation/widgets/components/boxes/address_box.dart';
 import 'package:cokut/presentation/widgets/components/boxes/bill_box.dart';
 import 'package:cokut/presentation/widgets/components/meal_item.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
+import 'package:cokut/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +15,7 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
+        logger.i("CART REBUILD");
         List<MealTile> mealTiles = [];
         context.repository<CartRepository>().cart.forEach(
               (key, value) => mealTiles.add(
@@ -91,7 +93,9 @@ class CartWidget extends StatelessWidget {
                       "PLACE ORDER",
                       style: TextStyle(fontSize: 18.0, color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/checkout');
+                    },
                   ),
                 )
               ],

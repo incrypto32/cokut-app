@@ -43,11 +43,19 @@ class BillBox extends StatelessWidget {
             color: Colors.black54,
             thickness: 1,
           ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text("Grand Total"), Text("$grandTotal")],
+          DefaultTextStyle(
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Grand Total",
+                  ),
+                  Text("$grandTotal")
+                ],
+              ),
             ),
           ),
         ],

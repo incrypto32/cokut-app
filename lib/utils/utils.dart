@@ -50,8 +50,8 @@ class Utils {
   static showFlushBar(context, content, {Icon icon}) {
     Flushbar(
       animationDuration: Duration(milliseconds: 400),
-      duration: Duration(seconds: 1),
-      isDismissible: true,
+      duration: Duration(seconds: 2),
+      isDismissible: false,
       backgroundColor: Colors.transparent,
       borderRadius: 10,
       flushbarStyle: FlushbarStyle.GROUNDED,

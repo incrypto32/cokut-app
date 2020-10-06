@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
@@ -14,8 +15,8 @@ class HomeWidget extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        centerTitle: true,
         elevation: 0,
+        centerTitle: true,
         title: Image.asset(
           'assets/images/blaksid.png',
           height: 40,

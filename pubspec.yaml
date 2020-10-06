@@ -40,7 +40,7 @@ dependencies:
   bloc: ^6.0.3
   equatable: ^1.2.5
   json_annotation: ^3.1.0
-  # freezed_annotation: null
+  freezed_annotation: null
   logger: null
   logger_flutter: ^0.7.1
   shimmer: ^1.1.1
