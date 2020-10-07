@@ -17,96 +17,64 @@ class Settings extends StatelessWidget {
         User(name: "Name", email: "email", phone: "Phone");
 
     return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 20,
+        child: Container(
+      child: Column(children: <Widget>[
+        SizedBox(height: 20),
+        ListTile(
+          leading: Icon(Icons.person, color: Colors.green, size: 60),
+          title: Text(user.name ?? "Name",
+              style: Theme.of(context).textTheme.headline6),
+          subtitle: Text(user.email ?? "mail"),
+          trailing: IconButton(
+            onPressed: logoutDialog(context),
+            icon: Icon(Icons.exit_to_app, color: Colors.red),
+          ),
+        ),
+        buildSettingsItemTile("Address", Icons.home, onTap: () {
+          Navigator.of(context).pushNamed('/address');
+        }),
+        // buildSettingsItemTile("Payments", Icons.payment),
+        // buildSettingsItemTile("Refferals", Icons.card_giftcard),
+        // buildSettingsItemTile("Settings", Icons.settings),
+        buildSettingsItemTile("Terms of Service", Icons.import_contacts),
+        buildSettingsItemTile("Rate the app", Icons.star),
+        buildSettingsItemTile("About", Icons.subject),
+        Container(
+          margin: EdgeInsets.all(10),
+          child: Text(
+            "Previous Orders",
+            style: TextStyle(
+              fontSize: 20,
             ),
-            ListTile(
-              leading: Icon(
-                Icons.person,
-                color: Colors.green,
-                size: 60,
-              ),
-              title: Text(
-                user.name ?? "Name",
-                style: Theme.of(context).textTheme.headline6,
-              ),
-              subtitle: Text(user.email ?? "mail"),
-              trailing: IconButton(
-                onPressed: logoutDialog(context),
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Colors.red,
+          ),
+        ),
+        BlocProvider<OrderCubit>(
+            create: (context) => OrderCubit(
+                  authenticationRepository:
+                      context.repository<AuthenticationRepository>(),
+                  cartRepository: context.repository<CartRepository>(),
+                  userRepository: context.repository<UserRepository>(),
                 ),
-              ),
-            ),
-            buildSettingsItemTile("Address", Icons.home, onTap: () {
-              Navigator.of(context).pushNamed('/address');
-            }),
-            // buildSettingsItemTile("Payments", Icons.payment),
-            // buildSettingsItemTile("Refferals", Icons.card_giftcard),
-            // buildSettingsItemTile("Settings", Icons.settings),
-            buildSettingsItemTile("Terms of Service", Icons.import_contacts),
-            buildSettingsItemTile("Rate the app", Icons.star),
-            buildSettingsItemTile("About", Icons.subject),
-            Container(
-              margin: EdgeInsets.all(10),
-              child: Text(
-                "Previous Orders",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            BlocProvider<OrderCubit>(
-              create: (context) => OrderCubit(
-                authenticationRepository:
-                    context.repository<AuthenticationRepository>(),
-                cartRepository: context.repository<CartRepository>(),
-                userRepository: context.repository<UserRepository>(),
-              ),
-              child: Builder(builder: (context) {
-                context.bloc<OrderCubit>().getOrders();
-                return BlocConsumer<OrderCubit, OrderState>(
-                  listener: (context, state) {
-                    if (state is OrdersGetError) {
-                      Utils.showWarning(context, content: state.message);
-                    }
-                  },
-                  builder: (context, state) {
-                    return Column(
+            child: Builder(builder: (context) {
+              context.bloc<OrderCubit>().getOrders();
+              return BlocConsumer<OrderCubit, OrderState>(
+                listener: (context, state) {
+                  if (state is OrdersGetError) {
+                    Utils.showWarning(context, content: state.message);
+                  }
+                },
+                builder: (context, state) {
+                  return Column(
                       children: context
                           .repository<UserRepository>()
                           .orders
-                          .map(
-                            (e) => Text(e.address.toString() ?? "NAme"),
-                          )
-                          .toList(),
-                    );
-                  },
-                );
-              }),
-            ),
-            OrderTile(
-              context
-                  .repository<RestaurantRepository>()
-                  .restaurants
-                  .values
-                  .toList()[0],
-            ),
-            OrderTile(
-              context
-                  .repository<RestaurantRepository>()
-                  .restaurants
-                  .values
-                  .toList()[2],
-            ),
-          ],
-        ),
-      ),
-    );
+                          .map((e) => OrderTile(e))
+                          .toList());
+                },
+              );
+            }))
+      ]),
+    ));
   }
 
   ListTile buildSettingsItemTile(String content, IconData icon,

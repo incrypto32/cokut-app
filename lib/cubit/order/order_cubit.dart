@@ -6,8 +6,6 @@ import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/order.dart';
 import 'package:cokut/utils/logger.dart';
-import 'package:cokut/utils/utils.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 
 part 'order_state.dart';
