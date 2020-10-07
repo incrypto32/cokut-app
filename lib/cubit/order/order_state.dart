@@ -1,10 +1,7 @@
 part of 'order_cubit.dart';
 
-abstract class OrderState extends Equatable {
+abstract class OrderState {
   const OrderState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class OrderInitial extends OrderState {}
@@ -17,3 +14,10 @@ class OrderSuccessful extends OrderState {
 }
 
 class OrderError extends OrderState {}
+
+class OrdersLoaded extends OrderState {}
+
+class OrdersGetError extends OrderState {
+  final String message;
+  OrdersGetError(this.message);
+}

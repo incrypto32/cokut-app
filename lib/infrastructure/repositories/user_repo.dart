@@ -1,4 +1,5 @@
 import 'package:cokut/infrastructure/services/api.dart';
+import 'package:cokut/models/order.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/utils/logger.dart';
 import 'package:flutter/foundation.dart';
@@ -8,6 +9,7 @@ class GetUserFailure implements Exception {}
 class UserRepository {
   Api _api = Api();
   Map<String, User> _user = {"user": User()};
+  List<Order> orders = [];
   User get user => _user["user"];
 
   List<Address> get addressList =>
@@ -28,8 +30,21 @@ class UserRepository {
     }
   }
 
+  Future<void> getOrders(String token, {int i = 0}) async {
+    if (orders.length == 0) {
+      var orderList = await _api.getOrders(token);
+      orders = orderList.map((e) => Order.fromJson(e)).toList();
+      logger.d(orders);
+    }
+  }
+
+  clearOrders() {
+    orders = [];
+  }
+
   clearUser() {
     _user["user"] = User();
+    orders = [];
   }
 
   // Register User

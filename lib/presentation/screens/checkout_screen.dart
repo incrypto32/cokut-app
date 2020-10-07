@@ -2,6 +2,7 @@ import 'package:cokut/cubit/cart/cart_cubit.dart';
 import 'package:cokut/cubit/order/order_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/widgets/components/boxes/bill_box.dart';
 import 'package:cokut/utils/logger.dart';
 import 'package:cokut/utils/utils.dart';
@@ -22,8 +23,10 @@ class CheckoutScreen extends StatelessWidget {
     );
     return BlocProvider(
       create: (context) => OrderCubit(
-        context.repository<CartRepository>(),
-        context.repository<AuthenticationRepository>(),
+        cartRepository: context.repository<CartRepository>(),
+        authenticationRepository:
+            context.repository<AuthenticationRepository>(),
+        userRepository: context.repository<UserRepository>(),
       ),
       child: Scaffold(
         appBar: appBar,

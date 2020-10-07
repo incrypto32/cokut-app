@@ -16,68 +16,72 @@ class OrderTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(builder: (context, state) {
-      logger.i("CART REBUILD");
-      List<OrderMealTile> mealTiles = [];
-      context.repository<CartRepository>().cart.forEach(
-            (key, value) => mealTiles.add(
-              OrderMealTile(
-                meal: value.meal,
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        logger.i("CART REBUILD");
+        List<OrderMealTile> mealTiles = [];
+        context.repository<CartRepository>().cart.forEach(
+              (key, value) => mealTiles.add(
+                OrderMealTile(
+                  meal: value.meal,
+                ),
               ),
-            ),
-          );
-      return Card(
+            );
+        return Card(
           elevation: 0,
           child: Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-              margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    OrderRestaurantTile(restaurant: _restaurant),
-                    SizedBox(height: 5),
-                    Text("₹ 101 ",
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline6),
-                    Divider(thickness: .4),
-                    ...mealTiles,
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                              DateFormat("MMM  d,  hh:mm a ")
-                                  .format(DateTime.now()),
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w100,
-                                      color: Colors.black38)),
-                          Spacer(),
-                          FlatButton(
-                              onPressed: null,
-                              child: Container(
-                                  width: 170,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color:
-                                              Theme.of(context).accentColor)),
-                                  child: Text("REORDER",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline6
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              color: Theme.of(context)
-                                                  .accentColor)))),
-                        ])
-                  ])));
-    });
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+            margin: const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OrderRestaurantTile(restaurant: _restaurant),
+                SizedBox(height: 5),
+                Text("₹ 101 ",
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.headline6),
+                Divider(thickness: .4),
+                ...mealTiles,
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                          DateFormat("MMM  d,  hh:mm a ")
+                              .format(DateTime.now()),
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w100,
+                              color: Colors.black38)),
+                      Spacer(),
+                      FlatButton(
+                        onPressed: null,
+                        child: Container(
+                          width: 170,
+                          height: 40,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Theme.of(context).accentColor)),
+                          child: Text(
+                            "REORDER",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).accentColor),
+                          ),
+                        ),
+                      ),
+                    ])
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 
