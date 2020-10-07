@@ -33,9 +33,7 @@ class Settings extends StatelessWidget {
               ),
               subtitle: Text(user.email ?? "mail"),
               trailing: IconButton(
-                onPressed: () {
-                  context.repository<AuthenticationRepository>().logOut();
-                },
+                onPressed: logoutDialog(context),
                 icon: Icon(
                   Icons.lock_outline,
                   color: Colors.red,
@@ -46,15 +44,8 @@ class Settings extends StatelessWidget {
               Navigator.of(context).pushNamed('/address');
             }),
             // buildSettingsItemTile("Payments", Icons.payment),
-            // buildSettingsItemTile("Orders", Icons.event_note, onTap: () {
-            //   Navigator.of(context).pushNamed('/orders');
-            // }),
             // buildSettingsItemTile("Refferals", Icons.card_giftcard),
             // buildSettingsItemTile("Settings", Icons.settings),
-            // Container(
-            //   color: Colors.grey[100],
-            //   height: 30,
-            // ),
             buildSettingsItemTile("Terms of Service", Icons.import_contacts),
             buildSettingsItemTile("Rate the app", Icons.star),
             buildSettingsItemTile("About", Icons.subject),
@@ -85,5 +76,25 @@ class Settings extends StatelessWidget {
       ),
       trailing: Icon(Icons.chevron_right),
     );
+  }
+
+  Function logoutDialog(BuildContext context) {
+    return () => showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+              title: Text("Logout"),
+              content: Text("Are you sure you want to Logout"),
+              actions: [
+                FlatButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text("Cancel")),
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      context.repository<AuthenticationRepository>().logOut();
+                    },
+                    child: Text("Yes"))
+              ]),
+        );
   }
 }
