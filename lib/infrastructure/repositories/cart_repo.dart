@@ -9,6 +9,7 @@ class CartRepository {
   Api api = Api();
   Map<String, CartItem> cart = {};
   Address _deliveryAddress;
+  List<Order> orders = [];
   String rid = "";
 
   clear() {
