@@ -46,9 +46,11 @@ dependencies:
   shimmer: ^1.1.1
   flushbar: ^1.10.4
   google_fonts: ^1.1.0
-  google_maps_flutter:
+  google_maps_flutter: null
   smart_select: ^4.2.0
   intl: ^0.16.1
+  geolocator: ^6.0.0+4
+  geocoding: ^1.0.4+1
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,5 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
+import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/presentation/screens/error_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
 import 'package:cokut/presentation/screens/loading_screen.dart';
@@ -28,9 +29,15 @@ class HomeSwitcher extends StatelessWidget {
         } else if (state is UserNotRegistered) {
           return RegistrationScreen();
         } else if (state is UserDataError) {
-          return ErrorScreen(() {
-            context.bloc<UserDataCubit>().getUser();
-          });
+          return WillPopScope(
+            onWillPop: () async {
+              context.repository<AuthenticationRepository>().logOut();
+              return false;
+            },
+            child: ErrorScreen(() {
+              context.bloc<UserDataCubit>().getUser();
+            }),
+          );
         }
         return LoadingScreen();
       },

@@ -44,34 +44,43 @@ class OrderTile extends StatelessWidget {
                 Divider(thickness: .4),
                 ...mealTiles,
                 Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
+                      Expanded(
+                        child: Text(
                           DateFormat("MMM  d,  hh:mm a ")
                               .format(DateTime.now()),
                           style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.black38)),
-                      Spacer(),
-                      FlatButton(
-                        onPressed: null,
-                        child: Container(
-                          width: 170,
-                          height: 40,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Theme.of(context).accentColor)),
-                          child: Text(
-                            "REORDER",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).accentColor),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w100,
+                                color: Colors.black38,
+                              ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Material(
+                          child: InkWell(
+                            onTap: () {},
+                            child: Container(
+                              padding: EdgeInsets.all(5),
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Theme.of(context).accentColor,
+                                ),
+                              ),
+                              child: Text(
+                                "REORDER",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                              ),
+                            ),
                           ),
                         ),
                       ),

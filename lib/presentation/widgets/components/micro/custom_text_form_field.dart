@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  CustomTextFormField({
-    Key key,
-    this.hintText,
-    this.prefixText,
-    this.isPassword,
-    this.validator,
-    this.onChanged,
-    this.centerText = false,
-    this.borderRadius = 30,
-    this.textInputType = TextInputType.text,
-    this.padding,
-  }) : super(key: key);
+  CustomTextFormField(
+      {Key key,
+      this.hintText,
+      this.prefixText,
+      this.isPassword,
+      this.validator,
+      this.onChanged,
+      this.centerText = false,
+      this.borderRadius = 30,
+      this.textInputType = TextInputType.text,
+      this.padding,
+      this.enableBorder = true})
+      : super(key: key);
 
   final String hintText;
   final String prefixText;
@@ -23,6 +24,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType textInputType;
   final double borderRadius;
   final EdgeInsets padding;
+  final bool enableBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,11 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding: EdgeInsets.all(10),
           hintText: hintText,
           hintStyle: TextStyle(fontSize: 14),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
+          border: enableBorder
+              ? OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(borderRadius),
+                )
+              : null,
           // filled: true,
         ),
       ),

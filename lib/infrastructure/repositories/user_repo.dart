@@ -8,20 +8,20 @@ class GetUserFailure implements Exception {}
 
 class UserRepository {
   Api _api = Api();
-  Map<String, User> _user = {"user": User()};
+  Map<String, dynamic> _userStore = {"user": User()};
   List<Order> orders = [];
-  User get user => _user["user"];
+  User get user => _userStore["user"];
 
   List<Address> get addressList =>
-      (_user["user"].address ?? {}).values.toList();
+      ((_userStore["user"] as User).address ?? {}).values.toList();
 
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
       print("called get User");
       var userData = await _api.getUser(token);
-      _user["user"] = User.fromJson(userData);
-      print(userData);
+
+      _userStore["user"] = User.fromJson(userData);
 
       return User.fromJson(userData);
     } catch (e) {
@@ -43,7 +43,7 @@ class UserRepository {
   }
 
   clearUser() {
-    _user["user"] = User();
+    _userStore["user"] = User();
     orders = [];
   }
 
@@ -62,8 +62,8 @@ class UserRepository {
       email: email,
       gid: gid,
     );
-    _user["user"] = User.fromJson(userData);
-    return _user["user"];
+    _userStore["user"] = User.fromJson(userData);
+    return _userStore["user"];
   }
 
   // Add Address
@@ -74,9 +74,9 @@ class UserRepository {
       address: address.toJson(),
     );
 
-    _user["user"] = User.fromJson(userData);
-    logger.wtf(_user["user"]);
-    return _user["user"];
+    _userStore["user"] = User.fromJson(userData);
+    logger.wtf(_userStore["user"]);
+    return _userStore["user"];
   }
 
   // Remove User
@@ -86,7 +86,11 @@ class UserRepository {
       token: token,
       address: address.toJson(),
     );
-    _user["user"] = User.fromJson(userData);
-    return _user["user"];
+    _userStore["user"] = User.fromJson(userData);
+    return _userStore["user"];
+  }
+
+  setAddressSelection(Address address) {
+    _userStore["selectedAddress"] = address;
   }
 }

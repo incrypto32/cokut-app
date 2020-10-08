@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/presentation/widgets/animation/fade.dart';
 import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
 import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
@@ -11,147 +12,149 @@ class HomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(
-          'assets/images/blaksid.png',
-          height: 40,
+    return FadeTransitionWidget(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          title: Image.asset(
+            'assets/images/blaksid.png',
+            height: 40,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                      height: 150,
-                      viewportFraction: 1.0,
-                      disableCenter: true,
-                      autoPlay: true,
-                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 150,
+                        viewportFraction: 1.0,
+                        disableCenter: true,
+                        autoPlay: true,
+                        autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      ),
+                      items: [
+                        "assets/images/1.jpg",
+                        "assets/images/2.jpg",
+                      ].map((e) {
+                        return Image.asset(
+                          e,
+                          fit: BoxFit.cover,
+                        );
+                      }).toList(),
                     ),
-                    items: [
-                      "assets/images/1.jpg",
-                      "assets/images/2.jpg",
-                    ].map((e) {
-                      return Image.asset(
-                        e,
-                        fit: BoxFit.cover,
-                      );
-                    }).toList(),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Categories",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline6
-                      .copyWith(fontSize: 23),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Categories",
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6
+                        .copyWith(fontSize: 23),
+                  ),
                 ),
-              ),
-              FlatButton(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/specials');
-                },
-                child: Image.asset('assets/images/home/cspecials.png'),
-              ),
-              Container(
-                height: 150,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/restaurants');
-                        },
-                        child: Image.asset(
-                          'assets/images/home/callstores.png',
-                          height: 150,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/homemade');
-                        },
-                        child: Image.asset(
-                          'assets/images/home/chomebakes.png',
-                          height: 150,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed('/spicey');
-                        },
-                        child: Image.asset(
-                          'assets/images/home/cspicestores.png',
-                          height: 150,
-                        ),
-                      ),
-                    ),
-                  ],
+                FlatButton(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/specials');
+                  },
+                  child: Image.asset('assets/images/home/cspecials.png'),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  children: [
-                    Text(
-                      "Restaurants",
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.blueGrey[800],
-                            fontSize: 23,
+                Container(
+                  height: 150,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/restaurants');
+                          },
+                          child: Image.asset(
+                            'assets/images/home/callstores.png',
+                            height: 150,
                           ),
-                    ),
-                    Spacer(),
-                    Icon(Icons.filter_list),
-                  ],
+                        ),
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/homemade');
+                          },
+                          child: Image.asset(
+                            'assets/images/home/chomebakes.png',
+                            height: 150,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/spicey');
+                          },
+                          child: Image.asset(
+                            'assets/images/home/cspicestores.png',
+                            height: 150,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              BlocBuilder<RestaurantCubit, RestaurantState>(
-                  builder: (context, state) {
-                if (state is RestaurantLoading) {
-                  return LoadingShimmer();
-                } else if (state is RestaurantsLoaded) {
-                  return Container(
-                    child: Column(
-                      children: [
-                        ...state.restaurants
-                            .map((e) => RestaurantTile(e))
-                            .toList()
-                      ],
-                    ),
-                  );
-                }
-                if (state is RestaurantsError) {
-                  print(state.message);
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Restaurants",
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: Colors.blueGrey[800],
+                              fontSize: 23,
+                            ),
+                      ),
+                      Spacer(),
+                      Icon(Icons.filter_list),
+                    ],
+                  ),
+                ),
+                BlocBuilder<RestaurantCubit, RestaurantState>(
+                    builder: (context, state) {
+                  if (state is RestaurantLoading) {
+                    return LoadingShimmer();
+                  } else if (state is RestaurantsLoaded) {
+                    return Container(
+                      child: Column(
+                        children: [
+                          ...state.restaurants
+                              .map((e) => RestaurantTile(e))
+                              .toList()
+                        ],
+                      ),
+                    );
+                  }
+                  if (state is RestaurantsError) {
+                    print(state.message);
+                    return RestaurantErrorWidget(
+                      reload: context.bloc<RestaurantCubit>().getRestaurants,
+                      message: state.message,
+                    );
+                  }
                   return RestaurantErrorWidget(
                     reload: context.bloc<RestaurantCubit>().getRestaurants,
-                    message: state.message,
+                    message: "",
                   );
-                }
-                return RestaurantErrorWidget(
-                  reload: context.bloc<RestaurantCubit>().getRestaurants,
-                  message: "",
-                );
-              }),
-            ],
+                }),
+              ],
+            ),
           ),
         ),
       ),

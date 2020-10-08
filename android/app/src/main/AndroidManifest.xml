@@ -5,10 +5,17 @@
          In most cases you can leave this as-is, but you if you want to provide
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
+         <uses-permission android:name="android.permission.INTERNET"/>
+         <uses-permission android:name=
+    "android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name=
+    "android.permission.ACCESS_FINE_LOCATION"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="cokut"
         android:icon="@mipmap/launcher_icon">
+           <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyBIgQncl-b_Z3AcV92SUfRNb56j4zqq0Ds"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -24,6 +31,7 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+           
             <!-- Displays an Android View that continues showing the launch screen
                  Drawable until Flutter paints its first frame, then this splash
                  screen fades out. A splash screen is useful to avoid any visual

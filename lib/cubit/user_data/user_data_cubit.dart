@@ -18,18 +18,16 @@ part 'user_data_state.dart';
 class UserDataCubit extends Cubit<UserDataState> {
   final UserRepository userRepository;
   final Utils utils;
-  final bool dev;
 
   final AuthenticationRepository authenticationRepository;
   final CartRepository cartRepository;
 
-  UserDataCubit(
-      {@required this.userRepository,
-      @required this.authenticationRepository,
-      @required this.cartRepository,
-      @required this.utils,
-      @required this.dev})
-      : super(UserDataLoading()) {}
+  UserDataCubit({
+    @required this.userRepository,
+    @required this.authenticationRepository,
+    @required this.cartRepository,
+    @required this.utils,
+  }) : super(UserDataLoading()) {}
 
   Future<void> getUser() async {
     emit(UserDataLoading());
@@ -143,6 +141,4 @@ class UserDataCubit extends Cubit<UserDataState> {
       }
     }
   }
-
-  Future<void> getOrders() {}
 }
