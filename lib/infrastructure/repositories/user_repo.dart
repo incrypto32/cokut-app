@@ -90,7 +90,7 @@ class UserRepository {
     return _userStore["user"];
   }
 
-  setAddressSelection(Address address) {
+  void setAddressSelection(Address address) {
     _userStore["selectedAddress"] = address;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 part 'user.freezed.dart';
 part 'user.g.dart';
 
@@ -20,12 +22,14 @@ abstract class User with _$User {
 
 @JsonSerializable(nullable: false)
 class Address {
+  PlaceInfo placeInfo;
   String title;
   String adl1;
   String adl2;
   String adl3;
   String zone;
   Address({
+    this.placeInfo,
     this.title,
     this.adl1,
     this.adl2,
@@ -41,4 +45,42 @@ class Address {
     var a = "${adl1}, ${adl2}, ${adl3},${zone}";
     return a;
   }
+}
+
+@JsonSerializable(nullable: false)
+class PlaceInfo {
+  String name;
+  String details;
+  double latitude;
+  double longitude;
+
+  PlaceInfo({
+    this.name,
+    this.details,
+    this.latitude,
+    this.longitude,
+  });
+  factory PlaceInfo.fromJson(Map<String, dynamic> json) =>
+      _$PlaceInfoFromJson(json);
+  factory PlaceInfo.fromPlacemarkAndCoordinates(
+          Placemark placemark, LatLng latLng) =>
+      _fromPmandCts(placemark, latLng);
+
+  static PlaceInfo _fromPmandCts(Placemark placemark, LatLng latLng) {
+    String details = "";
+    placemark.toJson().forEach((key, value) {
+      if (value != null || value != "") {
+        details += " " + value.toString();
+      }
+    });
+
+    return PlaceInfo(
+      name: placemark.name,
+      latitude: latLng.latitude,
+      longitude: latLng.longitude,
+      details: details,
+    );
+  }
+
+  Map<String, dynamic> toJson() => _$PlaceInfoToJson(this);
 }

@@ -11,8 +11,8 @@ abstract class Meal with _$Meal {
     String id,
     String rid,
     String name,
-    double prize,
-    @JsonKey(name: 'display_price', nullable: false) double displayPrize,
+    double price,
+    @JsonKey(name: 'display_price', nullable: false) double displayPrice,
   }) = _Meal;
 
   factory Meal.fromJson(Map<String, dynamic> json) => _$MealFromJson(json);

@@ -17,16 +17,19 @@ class MapBox extends StatelessWidget {
   final Map<String, LatLng> location;
 
   void _toMyLocation() async {
+    print("pressed");
     final GoogleMapController controller = await _controller.future;
-
-    Position position = await getCurrentPosition(
+    print("1");
+    Position position = await GeolocatorPlatform.instance.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.best,
     );
+
+    print("2");
     var camPos = CameraPosition(
       target: LatLng(position.latitude, position.longitude),
       zoom: 16,
     );
-
+    print("3");
     controller.animateCamera(CameraUpdate.newCameraPosition(camPos));
   }
 
@@ -55,17 +58,13 @@ class MapBox extends StatelessWidget {
                       location["address"] = position.target;
                     },
                     onCameraIdle: () async {
-                      try {
-                        if (location["address"] != null) {
-                          await placemarkFromCoordinates(
-                                  location["address"].latitude,
-                                  location["address"].longitude)
-                              .then((value) {
-                            print(value[1].toJson());
-                          });
-                        }
-                      } catch (e) {
-                        logger.e("PANI 1");
+                      if (location["address"] != null) {
+                        await placemarkFromCoordinates(
+                                location["address"].latitude,
+                                location["address"].longitude)
+                            .then((value) {
+                          print(value[1].toJson());
+                        });
                       }
                     },
                     mapType: MapType.normal,

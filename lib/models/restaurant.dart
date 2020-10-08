@@ -14,6 +14,7 @@ abstract class Restaurant with _$Restaurant {
     String address,
     String logo,
     String type,
+    @Default(false) bool closed,
   }) = _Restaurant;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) =>

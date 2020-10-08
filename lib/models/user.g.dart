@@ -24,6 +24,22 @@ Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
       'zone': instance.zone,
     };
 
+PlaceInfo _$PlaceInfoFromJson(Map<String, dynamic> json) {
+  return PlaceInfo(
+    name: json['name'] as String,
+    details: json['details'] as String,
+    latitude: (json['latitude'] as num).toDouble(),
+    longitude: (json['longitude'] as num).toDouble(),
+  );
+}
+
+Map<String, dynamic> _$PlaceInfoToJson(PlaceInfo instance) => <String, dynamic>{
+      'name': instance.name,
+      'details': instance.details,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+    };
+
 _$_User _$_$_UserFromJson(Map<String, dynamic> json) {
   return _$_User(
     name: json['name'] as String,

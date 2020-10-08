@@ -21,14 +21,14 @@ class _$MealTearOff {
       {String id,
       String rid,
       String name,
-      double prize,
-      @JsonKey(name: 'display_price', nullable: false) double displayPrize}) {
+      double price,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrice}) {
     return _Meal(
       id: id,
       rid: rid,
       name: name,
-      prize: prize,
-      displayPrize: displayPrize,
+      price: price,
+      displayPrice: displayPrice,
     );
   }
 
@@ -47,9 +47,9 @@ mixin _$Meal {
   String get id;
   String get rid;
   String get name;
-  double get prize;
+  double get price;
   @JsonKey(name: 'display_price', nullable: false)
-  double get displayPrize;
+  double get displayPrice;
 
   Map<String, dynamic> toJson();
   $MealCopyWith<Meal> get copyWith;
@@ -63,8 +63,8 @@ abstract class $MealCopyWith<$Res> {
       {String id,
       String rid,
       String name,
-      double prize,
-      @JsonKey(name: 'display_price', nullable: false) double displayPrize});
+      double price,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrice});
 }
 
 /// @nodoc
@@ -80,17 +80,17 @@ class _$MealCopyWithImpl<$Res> implements $MealCopyWith<$Res> {
     Object id = freezed,
     Object rid = freezed,
     Object name = freezed,
-    Object prize = freezed,
-    Object displayPrize = freezed,
+    Object price = freezed,
+    Object displayPrice = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed ? _value.id : id as String,
       rid: rid == freezed ? _value.rid : rid as String,
       name: name == freezed ? _value.name : name as String,
-      prize: prize == freezed ? _value.prize : prize as double,
-      displayPrize: displayPrize == freezed
-          ? _value.displayPrize
-          : displayPrize as double,
+      price: price == freezed ? _value.price : price as double,
+      displayPrice: displayPrice == freezed
+          ? _value.displayPrice
+          : displayPrice as double,
     ));
   }
 }
@@ -104,8 +104,8 @@ abstract class _$MealCopyWith<$Res> implements $MealCopyWith<$Res> {
       {String id,
       String rid,
       String name,
-      double prize,
-      @JsonKey(name: 'display_price', nullable: false) double displayPrize});
+      double price,
+      @JsonKey(name: 'display_price', nullable: false) double displayPrice});
 }
 
 /// @nodoc
@@ -122,17 +122,17 @@ class __$MealCopyWithImpl<$Res> extends _$MealCopyWithImpl<$Res>
     Object id = freezed,
     Object rid = freezed,
     Object name = freezed,
-    Object prize = freezed,
-    Object displayPrize = freezed,
+    Object price = freezed,
+    Object displayPrice = freezed,
   }) {
     return _then(_Meal(
       id: id == freezed ? _value.id : id as String,
       rid: rid == freezed ? _value.rid : rid as String,
       name: name == freezed ? _value.name : name as String,
-      prize: prize == freezed ? _value.prize : prize as double,
-      displayPrize: displayPrize == freezed
-          ? _value.displayPrize
-          : displayPrize as double,
+      price: price == freezed ? _value.price : price as double,
+      displayPrice: displayPrice == freezed
+          ? _value.displayPrice
+          : displayPrice as double,
     ));
   }
 }
@@ -145,8 +145,8 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
       {this.id,
       this.rid,
       this.name,
-      this.prize,
-      @JsonKey(name: 'display_price', nullable: false) this.displayPrize})
+      this.price,
+      @JsonKey(name: 'display_price', nullable: false) this.displayPrice})
       : super._();
 
   factory _$_Meal.fromJson(Map<String, dynamic> json) =>
@@ -159,14 +159,14 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
   @override
   final String name;
   @override
-  final double prize;
+  final double price;
   @override
   @JsonKey(name: 'display_price', nullable: false)
-  final double displayPrize;
+  final double displayPrice;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Meal(id: $id, rid: $rid, name: $name, prize: $prize, displayPrize: $displayPrize)';
+    return 'Meal(id: $id, rid: $rid, name: $name, price: $price, displayPrice: $displayPrice)';
   }
 
   @override
@@ -177,8 +177,8 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('rid', rid))
       ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('prize', prize))
-      ..add(DiagnosticsProperty('displayPrize', displayPrize));
+      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('displayPrice', displayPrice));
   }
 
   @override
@@ -191,11 +191,11 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
                 const DeepCollectionEquality().equals(other.rid, rid)) &&
             (identical(other.name, name) ||
                 const DeepCollectionEquality().equals(other.name, name)) &&
-            (identical(other.prize, prize) ||
-                const DeepCollectionEquality().equals(other.prize, prize)) &&
-            (identical(other.displayPrize, displayPrize) ||
+            (identical(other.price, price) ||
+                const DeepCollectionEquality().equals(other.price, price)) &&
+            (identical(other.displayPrice, displayPrice) ||
                 const DeepCollectionEquality()
-                    .equals(other.displayPrize, displayPrize)));
+                    .equals(other.displayPrice, displayPrice)));
   }
 
   @override
@@ -204,8 +204,8 @@ class _$_Meal extends _Meal with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(rid) ^
       const DeepCollectionEquality().hash(name) ^
-      const DeepCollectionEquality().hash(prize) ^
-      const DeepCollectionEquality().hash(displayPrize);
+      const DeepCollectionEquality().hash(price) ^
+      const DeepCollectionEquality().hash(displayPrice);
 
   @override
   _$MealCopyWith<_Meal> get copyWith =>
@@ -223,9 +223,9 @@ abstract class _Meal extends Meal {
       {String id,
       String rid,
       String name,
-      double prize,
+      double price,
       @JsonKey(name: 'display_price', nullable: false)
-          double displayPrize}) = _$_Meal;
+          double displayPrice}) = _$_Meal;
 
   factory _Meal.fromJson(Map<String, dynamic> json) = _$_Meal.fromJson;
 
@@ -236,10 +236,10 @@ abstract class _Meal extends Meal {
   @override
   String get name;
   @override
-  double get prize;
+  double get price;
   @override
   @JsonKey(name: 'display_price', nullable: false)
-  double get displayPrize;
+  double get displayPrice;
   @override
   _$MealCopyWith<_Meal> get copyWith;
 }

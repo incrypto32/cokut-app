@@ -14,6 +14,7 @@ _$_Restaurant _$_$_RestaurantFromJson(Map<String, dynamic> json) {
     address: json['address'] as String,
     logo: json['logo'] as String,
     type: json['type'] as String,
+    closed: json['closed'] as bool ?? false,
   );
 }
 
@@ -25,4 +26,5 @@ Map<String, dynamic> _$_$_RestaurantToJson(_$_Restaurant instance) =>
       'address': instance.address,
       'logo': instance.logo,
       'type': instance.type,
+      'closed': instance.closed,
     };

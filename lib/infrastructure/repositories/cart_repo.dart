@@ -63,7 +63,7 @@ class CartRepository {
   double getCartPrice() {
     double n = 0.0;
     cart.forEach((key, value) {
-      n += value.count * value.meal.displayPrize;
+      n += value.count * value.meal.displayPrice;
     });
 
     return n;
