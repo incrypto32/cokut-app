@@ -15,6 +15,29 @@ class UserRepository {
   List<Address> get addressList =>
       ((_userStore["user"] as User).address ?? {}).values.toList();
 
+  PlaceInfo get selectedPlace => _userStore["selectedPlace"];
+
+  void setPlaceSelection(PlaceInfo address) {
+    _userStore["selectedPlace"] = address;
+  }
+
+  clearOrders() {
+    orders = [];
+  }
+
+  clearUser() {
+    _userStore["user"] = User();
+    orders = [];
+  }
+
+  Future<void> getOrders(String token, {int i = 0}) async {
+    if (orders.length == 0) {
+      var orderList = await _api.getOrders(token);
+      orders = orderList.map((e) => Order.fromJson(e)).toList();
+      logger.d(orders);
+    }
+  }
+
   // Get User
   Future<User> getUser(String token, {int i = 0}) async {
     try {
@@ -28,23 +51,6 @@ class UserRepository {
       logger.e(e);
       throw GetUserFailure;
     }
-  }
-
-  Future<void> getOrders(String token, {int i = 0}) async {
-    if (orders.length == 0) {
-      var orderList = await _api.getOrders(token);
-      orders = orderList.map((e) => Order.fromJson(e)).toList();
-      logger.d(orders);
-    }
-  }
-
-  clearOrders() {
-    orders = [];
-  }
-
-  clearUser() {
-    _userStore["user"] = User();
-    orders = [];
   }
 
   // Register User
@@ -88,9 +94,5 @@ class UserRepository {
     );
     _userStore["user"] = User.fromJson(userData);
     return _userStore["user"];
-  }
-
-  void setAddressSelection(Address address) {
-    _userStore["selectedAddress"] = address;
   }
 }

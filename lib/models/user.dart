@@ -1,3 +1,4 @@
+import 'package:cokut/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geocoding/geocoding.dart';
@@ -20,7 +21,7 @@ abstract class User with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-@JsonSerializable(nullable: false)
+@JsonSerializable(nullable: true)
 class Address {
   PlaceInfo placeInfo;
   String title;
@@ -47,7 +48,7 @@ class Address {
   }
 }
 
-@JsonSerializable(nullable: false)
+@JsonSerializable(nullable: true)
 class PlaceInfo {
   String name;
   String details;
@@ -68,6 +69,8 @@ class PlaceInfo {
 
   static PlaceInfo _fromPmandCts(Placemark placemark, LatLng latLng) {
     String details = "";
+    logger.d(placemark.toJson());
+
     placemark.toJson().forEach((key, value) {
       if (value != null || value != "") {
         details += " " + value.toString();
@@ -75,7 +78,7 @@ class PlaceInfo {
     });
 
     return PlaceInfo(
-      name: placemark.name,
+      name: placemark.locality ?? placemark.street,
       latitude: latLng.latitude,
       longitude: latLng.longitude,
       details: details,

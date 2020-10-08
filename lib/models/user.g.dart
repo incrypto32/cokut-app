@@ -8,6 +8,9 @@ part of 'user.dart';
 
 Address _$AddressFromJson(Map<String, dynamic> json) {
   return Address(
+    placeInfo: json['placeInfo'] == null
+        ? null
+        : PlaceInfo.fromJson(json['placeInfo'] as Map<String, dynamic>),
     title: json['title'] as String,
     adl1: json['adl1'] as String,
     adl2: json['adl2'] as String,
@@ -17,6 +20,7 @@ Address _$AddressFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
+      'placeInfo': instance.placeInfo,
       'title': instance.title,
       'adl1': instance.adl1,
       'adl2': instance.adl2,
@@ -28,8 +32,8 @@ PlaceInfo _$PlaceInfoFromJson(Map<String, dynamic> json) {
   return PlaceInfo(
     name: json['name'] as String,
     details: json['details'] as String,
-    latitude: (json['latitude'] as num).toDouble(),
-    longitude: (json['longitude'] as num).toDouble(),
+    latitude: (json['latitude'] as num)?.toDouble(),
+    longitude: (json['longitude'] as num)?.toDouble(),
   );
 }
 

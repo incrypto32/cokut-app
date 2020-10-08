@@ -4,7 +4,6 @@ import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
-import 'package:cokut/presentation/screens/scrollablesheettest.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
 import 'package:cokut/presentation/widgets/components/order_tile.dart';
 import 'package:cokut/utils/utils.dart';
@@ -47,29 +46,28 @@ class Settings extends StatelessWidget {
                   ),
                 ),
               ),
-              buildSettingsItemTile(context, "Address", Icons.home,
-                  route: '/address'),
-              // buildSettingsItemTile("Payments", Icons.payment),
-              // buildSettingsItemTile("Orders", Icons.event_note, onTap: () {
-              //   Navigator.of(context).pushNamed('/orders');
-              // }),
-              // buildSettingsItemTile("Refferals", Icons.card_giftcard),
-              // buildSettingsItemTile("Settings", Icons.settings),
-              // Container(
-              //   color: Colors.grey[100],
-              //   height: 30,
-              // ),
-              FlatButton(
-                  onPressed: () {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (ctx) => HomePage()));
-                  },
-                  child: Text("POO")),
               buildSettingsItemTile(
-                  context, "Terms of Service", Icons.import_contacts,
-                  route: '/maps'),
-              buildSettingsItemTile(context, "Rate the app", Icons.star),
-              buildSettingsItemTile(context, "About", Icons.subject),
+                context,
+                "Address",
+                Icons.home,
+                route: '/address',
+              ),
+              buildSettingsItemTile(
+                context,
+                "Terms of Service",
+                Icons.import_contacts,
+                route: '/maps',
+              ),
+              buildSettingsItemTile(
+                context,
+                "Rate the app",
+                Icons.star,
+              ),
+              buildSettingsItemTile(
+                context,
+                "About",
+                Icons.subject,
+              ),
               Container(
                 margin: EdgeInsets.all(10),
                 child: Text(
@@ -86,27 +84,29 @@ class Settings extends StatelessWidget {
                   cartRepository: context.repository<CartRepository>(),
                   userRepository: context.repository<UserRepository>(),
                 ),
-                child: Builder(builder: (context) {
-                  context.bloc<OrderCubit>().getOrders();
-                  return BlocConsumer<OrderCubit, OrderState>(
-                    listener: (context, state) {
-                      if (state is OrdersGetError) {
-                        Utils.showWarning(context, content: state.message);
-                      }
-                    },
-                    builder: (context, state) {
-                      return Column(
-                        children: context
-                            .repository<UserRepository>()
-                            .orders
-                            .map(
-                              (e) => Text(e.address.toString() ?? "NAme"),
-                            )
-                            .toList(),
-                      );
-                    },
-                  );
-                }),
+                child: Builder(
+                  builder: (context) {
+                    context.bloc<OrderCubit>().getOrders();
+                    return BlocConsumer<OrderCubit, OrderState>(
+                      listener: (context, state) {
+                        if (state is OrdersGetError) {
+                          Utils.showWarning(context, content: state.message);
+                        }
+                      },
+                      builder: (context, state) {
+                        return Column(
+                          children: context
+                              .repository<UserRepository>()
+                              .orders
+                              .map(
+                                (e) => Text(e.address.toString() ?? "Name"),
+                              )
+                              .toList(),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
               OrderTile(
                 context

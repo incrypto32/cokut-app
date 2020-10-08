@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:cokut/cubit/address_picker/address_cubit.dart';
+import 'package:cokut/models/user.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
-import 'package:cokut/utils/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -16,21 +18,23 @@ class MapBox extends StatelessWidget {
   final Completer<GoogleMapController> _controller = Completer();
   final Map<String, LatLng> location;
 
-  void _toMyLocation() async {
-    print("pressed");
-    final GoogleMapController controller = await _controller.future;
-    print("1");
-    Position position = await GeolocatorPlatform.instance.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.best,
-    );
-
-    print("2");
-    var camPos = CameraPosition(
-      target: LatLng(position.latitude, position.longitude),
-      zoom: 16,
-    );
-    print("3");
-    controller.animateCamera(CameraUpdate.newCameraPosition(camPos));
+  void _onCameraIdle(BuildContext context) async {
+    if (location["address"] != null) {
+      print(location["address"]);
+      await placemarkFromCoordinates(
+        location["address"].latitude,
+        location["address"].longitude,
+      ).then(
+        (value) {
+          context.bloc<AddressCubit>().selectPlace(
+                PlaceInfo.fromPlacemarkAndCoordinates(
+                  value[0],
+                  location["address"],
+                ),
+              );
+        },
+      );
+    }
   }
 
   @override
@@ -52,20 +56,14 @@ class MapBox extends StatelessWidget {
                   GoogleMap(
                     padding: EdgeInsets.all(30),
                     zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
+                    myLocationButtonEnabled: true,
                     myLocationEnabled: true,
+                    compassEnabled: false,
                     onCameraMove: (position) async {
                       location["address"] = position.target;
                     },
-                    onCameraIdle: () async {
-                      if (location["address"] != null) {
-                        await placemarkFromCoordinates(
-                                location["address"].latitude,
-                                location["address"].longitude)
-                            .then((value) {
-                          print(value[1].toJson());
-                        });
-                      }
+                    onCameraIdle: () {
+                      _onCameraIdle(context);
                     },
                     mapType: MapType.normal,
                     initialCameraPosition: snapshot.data,
@@ -84,17 +82,6 @@ class MapBox extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      child: IconButton(
-                        icon: Icon(Icons.my_location),
-                        padding: EdgeInsets.all(20),
-                        onPressed: _toMyLocation,
-                      ),
-                    ),
-                  )
                 ],
               ),
             )
