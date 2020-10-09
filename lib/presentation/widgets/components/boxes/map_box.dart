@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cokut/cubit/address_picker/address_cubit.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
+import 'package:cokut/utils/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -19,21 +20,25 @@ class MapBox extends StatelessWidget {
   final Map<String, LatLng> location;
 
   void _onCameraIdle(BuildContext context) async {
-    if (location["address"] != null) {
-      print(location["address"]);
-      await placemarkFromCoordinates(
-        location["address"].latitude,
-        location["address"].longitude,
-      ).then(
-        (value) {
-          context.bloc<AddressCubit>().selectPlace(
-                PlaceInfo.fromPlacemarkAndCoordinates(
-                  value[0],
-                  location["address"],
-                ),
-              );
-        },
-      );
+    try {
+      if (location["address"] != null) {
+        print(location["address"]);
+        await placemarkFromCoordinates(
+          location["address"].latitude,
+          location["address"].longitude,
+        ).then(
+          (value) {
+            context.bloc<AddressCubit>().selectPlace(
+                  PlaceInfo.fromPlacemarkAndCoordinates(
+                    value[0],
+                    location["address"],
+                  ),
+                );
+          },
+        );
+      }
+    } catch (e) {
+      logger.e(e);
     }
   }
 

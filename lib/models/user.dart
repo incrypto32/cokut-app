@@ -22,6 +22,7 @@ abstract class User with _$User {
 
 @JsonSerializable(nullable: true)
 class Address {
+  @JsonKey(name: 'place', nullable: false)
   PlaceInfo placeInfo;
   String title;
   String adl1;

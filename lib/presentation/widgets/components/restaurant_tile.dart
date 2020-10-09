@@ -37,16 +37,20 @@ class RestaurantTile extends StatelessWidget {
                     );
             },
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _restaurant.logo == null
+                _restaurant.logo != null
                     ? Image.network(
                         _restaurant.logo,
                         height: 100,
                         width: 100,
                         fit: BoxFit.cover,
                       )
-                    : Icon(Icons.store_mall_directory),
+                    : Icon(
+                        Icons.store_mall_directory,
+                        size: 100,
+                        color: Colors.black12,
+                      ),
                 Expanded(
                   flex: 4,
                   child: Container(
