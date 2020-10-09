@@ -1,4 +1,3 @@
-import 'package:cokut/utils/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geocoding/geocoding.dart';
@@ -69,7 +68,6 @@ class PlaceInfo {
 
   static PlaceInfo _fromPmandCts(Placemark placemark, LatLng latLng) {
     String details = "";
-    logger.d(placemark.toJson());
 
     placemark.toJson().forEach((key, value) {
       if (value != null || value != "") {

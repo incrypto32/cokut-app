@@ -44,6 +44,11 @@ class MapBox extends StatelessWidget {
         Position position = await getCurrentPosition(
           desiredAccuracy: LocationAccuracy.best,
         );
+        location["address"] = LatLng(
+          position.latitude,
+          position.longitude,
+        );
+        _onCameraIdle(context);
         return CameraPosition(
           target: LatLng(position.latitude, position.longitude),
           zoom: 15,
