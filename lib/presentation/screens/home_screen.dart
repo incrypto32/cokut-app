@@ -1,10 +1,14 @@
+import 'package:badges/badges.dart';
 import 'package:cokut/common/constants.dart';
-import 'package:cokut/presentation/widgets/main/cart_page.dart';
+import 'package:cokut/cubit/cart/cart_cubit.dart';
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/presentation/screens/main/cart_page.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cokut/presentation/widgets/main/home_page.dart';
-import 'package:cokut/presentation/screens/search_screen.dart';
-import 'package:cokut/presentation/widgets/main/settings_page.dart';
+import 'package:cokut/presentation/screens/main/home_page.dart';
+import 'package:cokut/presentation/screens/main/search_screen.dart';
+import 'package:cokut/presentation/screens/main/settings_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -38,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
@@ -48,7 +52,19 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text('Search'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket),
+            icon:
+                BlocBuilder<CartCubit, CartState>(builder: (context, snapshot) {
+              return Badge(
+                showBadge:
+                    !(context.repository<CartRepository>().itemNumber() == 0),
+                badgeContent: Text(
+                  "${context.repository<CartRepository>().itemNumber()}",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                child: Icon(Icons.shopping_basket),
+              );
+            }),
             title: Text('Cart'),
           ),
           BottomNavigationBarItem(

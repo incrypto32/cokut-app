@@ -1,8 +1,6 @@
 import 'package:cokut/cubit/address_picker/address_cubit.dart';
-import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/presentation/widgets/components/boxes/map_box.dart';
-import 'package:cokut/presentation/widgets/components/forms/addressform2.dart';
+import 'package:cokut/presentation/widgets/forms/addressform2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,18 +15,16 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
+    AddressCubit addressCubit = ModalRoute.of(context).settings.arguments;
     return new Scaffold(
-      body: BlocProvider<AddressCubit>(
-        create: (context) => AddressCubit(
-          authenticationRepository:
-              context.repository<AuthenticationRepository>(),
-          userRepository: context.repository<UserRepository>(),
-        ),
+      body: BlocProvider<AddressCubit>.value(
+        value: addressCubit,
         child: Column(
           children: [
             Flexible(
               child: MapBox(
                 location: location,
+                addressCubit: addressCubit,
               ),
             ),
             Address2Form(),

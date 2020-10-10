@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cokut/common/exceptions.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
@@ -23,35 +24,32 @@ class AddressCubit extends Cubit<AddressState> {
     emit(AddressPickerPicked());
   }
 
-  Future<void> addAddress(Address address) async {
+  Future<void> addAddress(BuildContext context, Address address,
+      GlobalKey<FormState> _formKey) async {
     try {
-      emit(AddressDataLoading());
-      await userRepository.addAddress(
-        token: (await authenticationRepository.getToken()),
-        address: address,
-      );
+      if (_formKey.currentState.validate()) {
+        emit(AddressDataLoading());
+        if (userRepository.selectedPlace != null) {
+          address.placeInfo = userRepository.selectedPlace;
+        } else {
+          Utils.showWarning(context, content: "Please pick a place in the map");
+          return;
+        }
 
-      emit(AddressDataChange());
-    } catch (e) {
-      logger.e(e);
-      if (e is SocketException) {
-        emit(AddressUpdateError("Please check your network connection"));
-      } else {
-        emit(AddressUpdateError("An error occured please try again"));
+        await userRepository.addAddress(
+          token: (await authenticationRepository.getToken()),
+          address: address,
+        );
+
+        emit(AddressDataChange());
       }
-    }
-  }
-
-  Future<void> setPrimaryAddress(BuildContext context, Address address) async {
-    try {
-      emit(AddressDataLoading());
-
-      Utils.showFlushBar(context, "Successfully set as primary address");
-      emit(AddressDataChange());
     } catch (e) {
-      logger.e(e);
+      logger.e(e.toString());
       if (e is SocketException) {
         emit(AddressUpdateError("Please check your network connection"));
+      } else if (e is CustomException) {
+        Utils.showWarning(context, content: e.message);
+        emit(AddressUpdateError("An error occured please try again"));
       } else {
         emit(AddressUpdateError("An error occured please try again"));
       }

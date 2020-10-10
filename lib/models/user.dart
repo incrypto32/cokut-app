@@ -22,19 +22,17 @@ abstract class User with _$User {
 
 @JsonSerializable(nullable: true)
 class Address {
-  @JsonKey(name: 'place', nullable: false)
+  @JsonKey(name: 'place', nullable: true)
   PlaceInfo placeInfo;
   String title;
   String adl1;
   String adl2;
-  String adl3;
   String zone;
   Address({
     this.placeInfo,
     this.title,
     this.adl1,
     this.adl2,
-    this.adl3,
     this.zone,
   });
   factory Address.fromJson(Map<String, dynamic> json) =>
@@ -43,7 +41,7 @@ class Address {
 
   @override
   String toString() {
-    var a = "${adl1}, ${adl2}, ${adl3},${zone}";
+    var a = "${adl1}, ${adl2},${zone}";
     return a;
   }
 }

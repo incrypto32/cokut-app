@@ -5,7 +5,6 @@ import 'package:cokut/models/user.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
 import 'package:cokut/utils/logger.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,50 +14,51 @@ class MapBox extends StatelessWidget {
   MapBox({
     Key key,
     @required this.location,
+    @required this.addressCubit,
   });
   final Completer<GoogleMapController> _controller = Completer();
   final Map<String, LatLng> location;
-
-  void _onCameraIdle(BuildContext context) async {
-    try {
-      if (location["address"] != null) {
-        print(location["address"]);
-        await placemarkFromCoordinates(
-          location["address"].latitude,
-          location["address"].longitude,
-        ).then(
-          (value) {
-            context.bloc<AddressCubit>().selectPlace(
-                  PlaceInfo.fromPlacemarkAndCoordinates(
-                    value[0],
-                    location["address"],
-                  ),
-                );
-          },
-        );
-      }
-    } catch (e) {
-      logger.e(e);
-    }
-  }
+  final AddressCubit addressCubit;
 
   @override
   Widget build(BuildContext context) {
+    void _onCameraIdle() async {
+      try {
+        if (location["address"] != null) {
+          var value = await placemarkFromCoordinates(
+            location["address"].latitude,
+            location["address"].longitude,
+          );
+
+          addressCubit.selectPlace(
+            PlaceInfo.fromPlacemarkAndCoordinates(
+              value[0],
+              location["address"],
+            ),
+          );
+        }
+      } catch (e) {
+        logger.e(e.toString());
+      }
+    }
+
+    setMyLocationToCamera() async {
+      Position position = await getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+      );
+      location["address"] = LatLng(
+        position.latitude,
+        position.longitude,
+      );
+      _onCameraIdle();
+      return CameraPosition(
+        target: LatLng(position.latitude, position.longitude),
+        zoom: 15,
+      );
+    }
+
     return FutureBuilder<CameraPosition>(
-      future: () async {
-        Position position = await getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.best,
-        );
-        location["address"] = LatLng(
-          position.latitude,
-          position.longitude,
-        );
-        _onCameraIdle(context);
-        return CameraPosition(
-          target: LatLng(position.latitude, position.longitude),
-          zoom: 15,
-        );
-      }(),
+      future: setMyLocationToCamera(),
       builder: (context, snapshot) => snapshot.hasData
           ? FadeTransitionWidget(
               child: Stack(
@@ -72,9 +72,7 @@ class MapBox extends StatelessWidget {
                     onCameraMove: (position) async {
                       location["address"] = position.target;
                     },
-                    onCameraIdle: () {
-                      _onCameraIdle(context);
-                    },
+                    onCameraIdle: _onCameraIdle,
                     mapType: MapType.normal,
                     initialCameraPosition: snapshot.data,
                     onMapCreated: (GoogleMapController controller) {

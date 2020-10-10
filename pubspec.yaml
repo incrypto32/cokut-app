@@ -50,6 +50,7 @@ dependencies:
   smart_select: ^4.2.0
   intl: ^0.16.1
   geolocator: ^6.0.0+4
+  badges: ^1.1.3
   geocoding: ^1.0.4+1
 
 dev_dependencies:

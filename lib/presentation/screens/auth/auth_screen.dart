@@ -1,6 +1,6 @@
 import 'package:cokut/cubit/login_form/login_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/presentation/widgets/main/sign_in_form.dart';
+import 'package:cokut/presentation/widgets/forms/sign_in_form.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

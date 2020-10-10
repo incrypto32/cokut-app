@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:cokut/cubit/authentication/authentication_cubit.dart';
-import 'package:cokut/presentation/screens/auth_screen.dart';
-import 'package:cokut/presentation/screens/loading_screen.dart';
+import 'package:cokut/presentation/screens/auth/auth_screen.dart';
+import 'package:cokut/presentation/screens/utils/loading_screen.dart';
 
 class AuthBlocDecider extends StatefulWidget {
   final dynamic navigator;

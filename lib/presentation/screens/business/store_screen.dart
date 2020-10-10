@@ -2,10 +2,10 @@ import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/models/restaurant.dart';
-import 'package:cokut/presentation/widgets/components/cart_reminder_frame.dart';
-import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
-import 'package:cokut/presentation/widgets/components/meal_item.dart';
-import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
+import 'package:cokut/presentation/widgets/components/common/cart_reminder_frame.dart';
+import 'package:cokut/presentation/widgets/components/loading/loading_shimmer.dart';
+import 'package:cokut/presentation/widgets/components/tiles/meal_tile.dart';
+import 'package:cokut/presentation/widgets/components/error/restaurant_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

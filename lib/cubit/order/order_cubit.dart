@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:cokut/common/exceptions.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
@@ -52,9 +53,9 @@ class OrderCubit extends Cubit<OrderState> {
       logger.e(e);
       if (e is SocketException) {
         emit(OrdersGetError("Please check your network connection"));
-      } else {
-        logger.e("message");
-        emit(OrdersGetError("An error occured please try again"));
+      } else if (e is CustomException) {
+        logger.e(e);
+        emit(OrdersGetError(e.message));
       }
     }
   }

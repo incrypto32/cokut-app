@@ -1,6 +1,6 @@
-import 'package:cokut/presentation/screens/checkout_screen.dart';
-import 'package:cokut/presentation/screens/maps.dart';
-import 'package:cokut/presentation/widgets/main/cart_page.dart';
+import 'package:cokut/presentation/screens/business/checkout_screen.dart';
+import 'package:cokut/presentation/screens/address/maps.dart';
+import 'package:cokut/presentation/screens/main/cart_page.dart';
 import 'package:cokut/switchers/my_bloc_listener.dart';
 import 'package:cokut/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +19,14 @@ import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/presentation/screens/auth_screen.dart';
+import 'package:cokut/presentation/screens/auth/auth_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
-import 'package:cokut/presentation/screens/loading_screen.dart';
-import 'package:cokut/presentation/screens/otp_screen.dart';
-import 'package:cokut/presentation/screens/address_screen.dart';
-import 'package:cokut/presentation/screens/meal_cat_screen.dart';
-import 'package:cokut/presentation/screens/restaurants_list_screen.dart';
-import 'package:cokut/presentation/screens/store_screen.dart';
+import 'package:cokut/presentation/screens/utils/loading_screen.dart';
+import 'package:cokut/presentation/screens/auth/otp_screen.dart';
+import 'package:cokut/presentation/screens/address/address_screen.dart';
+import 'package:cokut/presentation/screens/business/meal_cat_screen.dart';
+import 'package:cokut/presentation/screens/business/restaurants_list_screen.dart';
+import 'package:cokut/presentation/screens/business/store_screen.dart';
 import 'package:cokut/models/meal.dart';
 
 class AppView extends StatefulWidget {

@@ -79,9 +79,10 @@ class UserRepository {
       token: token,
       address: address.toJson(),
     );
+    logger.d(userData);
 
     _userStore["user"] = User.fromJson(userData);
-    logger.wtf(_userStore["user"]);
+    logger.wtf((_userStore["user"] as User).toJson());
     return _userStore["user"];
   }
 

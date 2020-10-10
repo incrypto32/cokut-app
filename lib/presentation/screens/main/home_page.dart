@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
-import 'package:cokut/presentation/widgets/components/loading_shimmer.dart';
-import 'package:cokut/presentation/widgets/components/restaurant_error.dart';
-import 'package:cokut/presentation/widgets/components/restaurant_tile.dart';
+import 'package:cokut/presentation/widgets/components/loading/loading_shimmer.dart';
+import 'package:cokut/presentation/widgets/components/error/restaurant_error.dart';
+import 'package:cokut/presentation/widgets/components/tiles/restaurant_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

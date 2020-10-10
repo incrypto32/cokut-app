@@ -81,64 +81,12 @@ class UserDataCubit extends Cubit<UserDataState> {
       } else if (e is SocketException) {
         emit(UserRegistrationError(message: e.message));
       }
-      emit(UserRegistrationError(
-          message: e.message == "DETAILS_EXIST"
-              ? "An Account already exist with the provided details"
-              : ""));
-    }
-  }
-
-  Future<void> addAddress(Address address) async {
-    try {
-      emit(AddressLoading());
-      await userRepository.addAddress(
-        token: (await authenticationRepository.getToken()),
-        address: address,
+      emit(
+        UserRegistrationError(
+            message: e.message == "DETAILS_EXIST"
+                ? "An Account already exist with the provided details"
+                : ""),
       );
-
-      emit(AddressDataChange());
-    } catch (e) {
-      logger.e(e);
-      if (e is SocketException) {
-        emit(AddressUpdateError("Please check your network connection"));
-      } else {
-        emit(AddressUpdateError("An error occured please try again"));
-      }
-    }
-  }
-
-  Future<void> setPrimaryAddress(BuildContext context, Address address) async {
-    try {
-      emit(AddressLoading());
-
-      Utils.showFlushBar(context, "Successfully set as primary address");
-      emit(AddressDataChange());
-    } catch (e) {
-      logger.e(e);
-      if (e is SocketException) {
-        emit(AddressUpdateError("Please check your network connection"));
-      } else {
-        emit(AddressUpdateError("An error occured please try again"));
-      }
-    }
-  }
-
-  Future<void> deleteAddress(Address address) async {
-    try {
-      emit(AddressLoading());
-      await userRepository.removeAddress(
-        token: (await authenticationRepository.getToken()),
-        address: address,
-      );
-
-      emit(AddressDataChange());
-    } catch (e) {
-      logger.e(e);
-      if (e is SocketException) {
-        emit(AddressUpdateError("Please check your network connection"));
-      } else {
-        emit(AddressUpdateError("An error occured please try again"));
-      }
     }
   }
 }

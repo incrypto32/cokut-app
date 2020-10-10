@@ -12,7 +12,7 @@ class Api {
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
   Api({bool test}) {
-    if (test ?? false) {
+    if (true ?? false) {
       v1 = "http://192.168.43.65:4000/api/v1";
       utils = "http://192.168.43.65:4000/utils";
     } else {
@@ -72,6 +72,7 @@ class Api {
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
       } else if (!e.response.data["success"]) {
+        logger.e(e.response.data);
         throw CustomException(e.response.data["msg"]);
       }
       return e.response;
@@ -99,7 +100,12 @@ class Api {
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
       } else if (!e.response.data["success"]) {
-        throw CustomException(e.response.data["msg"]);
+        var msg;
+        if (e.response.data["code"] == 0)
+          msg = "No records";
+        else
+          msg = "An error occured";
+        throw CustomException(msg);
       }
     }
     return response;

@@ -1,5 +1,4 @@
 import 'package:cokut/cubit/address_picker/address_cubit.dart';
-import 'package:cokut/cubit/user_data/user_data_cubit.dart';
 import 'package:cokut/infrastructure/repositories/user_repo.dart';
 import 'package:cokut/models/user.dart';
 import 'package:cokut/presentation/widgets/components/micro/custom_text_form_field.dart';
@@ -79,7 +78,7 @@ class _Address2FormState extends State<Address2Form> {
               borderRadius: 5,
               hintText: "Title  eg: Home, Hostel, Moms place, College",
               padding: EdgeInsets.symmetric(vertical: 5),
-              onChanged: (val) => _address.adl3 = val,
+              onChanged: (val) => _address.title = val,
               validator: validator,
               enableBorder: false,
             ),
@@ -95,29 +94,38 @@ class _Address2FormState extends State<Address2Form> {
               borderRadius: 5,
               hintText: "Landmark",
               padding: EdgeInsets.symmetric(vertical: 5),
-              onChanged: (val) => _address.adl3 = val,
+              onChanged: (val) => _address.adl2 = val,
               validator: validator,
               enableBorder: false,
             ),
             Container(
-              child: BlocBuilder<AddressCubit, AddressState>(
+              child: BlocConsumer<AddressCubit, AddressState>(
+                listener: (context, state) {
+                  if (state is AddressDataChange) Navigator.of(context).pop();
+                },
                 builder: (context, state) => FlatButton(
                   color: Colors.green,
-                  onPressed: (state is AddressLoading)
+                  onPressed: (state is AddressDataLoading)
                       ? () {}
                       : () {
-                          if (_formKey.currentState.validate()) {
-                            context.bloc<UserDataCubit>().addAddress(_address);
-                          }
+                          addressCubit.addAddress(context, _address, _formKey);
                         },
-                  child: (state is AddressLoading)
-                      ? SpinKitThreeBounce(
-                          size: 20,
-                          color: Colors.white,
+                  child: ((state is AddressDataLoading))
+                      ? Container(
+                          alignment: Alignment.center,
+                          width: 200,
+                          child: SpinKitThreeBounce(
+                            size: 20,
+                            color: Colors.white,
+                          ),
                         )
-                      : Text(
-                          "Add Address",
-                          style: TextStyle(color: Colors.white),
+                      : Container(
+                          width: 200,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Add Address",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                 ),
               ),

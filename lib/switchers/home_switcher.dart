@@ -1,9 +1,9 @@
 import 'package:cokut/cubit/user_data/user_data_cubit.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
-import 'package:cokut/presentation/screens/error_screen.dart';
 import 'package:cokut/presentation/screens/home_screen.dart';
-import 'package:cokut/presentation/screens/loading_screen.dart';
-import 'package:cokut/presentation/screens/registration_screen.dart';
+import 'package:cokut/presentation/screens/utils/error_screen.dart';
+import 'package:cokut/presentation/screens/utils/loading_screen.dart';
+import 'package:cokut/presentation/screens/auth/registration_screen.dart';
 import 'package:cokut/utils/logger.dart';
 
 import 'package:flutter/material.dart';
