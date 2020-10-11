@@ -102,6 +102,7 @@ class _AppViewState extends State<AppView> {
                 ),
           ),
         ),
+        debugShowCheckedModeBanner: false,
         routes: {
           '/home': (ctx) => HomeScreen(),
           '/auth': (ctx) => AuthScreen(),
