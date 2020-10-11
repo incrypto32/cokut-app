@@ -12,7 +12,7 @@ class Api {
   // static final String utils = "http://cokut.herokuapp.com/utils";
 
   Api({bool test}) {
-    if (true ?? false) {
+    if (test ?? false) {
       v1 = "http://192.168.43.65:4000/api/v1";
       utils = "http://192.168.43.65:4000/utils";
     } else {

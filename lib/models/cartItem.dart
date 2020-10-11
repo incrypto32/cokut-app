@@ -5,8 +5,8 @@ class CartItem {
   Meal meal;
   int count;
 
-  CartItem increment() {
-    ++count;
+  CartItem increment({int number = 1}) {
+    count += number;
     logger.i(count);
     return this;
   }

@@ -52,6 +52,7 @@ class _AppViewState extends State<AppView> {
     BlocProvider<CartCubit>(
       create: (ctx) => CartCubit(
         ctx.repository<CartRepository>(),
+        restaurantRepository: ctx.repository<RestaurantRepository>(),
       ),
     ),
     BlocProvider<RestaurantCubit>(

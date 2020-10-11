@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cokut/infrastructure/repositories/cart_repo.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/models/cartItem.dart';
 import 'package:cokut/models/meal.dart';
 import 'package:cokut/utils/logger.dart';
@@ -10,7 +11,9 @@ part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository _cartRepository;
-  CartCubit(this._cartRepository) : super(Cart(_cartRepository.cart));
+  final RestaurantRepository restaurantRepository;
+  CartCubit(this._cartRepository, {@required this.restaurantRepository})
+      : super(Cart());
 
   void addToCart(BuildContext context, Meal meal) {
     if (_cartRepository.rid != "" && _cartRepository.rid != meal.rid) {
@@ -19,13 +22,27 @@ class CartCubit extends Cubit<CartState> {
       return;
     }
 
+    if (restaurantRepository.restaurants[meal.rid].closed) {
+      Utils.showWarning(context,
+          content: "The restaurant is currently closed please come back later");
+      return;
+    }
+
     var cartItems = _cartRepository.incrementItem(meal);
     if (cartItems[meal.id].count == 1) {
       _cartRepository.rid = meal.rid;
       logger.i(_cartRepository.rid);
-      emit(CartItemAdded(cartItems, meal.id));
+      emit(CartItemAdded());
     } else {
-      emit(Cart(cartItems));
+      emit(Cart());
+    }
+  }
+
+  void reorder(BuildContext context, List<Meal> meal) {
+    if (restaurantRepository.restaurants[meal[0].rid].closed) {
+      Utils.showWarning(context,
+          content: "The restaurant is currently closed please come back later");
+      return;
     }
   }
 
@@ -33,9 +50,9 @@ class CartCubit extends Cubit<CartState> {
     var cartItems = _cartRepository.decrementItem(meal);
     if (cartItems[meal.id] == null) {
       _cartRepository.rid = "";
-      emit(CartItemDeleted(cartItems, meal.id));
+      emit(CartItemDeleted());
     } else {
-      emit(Cart(cartItems));
+      emit(Cart());
     }
   }
 
@@ -51,7 +68,7 @@ class CartCubit extends Cubit<CartState> {
 
   clearCart() {
     _cartRepository.clear();
-    emit(Cart(_cartRepository.cart));
+    emit(Cart());
   }
 
   double getCartPrice() {

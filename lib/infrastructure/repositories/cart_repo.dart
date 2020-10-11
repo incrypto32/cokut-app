@@ -18,10 +18,10 @@ class CartRepository {
     rid = "";
   }
 
-  Map<String, CartItem> incrementItem(Meal meal) {
+  Map<String, CartItem> incrementItem(Meal meal, {int number = 1}) {
     String id = meal.id;
     if (cart[id] != null) {
-      cart[id].increment();
+      cart[id].increment(number: number);
       return cart;
     } else {
       cart[id] = CartItem(meal);

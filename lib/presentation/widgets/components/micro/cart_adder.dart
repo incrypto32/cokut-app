@@ -1,3 +1,4 @@
+import 'package:cokut/infrastructure/repositories/cart_repo.dart';
 import 'package:cokut/models/meal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cokut/cubit/cart/cart_cubit.dart';
@@ -11,6 +12,7 @@ class IncrementWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (context, StateSetter setState) {
+        var cartRepo = context.repository<CartRepository>();
         void increment() {
           context.bloc<CartCubit>().addToCart(context, meal);
         }
@@ -43,8 +45,8 @@ class IncrementWidget extends StatelessWidget {
                 child: BlocBuilder<CartCubit, CartState>(
                   builder: (context, state) {
                     return Text(
-                      (state.cartItems[meal.id] != null
-                          ? state.cartItems[meal.id].count.toString()
+                      (cartRepo.cart[meal.id] != null
+                          ? cartRepo.cart[meal.id].count.toString()
                           : "0"),
                     );
                   },
