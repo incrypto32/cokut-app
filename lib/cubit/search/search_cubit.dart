@@ -23,9 +23,8 @@ class SearchCubit extends Cubit<SearchState> {
     @required this.mealsRepository,
   }) : super(SearchInitial());
 
-  List<Restaurant> search() {
-    print("search");
-    logger.d("search called with $keyword");
+  void search(String keyword) {
+    emit(SearchLoading());
 
     List<Restaurant> results = restaurantRepository.restaurantsList
         .where(
@@ -34,10 +33,7 @@ class SearchCubit extends Cubit<SearchState> {
         )
         .toList();
 
-    logger.i(results);
-    logger.d(restaurantRepository.restaurantsList);
-
-    return results;
+    emit(SearchResults({"restaurants": results}));
   }
 
   Future<void> searchMeals(String keyword) async {

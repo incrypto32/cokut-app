@@ -81,7 +81,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                       .copyWith(fontWeight: FontWeight.normal),
                                 ),
                                 Text(
-                                  "zone : ${e.zone}",
+                                  "${e.placeInfo.details}",
                                   style: Theme.of(context)
                                       .textTheme
                                       .bodyText2

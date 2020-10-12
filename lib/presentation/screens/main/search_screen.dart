@@ -1,6 +1,5 @@
 import 'package:cokut/common/constants.dart';
 import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
-import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
 import 'package:cokut/cubit/search/search_cubit.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
@@ -41,7 +40,7 @@ class _SearchPageState extends State<SearchPage> {
                     cursorWidth: 1.5,
                     onSubmitted: (value) {
                       logger.i("Pressed search");
-                      context.bloc<SearchCubit>().searchMeals(value);
+                      context.bloc<SearchCubit>().search(value);
                       logger.i("Hmm");
                     },
                     textInputAction: TextInputAction.search,
@@ -69,7 +68,9 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: _isFood ? buildFoods() : buildRestaurants(context),
+                child: _isFood
+                    ? buildRestaurants(context)
+                    : buildRestaurants(context),
               ),
             ),
           ],
@@ -81,18 +82,21 @@ class _SearchPageState extends State<SearchPage> {
   Widget buildRestaurants(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
-        var cubit = context.bloc<SearchCubit>();
-        if (cubit.keyword == null) {
+        if (state is SearchResults && state.restaurants.length == 0) {
           return Center(
-            child: Icon(
-              Icons.search,
-              size: 100,
-              color: Colors.grey,
-            ),
+            child: Text("No Results"),
+          );
+        } else if (state is SearchResults) {
+          return ListView(
+            children: state.restaurants.map((e) => RestaurantTile(e)).toList(),
           );
         }
-        return ListView(
-          children: cubit.search().map((e) => RestaurantTile(e)).toList(),
+        return Center(
+          child: Icon(
+            Icons.search,
+            size: 100,
+            color: Colors.grey,
+          ),
         );
       },
     );
