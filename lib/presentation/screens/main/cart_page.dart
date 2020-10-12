@@ -69,17 +69,19 @@ class CartWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(children: [
-                              RestaurantTile(
-                                context
-                                        .repository<RestaurantRepository>()
-                                        .restaurants[
-                                    context.repository<CartRepository>().rid],
-                              ),
-                              ...mealTiles,
-                              BillBox(),
-                              AddressBox()
-                            ]),
+                            Column(
+                              children: [
+                                RestaurantTile(
+                                  context
+                                          .repository<RestaurantRepository>()
+                                          .restaurants[
+                                      context.repository<CartRepository>().rid],
+                                ),
+                                BillBox(),
+                                AddressBox(),
+                                ...mealTiles,
+                              ],
+                            ),
                           ],
                         ),
                       ),

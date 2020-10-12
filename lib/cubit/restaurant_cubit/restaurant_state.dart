@@ -9,10 +9,7 @@ abstract class RestaurantState extends Equatable {
 
 class RestaurantLoading extends RestaurantState {}
 
-class RestaurantsLoaded extends RestaurantState {
-  final List<Restaurant> restaurants;
-  const RestaurantsLoaded(this.restaurants);
-}
+class RestaurantsLoaded extends RestaurantState {}
 
 class RestaurantsError extends RestaurantState {
   final String message;

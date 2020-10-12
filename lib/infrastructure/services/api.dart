@@ -81,13 +81,17 @@ class Api {
 
   // Form data post wrapper
   Future<Response> getData(Map<String, dynamic> map, String endpoint,
-      {bool util = false, String token = "", String method = "GET"}) async {
+      {bool util = false,
+      String token = "",
+      String method = "GET",
+      CancelToken cancelToken}) async {
     Response response;
     Dio dio = util ? await utilDio() : superDio(token);
 
     try {
       response = await dio.request(
         endpoint,
+        cancelToken: cancelToken ?? CancelToken(),
         queryParameters: map,
         options: Options(
           method: method,
@@ -96,16 +100,17 @@ class Api {
         ),
       );
     } on DioError catch (e) {
-      logger.e(e.response);
       if (e.error is SocketException) {
         throw SocketException("Please check your network connectivity");
+      } else if (e.type == DioErrorType.CANCEL) {
+        throw CancelError("CANCELLED");
       } else if (!e.response.data["success"]) {
         var msg;
         if (e.response.data["code"] == 0)
           msg = "No records";
         else
           msg = "An error occured";
-        throw CustomException(msg);
+        throw CustomException(msg, code: 0);
       }
     }
     return response;
@@ -245,5 +250,16 @@ class Api {
       Map<String, dynamic> orderData, String token) async {
     var resp = await postData(orderData, '/order', token: token);
     return Map<String, dynamic>.from(resp.data);
+  }
+
+  Future<List<dynamic>> search(
+      String keyword, String token, CancelToken cancelToken) async {
+    var resp = await getData(
+      {"keyword": keyword},
+      "/meals/search",
+      token: token,
+      cancelToken: cancelToken,
+    );
+    return resp.data;
   }
 }

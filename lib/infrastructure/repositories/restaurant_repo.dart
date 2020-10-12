@@ -6,6 +6,7 @@ class RestaurantRepository {
   Map<String, Restaurant> _restaurants = {};
 
   Map<String, Restaurant> get restaurants => _restaurants;
+  List<Restaurant> get restaurantsList => _restaurants.values.toList();
 
   Future<List<Restaurant>> getRestaurants(String token) async {
     var restaurantList = await _api.getRestaurants(token);
@@ -15,6 +16,7 @@ class RestaurantRepository {
 
   Future<List<Restaurant>> getAllRestaurants(String token) async {
     var restaurantList = await _api.getAllRestaurants(token);
+
     return restaurantList.map((e) => Restaurant.fromJson(e)).toList();
   }
 

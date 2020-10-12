@@ -36,6 +36,9 @@ class CartRepository {
       return cart;
     } else {
       cart.remove(id);
+      if (cart.length == 0) {
+        rid = "";
+      }
       return cart;
     }
   }

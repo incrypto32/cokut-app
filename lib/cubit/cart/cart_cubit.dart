@@ -46,10 +46,11 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-  void removFromCart(Meal meal) {
+  void removeFromCart(Meal meal) {
     var cartItems = _cartRepository.decrementItem(meal);
+    logger.d("INSIDE REMOVE FROM CART");
+    logger.d(cartItems[meal.id]);
     if (cartItems[meal.id] == null) {
-      _cartRepository.rid = "";
       emit(CartItemDeleted());
     } else {
       emit(Cart());

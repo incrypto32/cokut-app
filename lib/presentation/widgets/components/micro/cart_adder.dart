@@ -18,7 +18,7 @@ class IncrementWidget extends StatelessWidget {
         }
 
         void decrement() {
-          context.bloc<CartCubit>().removFromCart(meal);
+          context.bloc<CartCubit>().removeFromCart(meal);
         }
 
         return Container(

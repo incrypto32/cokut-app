@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomeSwitcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // context.bloc<UserDataCubit>().getUser();
+    context.bloc<UserDataCubit>().getUser();
     return BlocBuilder<UserDataCubit, UserDataState>(
       buildWhen: (previous, current) {
         logger.i(current);
@@ -34,9 +34,11 @@ class HomeSwitcher extends StatelessWidget {
               context.repository<AuthenticationRepository>().logOut();
               return false;
             },
-            child: ErrorScreen(() {
-              context.bloc<UserDataCubit>().getUser();
-            }),
+            child: ErrorScreen(
+              () {
+                context.bloc<UserDataCubit>().getUser();
+              },
+            ),
           );
         }
         return LoadingScreen();

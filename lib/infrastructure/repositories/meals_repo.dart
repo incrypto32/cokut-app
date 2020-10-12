@@ -1,6 +1,7 @@
 import 'package:cokut/infrastructure/services/api.dart';
 import 'package:cokut/models/meal.dart';
 import 'package:cokut/utils/logger.dart';
+import 'package:dio/dio.dart';
 
 class MealsRepository {
   Api _api = Api();
@@ -22,6 +23,14 @@ class MealsRepository {
     logger.d(rid);
     var mealList =
         await _api.getMeals(token, rid: rid, endpoint: "/meals/spicey");
+    return mealList.map((e) => Meal.fromJson(e)).toList();
+  }
+
+  CancelToken searchCancelToken = CancelToken();
+  Future<List<Meal>> search({String token, String keyword}) async {
+    searchCancelToken?.cancel();
+    searchCancelToken = CancelToken();
+    var mealList = await _api.search(keyword, token, searchCancelToken);
     return mealList.map((e) => Meal.fromJson(e)).toList();
   }
 }

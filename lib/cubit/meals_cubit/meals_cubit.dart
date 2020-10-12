@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cokut/common/exceptions.dart';
 import 'package:cokut/models/meal.dart';
+import 'package:cokut/utils/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
@@ -52,6 +53,8 @@ class MealsCubit extends Cubit<MealsState> {
             meals = await _mealsRepository.getMeals(token: token, rid: rid);
           }
       }
+
+      logger.e("HMMMMMMMM");
 
       emit(MealsLoaded(meals));
     } catch (e) {

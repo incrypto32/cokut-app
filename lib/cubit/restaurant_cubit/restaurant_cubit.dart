@@ -7,7 +7,6 @@ import 'package:equatable/equatable.dart';
 
 import 'package:cokut/infrastructure/repositories/auth_repo.dart';
 import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
-import 'package:cokut/models/restaurant.dart';
 
 part 'restaurant_state.dart';
 
@@ -26,13 +25,13 @@ class RestaurantCubit extends Cubit<RestaurantState> {
     try {
       var token = (await _authenticationRepository.getToken());
 
-      var l = isHomeMade != null
+      isHomeMade != null
           ? (isHomeMade
               ? await _restaurantRepository.getHomeMadeStores(token)
               : await _restaurantRepository.getRestaurants(token))
           : await _restaurantRepository.getAllRestaurants(token);
 
-      emit(RestaurantsLoaded(l));
+      emit(RestaurantsLoaded());
     } catch (e) {
       logger.e(e);
       if (e is SocketException) {

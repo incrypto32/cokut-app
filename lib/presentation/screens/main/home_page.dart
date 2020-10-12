@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/presentation/widgets/animation/fade.dart';
 import 'package:cokut/presentation/widgets/components/loading/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/error/restaurant_error.dart';
@@ -128,16 +129,17 @@ class HomeWidget extends StatelessWidget {
                 ),
                 BlocBuilder<RestaurantCubit, RestaurantState>(
                     builder: (context, state) {
+                  var restaurantsList = context
+                      .repository<RestaurantRepository>()
+                      .restaurantsList;
                   if (state is RestaurantLoading) {
                     return LoadingShimmer();
                   } else if (state is RestaurantsLoaded) {
                     return Container(
                       child: Column(
-                        children: [
-                          ...state.restaurants
-                              .map((e) => RestaurantTile(e))
-                              .toList()
-                        ],
+                        children: restaurantsList
+                            .map((e) => RestaurantTile(e))
+                            .toList(),
                       ),
                     );
                   }

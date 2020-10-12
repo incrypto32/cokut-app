@@ -1,5 +1,6 @@
 import 'package:cokut/common/constants.dart';
 import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
+import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
 import 'package:cokut/presentation/widgets/components/common/cart_reminder_frame.dart';
 import 'package:cokut/presentation/widgets/components/loading/loading_shimmer.dart';
 import 'package:cokut/presentation/widgets/components/common/page_cover.dart';
@@ -14,6 +15,8 @@ class RestaurantListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var restaurantsList =
+        context.repository<RestaurantRepository>().restaurantsList;
     return Scaffold(
       backgroundColor: ColorIt.hexToColor(ColorIt.mainBody),
       body: Column(
@@ -26,10 +29,10 @@ class RestaurantListScreen extends StatelessWidget {
                 return LoadingShimmer();
               } else if (state is RestaurantsLoaded) {
                 var list = isHomeMade
-                    ? state.restaurants
+                    ? restaurantsList
                         .where((element) => element.type == "homemade")
                         .toList()
-                    : state.restaurants.toList();
+                    : restaurantsList;
                 if (list.length == 0) {
                   return RestaurantErrorWidget(
                     reload: context.bloc<RestaurantCubit>().getRestaurants,
