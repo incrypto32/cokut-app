@@ -23,7 +23,7 @@ class SearchCubit extends Cubit<SearchState> {
     @required this.mealsRepository,
   }) : super(SearchInitial());
 
-  List<Restaurant> search() {
+  List<Restaurant> search(String keyword) {
     print("search");
     logger.d("search called with $keyword");
 
@@ -35,7 +35,7 @@ class SearchCubit extends Cubit<SearchState> {
         .toList();
 
     logger.i(results);
-    logger.d(restaurantRepository.restaurantsList);
+    // logger.d(restaurantRepository.restaurantsList);
 
     return results;
   }

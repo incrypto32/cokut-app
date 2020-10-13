@@ -1,6 +1,5 @@
 import 'package:cokut/common/constants.dart';
 import 'package:cokut/cubit/meals_cubit/meals_cubit.dart';
-import 'package:cokut/cubit/restaurant_cubit/restaurant_cubit.dart';
 import 'package:cokut/cubit/search/search_cubit.dart';
 import 'package:cokut/infrastructure/repositories/meals_repo.dart';
 import 'package:cokut/infrastructure/repositories/restaurant_repo.dart';
@@ -21,6 +20,8 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   bool _isFood = false;
+  List restaurants = [];
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider<SearchCubit>(
@@ -41,7 +42,12 @@ class _SearchPageState extends State<SearchPage> {
                     cursorWidth: 1.5,
                     onSubmitted: (value) {
                       logger.i("Pressed search");
-                      context.bloc<SearchCubit>().searchMeals(value);
+                      setState(() {
+                        _isFood
+                            ? context.bloc<SearchCubit>().searchMeals(value)
+                            : restaurants =
+                                context.bloc<SearchCubit>().search(value);
+                      });
                       logger.i("Hmm");
                     },
                     textInputAction: TextInputAction.search,
@@ -69,7 +75,9 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: _isFood ? buildFoods() : buildRestaurants(context),
+                child: _isFood
+                    ? buildFoods(context)
+                    : buildRestaurants(restaurants),
               ),
             ),
           ],
@@ -78,67 +86,22 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget buildRestaurants(BuildContext context) {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        var cubit = context.bloc<SearchCubit>();
-        if (cubit.keyword == null) {
-          return Center(
+  Widget buildRestaurants(List restaurants) {
+    return restaurants.length == 0
+        ? Center(
             child: Icon(
-              Icons.search,
-              size: 100,
-              color: Colors.grey,
-            ),
+            Icons.search,
+            size: 100,
+            color: Colors.grey,
+          ))
+        : ListView(
+            children: restaurants.map((e) => RestaurantTile(e)).toList(),
           );
-        }
-        return ListView(
-          children: cubit.search().map((e) => RestaurantTile(e)).toList(),
-        );
-      },
-    );
   }
 
-  BlocBuilder<SearchCubit, SearchState> buildFoods() {
-    return BlocBuilder<SearchCubit, SearchState>(
-      builder: (context, state) {
-        if (state is SearchInitial) {
-          return Center(
-            child: Icon(
-              Icons.search,
-              size: 100,
-              color: Colors.grey,
-            ),
-          );
-        } else if (state is SearchLoading) {
-          return SingleChildScrollView(child: LoadingShimmer());
-        } else if (state is SearchResults) {
-          if (state.meals == null || state.meals.length == 0) {
-            return Center(
-              child: Text("EMPTY"),
-            );
-          }
-          return ListView(
-            children: state.meals
-                .map(
-                  (e) => MealTile(
-                    meal: e,
-                    isSearch: true,
-                  ),
-                )
-                .toList(),
-          );
-        }
-        if (state is SearchError) {
-          print(state.message);
-          return RestaurantErrorWidget(
-            reload: () {
-              context
-                  .bloc<MealsCubit>()
-                  .getMeals(rid: "5f60214d917395effef49922");
-            },
-            message: state.message,
-          );
-        }
+  Widget buildFoods(BuildContext context) {
+    return BlocBuilder<SearchCubit, SearchState>(builder: (context, state) {
+      if (state is SearchInitial) {
         return Center(
           child: Icon(
             Icons.search,
@@ -146,8 +109,42 @@ class _SearchPageState extends State<SearchPage> {
             color: Colors.grey,
           ),
         );
-      },
-    );
+      } else if (state is SearchLoading) {
+        return SingleChildScrollView(child: LoadingShimmer());
+      } else if (state is SearchResults) {
+        if (state.meals == null || state.meals.length == 0) {
+          return Center(
+            child: Text("EMPTY"),
+          );
+        }
+        return ListView(
+          children: state.meals
+              .map((e) => MealTile(
+                    meal: e,
+                    isSearch: true,
+                  ))
+              .toList(),
+        );
+      }
+      if (state is SearchError) {
+        print(state.message);
+        return RestaurantErrorWidget(
+          reload: () {
+            context
+                .bloc<MealsCubit>()
+                .getMeals(rid: "5f60214d917395effef49922");
+          },
+          message: state.message,
+        );
+      }
+      return Center(
+        child: Icon(
+          Icons.search,
+          size: 100,
+          color: Colors.grey,
+        ),
+      );
+    });
   }
 
   Row selectType(BuildContext context) {
